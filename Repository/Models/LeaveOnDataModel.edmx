@@ -482,6 +482,7 @@
           <EntitySetMapping Name="Leaves">
             <EntityTypeMapping TypeName="LeaveONModels.Leave">
               <MappingFragment StoreEntitySet="Leave">
+                <ScalarProperty Name="TotalDays" ColumnName="TotalDays" />
                 <ScalarProperty Name="Remarks2" ColumnName="Remarks2" />
                 <ScalarProperty Name="Remarks1" ColumnName="Remarks1" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -490,7 +491,6 @@
                 <ScalarProperty Name="Reason" ColumnName="Reason" />
                 <ScalarProperty Name="StartDate" ColumnName="StartDate" />
                 <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="TotalDays" ColumnName="TotalDays" />
                 <ScalarProperty Name="EmergencyContact" ColumnName="EmergencyContact" />
                 <ScalarProperty Name="ResponseDate1" ColumnName="ResponseDate1" />
                 <ScalarProperty Name="ResponseDate2" ColumnName="ResponseDate2" />
