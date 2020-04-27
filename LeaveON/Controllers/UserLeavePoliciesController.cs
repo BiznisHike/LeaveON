@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -40,7 +40,7 @@ namespace LeaveON.Controllers
         // GET: UserLeavePolicies/Create
         public ActionResult Create()
         {
-            ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Hometown");
+            ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "UserName");
             return View();
         }
 

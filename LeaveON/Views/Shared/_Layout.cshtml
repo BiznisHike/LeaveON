@@ -167,7 +167,7 @@
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
-  with font-awesome or any other icon font library -->
+            with font-awesome or any other icon font library -->
             <li class="nav-item">
               <a href="/Leaves/Create" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
@@ -283,10 +283,27 @@
                     <p>Leave Types List</p>
                   </a>
                 </li>
+              </ul>
+            </li>
+            <li class="nav-item has-treeview">
+              <a href="/UserLeavePolicies/Create" class="nav-link">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                  User Leave Policies
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="/LeaveTypes/Create" class="nav-link">
+                  <a href="/UserLeavePolicies/Index" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Add Leave Type</p>
+                    <p>User Leave Polices List</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/UserLeavePolicies/Create" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Add User Leave Policy</p>
                   </a>
                 </li>
               </ul>
@@ -872,7 +889,16 @@
   <!-- jQuery -->
   <script src="~/plugins/jquery/jquery.min.js"></script>
   <!-- Bootstrap 4 -->
-  <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  @*<script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>*@
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+  @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>*@
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+
+
   <!-- bs-custom-file-input -->
   <script src="~/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
   <!-- AdminLTE App -->

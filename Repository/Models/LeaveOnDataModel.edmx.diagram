@@ -19,6 +19,7 @@
         <AssociationConnector Association="LeaveONModels.FK_AspNetUsers_Deparment" />
         <AssociationConnector Association="LeaveONModels.FK_UserLeavePolicy_AspNetUsers" />
         <AssociationConnector Association="LeaveONModels.FK_Deparment_Country" />
+        <AssociationConnector Association="LeaveONModels.FK_LeaveType_Country" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

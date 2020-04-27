@@ -18,7 +18,8 @@ namespace LeaveON.Controllers
         // GET: LeaveTypes
         public async Task<ActionResult> Index()
         {
-            return View(await db.LeaveTypes.ToListAsync());
+            var leaveTypes = db.LeaveTypes.Include(l => l.Country);
+            return View(await leaveTypes.ToListAsync());
         }
 
         // GET: LeaveTypes/Details/5
@@ -39,6 +40,7 @@ namespace LeaveON.Controllers
         // GET: LeaveTypes/Create
         public ActionResult Create()
         {
+            ViewBag.CountryId = new SelectList(db.Countries, "Id", "Name");
             return View();
         }
 
@@ -56,6 +58,7 @@ namespace LeaveON.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.CountryId = new SelectList(db.Countries, "Id", "Name", leaveType.CountryId);
             return View(leaveType);
         }
 
@@ -71,6 +74,7 @@ namespace LeaveON.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.CountryId = new SelectList(db.Countries, "Id", "Name", leaveType.CountryId);
             return View(leaveType);
         }
 
@@ -87,6 +91,7 @@ namespace LeaveON.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+            ViewBag.CountryId = new SelectList(db.Countries, "Id", "Name", leaveType.CountryId);
             return View(leaveType);
         }
 
