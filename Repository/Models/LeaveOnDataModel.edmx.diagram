@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="41b3342e1acf4fda99c28be56ef0d5bf" Name="Diagram1">
+        <EntityTypeShape EntityType="LeaveONModels.Country" Width="1.5" PointX="0.75" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LeaveONModels.Leave" Width="1.5" PointX="9.75" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LeaveONModels.LeaveType" Width="1.5" PointX="7.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LeaveONModels.UserLeavePolicy" Width="1.5" PointX="7.5" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LeaveONModels.UserLeavePolicyDetail" Width="1.5" PointX="9.75" PointY="10.375" IsExpanded="true" />
+        <AssociationConnector Association="LeaveONModels.FK_Leave_LeaveType" ManuallyRouted="false" />
+        <AssociationConnector Association="LeaveONModels.FK_Leave_UserLeavePolicy" ManuallyRouted="false" />
+        <AssociationConnector Association="LeaveONModels.FK_UserLeavePolicyDetail_UserLeavePolicy" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="LeaveONModels.Employee" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="LeaveONModels.AspNetUser" Width="1.5" PointX="5.25" PointY="3.25" />
+        <EntityTypeShape EntityType="LeaveONModels.Department" Width="1.5" PointX="3" PointY="4.375" />
+        <AssociationConnector Association="LeaveONModels.FK_AspNetUsers_Deparment" />
+        <AssociationConnector Association="LeaveONModels.FK_UserLeavePolicy_AspNetUsers" />
+        <AssociationConnector Association="LeaveONModels.FK_Deparment_Country" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
