@@ -1,0 +1,58 @@
+@*@model IEnumerable<LeaveON.Models.AnnualLeaveModel>
+
+  <p>
+      @Html.ActionLink("Create New", "Create")
+  </p>
+  <table class="table">
+      <tr>
+          <th>
+              @Html.DisplayNameFor(model => model.LeaveDate)
+          </th>
+          <th>
+              @Html.DisplayNameFor(model => model.Description)
+          </th>
+          <th></th>
+      </tr>
+
+  @foreach (var item in Model) {
+      <tr>
+          <td>
+              @Html.DisplayFor(modelItem => item.LeaveDate)
+          </td>
+          <td>
+              @Html.DisplayFor(modelItem => item.Description)
+          </td>
+          <td>
+              @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+              @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+              @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+          </td>
+      </tr>
+  }
+
+  </table>*@
+
+@*@Html.DropDownList("Destination.State", (IEnumerable<SelectListItem>)ViewBag.AnnualLeaves)*@
+<div id="NewData">
+  <table class="table">
+    <tr>
+      <th>
+        @Html.DisplayName("No")
+      </th>
+      <th>
+        @Html.DisplayName("Date")
+      </th>
+      <th>
+        @Html.DisplayName("Description")
+      </th>
+    </tr>
+    @foreach (var item in ViewBag.AnnualLeaves)
+    {
+      <tr>
+        <td>@item.Id</td>
+        <td>@item.LeaveDate</td>
+        <td>@item.Description</td>
+      </tr>
+    }
+  </table>
+</div>

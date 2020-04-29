@@ -33,5 +33,7 @@ namespace Repository.Models
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
+
+        //public System.Data.Entity.DbSet<LeaveON.Models.AnnualLeaveModel> AnnualLeaveModels { get; set; }
     }
 }

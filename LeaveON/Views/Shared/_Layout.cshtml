@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
@@ -15,6 +15,50 @@
   <link rel="stylesheet" href="~/dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+  @* this all was for multiselect dropdown but now using for all code *@
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+
+
+
+
+
+
+  <!-- jQuery -->  <!-- multiselect run with this jquery ver and bleow also no diff till yet 28-apr -->
+  @*<script src="~/plugins/jquery/jquery.min.js"></script>*@
+  <!-- Bootstrap 4 -->  <!-- multiselect not run with this so commented -->
+  @*<script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>*@
+
+  @* this all was for multiselect dropdown but now using for all code *@
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+
+
+  <!-- bs-custom-file-input -->
+  <script src="~/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="~/dist/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="~/dist/js/demo.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      bsCustomFileInput.init();
+    });
+  </script>
+
+
+
+
+
+
+
+
+
+
 </head>
 <body class="hold-transition sidebar-mini">
   <div class="wrapper">
@@ -886,30 +930,7 @@
     <!-- /.control-sidebar -->
   </div>
   <!-- ./wrapper -->
-  <!-- jQuery -->
-  <script src="~/plugins/jquery/jquery.min.js"></script>
-  <!-- Bootstrap 4 -->
-  @*<script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>*@
 
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
-  @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>*@
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
-
-
-
-  <!-- bs-custom-file-input -->
-  <script src="~/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
-  <!-- AdminLTE App -->
-  <script src="~/dist/js/adminlte.min.js"></script>
-  <!-- AdminLTE for demo purposes -->
-  <script src="~/dist/js/demo.js"></script>
-  <script type="text/javascript">
-    $(document).ready(function () {
-      bsCustomFileInput.init();
-    });
-  </script>
   @RenderSection("Scripts", required: false)
 </body>
 </html>

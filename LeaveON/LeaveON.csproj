@@ -251,6 +251,8 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AnnualLeaveModel.cs" />
+    <Compile Include="Models\UserLeavePolicyViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MeViewModels.cs" />
@@ -284,6 +286,10 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Custom\css\datatables.min.css" />
+    <Content Include="Content\Custom\css\jquery-ui.min.css" />
+    <Content Include="Content\Custom\js\jquery-ui.min.js" />
+    <Content Include="Content\Custom\js\datatables.min.js" />
     <Content Include="Content\Custom\css\MultiSelect.css" />
     <Content Include="Content\Custom\js\MultiSelect.js" />
     <Content Include="Content\Site.css" />
@@ -2301,6 +2307,8 @@
     <Content Include="Views\AspNetUsers\Edit.cshtml" />
     <Content Include="Views\AspNetUsers\Index.cshtml" />
     <Content Include="Views\Shared\_Layout_old.cshtml" />
+    <Content Include="Views\UserLeavePolicies\Create - Copy.cshtml" />
+    <Content Include="Views\UserLeavePolicies\_DisplayAnnualLeaves.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
