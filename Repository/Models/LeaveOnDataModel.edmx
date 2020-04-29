@@ -164,6 +164,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_LeaveType_Country">
+          <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
+          <End Role="LeaveType" Type="Self.LeaveType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LeaveType">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UserLeavePolicy_AspNetUsers">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -217,6 +229,10 @@
             <End Role="UserLeavePolicy" EntitySet="UserLeavePolicy" />
             <End Role="Leave" EntitySet="Leave" />
           </AssociationSet>
+          <AssociationSet Name="FK_LeaveType_Country" Association="Self.FK_LeaveType_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="LeaveType" EntitySet="LeaveType" />
+          </AssociationSet>
           <AssociationSet Name="FK_UserLeavePolicy_AspNetUsers" Association="Self.FK_UserLeavePolicy_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="UserLeavePolicy" EntitySet="UserLeavePolicy" />
@@ -239,6 +255,7 @@
           <Property Name="DateCreated" Type="DateTime" Precision="3" />
           <Property Name="DateModified" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Departments" Relationship="LeaveONModels.FK_Deparment_Country" FromRole="Country" ToRole="Department" />
+          <NavigationProperty Name="LeaveTypes" Relationship="LeaveONModels.FK_LeaveType_Country" FromRole="Country" ToRole="LeaveType" />
         </EntityType>
         <EntityType Name="Leave">
           <Key>
@@ -274,6 +291,7 @@
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CountryId" Type="Int32" />
           <NavigationProperty Name="Leaves" Relationship="Self.FK_Leave_LeaveType" FromRole="LeaveType" ToRole="Leave" />
+          <NavigationProperty Name="Country" Relationship="LeaveONModels.FK_LeaveType_Country" FromRole="LeaveType" ToRole="Country" />
         </EntityType>
         <EntityType Name="UserLeavePolicy">
           <Key>
@@ -376,6 +394,10 @@
             <End Role="Country" EntitySet="Countries" />
             <End Role="Department" EntitySet="Departments" />
           </AssociationSet>
+          <AssociationSet Name="FK_LeaveType_Country" Association="LeaveONModels.FK_LeaveType_Country">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="LeaveType" EntitySet="LeaveTypes" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Employee">
           <Key>
@@ -459,6 +481,18 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Department">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LeaveType_Country">
+          <End Type="LeaveONModels.Country" Role="Country" Multiplicity="0..1" />
+          <End Type="LeaveONModels.LeaveType" Role="LeaveType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LeaveType">
               <PropertyRef Name="CountryId" />
             </Dependent>
           </ReferentialConstraint>
