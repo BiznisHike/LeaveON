@@ -28,93 +28,261 @@
     {
       @Html.AntiForgeryToken()
 
-      <div class="card-body">
+  <div class="card-body">
 
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-          @Html.LabelFor(model => model.UserId, "User", htmlAttributes: new { @class = " " })
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+      @Html.LabelFor(model => model.UserId, "User", htmlAttributes: new { @class = " " })
 
-          @Html.DropDownList("UserId", null, htmlAttributes: new { @class = "form-control" })
-          @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+      @Html.DropDownList("UserId", null, htmlAttributes: new { @class = "form-control" })
+      @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
 
-        </div>
+    </div>
+    <div class="form-group">
+      @Html.LabelFor(model => model.FiscalYearStart, "Fiscal Year Start", htmlAttributes: new { @class = " " })
 
+      @Html.EditorFor(model => model.FiscalYearStart, new { htmlAttributes = new { @class = "form-control" } })
+      @Html.ValidationMessageFor(model => model.FiscalYearStart, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-          @Html.LabelFor(model => model.WeeklyOffDays, "Weekly Off Days", htmlAttributes: new { @class = " " })
+    </div>
 
-          @*@Html.EditorFor(model => model.WeeklyOffDays, new { htmlAttributes = new { @class = "form-control" } })*@
+    <div class="form-group">
+      @Html.LabelFor(model => model.FiscalYearEnd, "Fiscal Year End", htmlAttributes: new { @class = " " })
 
-          <select class="selectpicker" id="multiselect" multiple data-live-search="true">
-            <option value="1">Saturday</option>
-            <option value="2">Sunday</option>
-            <option value="3">Monday</option>
-            <option value="4">Tuesday</option>
-            <option value="5">Wednesday</option>
-            <option value="6">Thursday</option>
-            <option value="7">Friday</option>
-          </select>
-          @Html.ValidationMessageFor(model => model.WeeklyOffDays, "", new { @class = "text-danger" })
+      @Html.EditorFor(model => model.FiscalYearEnd, new { htmlAttributes = new { @class = "form-control" } })
+      @Html.ValidationMessageFor(model => model.FiscalYearEnd, "", new { @class = "text-danger" })
 
-        </div>
+    </div>
 
-        <div class="form-group">
-          @Html.LabelFor(model => model.AnnualOffDays, "Annual Off Days", htmlAttributes: new { @class = " " })
+    <div class="form-group">
+      @Html.LabelFor(model => model.FiscalYearPeriod, "Fiscal Year Period", htmlAttributes: new { @class = " " })
 
-          @*@Html.EditorFor(model => model.AnnualOffDays, new { htmlAttributes = new { @class = "form-control" } })*@
-          <br>(1) Please chosse file. This file should contain Annual off days record in three comma separated columns (CSV) {No,Date,Description} format.<br />
+      @Html.EditorFor(model => model.FiscalYearPeriod, new { htmlAttributes = new { @class = "form-control" } })
+      @Html.ValidationMessageFor(model => model.FiscalYearPeriod, "", new { @class = "text-danger" })
 
-          <input type="file" id="FileUpload1" />
-          @*       @Html.ValidationMessageFor(model => model.AnnualOffDays, "", new { @class = "text-danger" })*@
+    </div>
 
+    <div class="form-group">
+      @Html.LabelFor(model => model.WeeklyOffDays, "Weekly Off Days", htmlAttributes: new { @class = " " })
 
+      @*@Html.EditorFor(model => model.WeeklyOffDays, new { htmlAttributes = new { @class = "form-control" } })*@
+      <br>
+      <select class="selectpicker" id="multiselect" multiple data-live-search="true">
+        <option value="1">Saturday</option>
+        <option value="2">Sunday</option>
+        <option value="3">Monday</option>
+        <option value="4">Tuesday</option>
+        <option value="5">Wednesday</option>
+        <option value="6">Thursday</option>
+        <option value="7">Friday</option>
+      </select>
+      @Html.ValidationMessageFor(model => model.WeeklyOffDays, "", new { @class = "text-danger" })
 
+    </div>
 
-          <br>(2) Click to upload file<br />
-          <input type="button" id="btnUpload" value="Upload file" />
+    <div class="form-group">
+      @Html.LabelFor(model => model.AnnualOffDays, "Annual Off Days", htmlAttributes: new { @class = " " })
 
+      @*@Html.EditorFor(model => model.AnnualOffDays, new { htmlAttributes = new { @class = "form-control" } })*@
 
-        </div>
-
-
-        <div id="NewData">
-          @{
-            if (ViewBag.AnnualLeaves != null)
-            {
-              Html.RenderPartial("_DisplayAnnualLeaves");
-            }
-          }
-        </div>
-        <div class="form-group">
-          @Html.LabelFor(model => model.FiscalYearStart, "Fiscal Year Start", htmlAttributes: new { @class = " " })
-
-          @Html.EditorFor(model => model.FiscalYearStart, new { htmlAttributes = new { @class = "form-control" } })
-          @Html.ValidationMessageFor(model => model.FiscalYearStart, "", new { @class = "text-danger" })
+      <br>
+      <div class="alert alert-success" role="alert">
+        <div class="alert-icon">
 
         </div>
+        <strong>Note!</strong> (1) Please chosse file. This file should contain Annual off days record in three comma separated columns (CSV) <mark>No,Date,Description format </mark>
+</div>
+      <input type="file" id="FileUpload1" />
+      @*       @Html.ValidationMessageFor(model => model.AnnualOffDays, "", new { @class = "text-danger" })*@
 
-        <div class="form-group">
-          @Html.LabelFor(model => model.FiscalYearEnd, "Fiscal Year End", htmlAttributes: new { @class = " " })
 
-          @Html.EditorFor(model => model.FiscalYearEnd, new { htmlAttributes = new { @class = "form-control" } })
-          @Html.ValidationMessageFor(model => model.FiscalYearEnd, "", new { @class = "text-danger" })
 
-        </div>
+      <br>
+      <br />
 
-        <div class="form-group">
-          @Html.LabelFor(model => model.FiscalYearPeriod, "Fiscal Year Period", htmlAttributes: new { @class = " " })
-
-          @Html.EditorFor(model => model.FiscalYearPeriod, new { htmlAttributes = new { @class = "form-control" } })
-          @Html.ValidationMessageFor(model => model.FiscalYearPeriod, "", new { @class = "text-danger" })
+      <div class="alert alert-success" role="alert">
+        <div class="alert-icon">
 
         </div>
+        <strong>Note!</strong> (2) Click to upload file.
+      </div>
 
-        <div class="form-group">
-          <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-primary" />
+      
+    
+      <input type="button" id="btnUpload" value="Upload file" class="btn btn-primary" />
+      <br />
+
+
+    </div>
+
+    <section class="content">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Total Leave Allowed</h3>
+              <br />
+              <hr />
+
+              <div d="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                <div class="row">
+                  <div class="col-sm-12 col-md-6">
+                  </div>
+                  <div class="col-sm-12 col-md-6"></div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+
+                    <table class="table table-bordered table-hover dataTable dtr-inline" role="grid">
+                      <thead>
+                        <tr>
+
+                          <th>Leave Type</th>
+                          <th>Allowed</th>
+                          <th>Description</th>
+
+
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+
+                          <td> @Html.DropDownList("LeaveTypeNo1", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
+                          <td><input class="form-control" placeholder="Allowed"> </td>
+                          <td><input class="form-control" placeholder="Description"> </td>
+
+
+                        </tr>
+                        <tr>
+
+                          <td> @Html.DropDownList("LeaveTypeNo2", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
+                          <td><input class="form-control" placeholder="Allowed"> </td>
+                          <td><input class="form-control" placeholder="Description"> </td>
+
+
+                        </tr>
+                        <tr>
+
+                          <td>  @Html.DropDownList("LeaveTypeNo3", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
+                          <td><input class="form-control" placeholder="Allowed"> </td>
+                          <td><input class="form-control" placeholder="Description"> </td>
+
+
+                        </tr>
+
+                        <tr>
+
+                          <td>  @Html.DropDownList("LeaveTypeNo4", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
+                          <td><input class="form-control" placeholder="Allowed"> </td>
+                          <td><input class="form-control" placeholder="Description"> </td>
+
+
+                        </tr>
+                        <tr>
+
+                          <td>  @Html.DropDownList("LeaveTypeNo5", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
+                          <td><input class="form-control" placeholder="Allowed"> </td>
+                          <td><input class="form-control" placeholder="Description"> </td>
+
+
+                        </tr>
+                        <tr>
+
+                          <td>  @Html.DropDownList("LeaveTypeNo6", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
+                          <td><input class="form-control" placeholder="Allowed"> </td>
+                          <td><input class="form-control" placeholder="Description"> </td>
+
+
+                        </tr>
+                        <tr>
+
+                          <td>  @Html.DropDownList("LeaveTypeNo7", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
+                          <td><input class="form-control" placeholder="Allowed"> </td>
+                          <td><input class="form-control" placeholder="Description"> </td>
+
+
+                        </tr>
+                        <tr>
+
+                          <td> @Html.DropDownList("LeaveTypeNo8", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
+                          <td><input class="form-control" placeholder="Allowed"> </td>
+                          <td><input class="form-control" placeholder="Description"> </td>
+
+
+                        </tr>
+                        <tr>
+
+                          <td>  @Html.DropDownList("LeaveTypeNo9", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
+                          <td><input class="form-control" placeholder="Allowed"> </td>
+                          <td><input class="form-control" placeholder="Description"> </td>
+
+
+                        </tr>
+                        <tr>
+
+                          <td>  @Html.DropDownList("LeaveTypeNo10", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
+                          <td><input class="form-control" placeholder="Allowed"> </td>
+                          <td><input class="form-control" placeholder="Description"> </td>
+
+
+                        </tr>
+                        <tr>
+
+                          <td>  @Html.DropDownList("LeaveTypeNo11", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
+                          <td><input class="form-control" placeholder="Allowed"> </td>
+                          <td><input class="form-control" placeholder="Description"> </td>
+
+
+                        </tr>
+                      </tbody>
+                      @*<tfoot>
+                        <tr>
+                          <td></td>
+                          <td>1</td>
+                          <td>1</td>
+                          <td>1</td>
+                          <td>1</td>
+                          <td>1</td>
+                          <td>1</td>
+                        </tr>
+                      </tfoot>*@
+
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+    </section>
+
+
+    <label class="radio-inline">
+      <input type="radio" name="radio"   value="Deparments">Deparments
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="radio"   value=" Employees"> Employees
+    </label>
+    <select class="form-control" name='Deparments'  style='display:none'>
+      <option>Department : 1</option>
+      <option>Department: 2</option>
+    </select>
+    <select class="form-control" name='Employees' style='display:none'>
+      <option>Ahmad</option>
+      <option>Ali</option>
+     </select>
+
+
+
+    <br />
+
+    <div class="form-group">
+      <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Create" class="btn btn-primary" />
+      </div>
+    </div>
+  </div>
       <div>
         @Html.ActionLink("Back to List", "Index")
       </div>
@@ -122,97 +290,111 @@
     }
 
   </div>
-  </div>
-    
-
-    <table id="example" class="display" cellspacing="0" width="100%">
-      <thead>
-        <tr>
-          <th></th>
-          <th>First name</th>
-          <th>Last name</th>
-          <th>Position</th>
-          <th>Office</th>
-          <th width="18%">Start date</th>
-          <th>Salary</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td></td>
-          <td>Waqas</td>
-          <td>Javaid</td>
-          <td>Manager</td>
-          <td>BiznisHike</td>
-          <td>1-1-19</td>
-          <td>200000</td>
-        </tr>
-      </tbody>
-      @*<tfoot>
-        <tr>
-          <td></td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-        </tr>
-      </tfoot>*@
-    </table>
+</div>
 
 
-    <script>
-      $(document).ready(function () {
+<table id="example" class="display" cellspacing="0" width="100%">
+  <thead>
+    <tr>
+      <th></th>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Position</th>
+      <th>Office</th>
+      <th width="18%">Start date</th>
+      <th>Salary</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td></td>
+      <td>Waqas</td>
+      <td>Javaid</td>
+      <td>Manager</td>
+      <td>BiznisHike</td>
+      <td>1-1-19</td>
+      <td>200000</td>
+    </tr>
+  </tbody>
+  @*<tfoot>
+      <tr>
+        <td></td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+      </tr>
+    </tfoot>*@
+</table>
 
-        //$('#multiselect').multiselect({
-        //      includeSelectAllOption: true
-        //  });
 
-        $('#btnUpload').click(function () {
+<script>
+  $(document).ready(function () {
 
-          // Checking whether FormData is available in browser
-          if (window.FormData !== undefined) {
+    //$('#multiselect').multiselect({
+    //      includeSelectAllOption: true
+    //  });
 
-            var fileUpload = $("#FileUpload1").get(0);
-            var files = fileUpload.files;
+    $('#btnUpload').click(function () {
 
-            // Create FormData object
-            var fileData = new FormData();
+      // Checking whether FormData is available in browser
+      if (window.FormData !== undefined) {
 
-            // Looping over all files and add it to FormData object
-            for (var i = 0; i < files.length; i++) {
-              fileData.append(files[i].name, files[i]);
-            }
+        var fileUpload = $("#FileUpload1").get(0);
+        var files = fileUpload.files;
 
-            // Adding one more key to FormData object
-            //fileData.append('username', 'Manas');
-            //alert('1');
-            $.ajax({
-              url: '/UserLeavePolicies/UploadFiles',
-              type: "POST",
-              contentType: false, // Not to set any content header
-              processData: false, // Not to process data
-              data: fileData,
-              success: function (result) {
-                //alert(result);
-                //alert('4');
-                $("#NewData").html(result);
-              },
-              error: function (err) {
-                alert(err.statusText);
-                //alert('5');
-              }
-            });
-          } else {
-            alert("FormData is not supported.");
+        // Create FormData object
+        var fileData = new FormData();
+
+        // Looping over all files and add it to FormData object
+        for (var i = 0; i < files.length; i++) {
+          fileData.append(files[i].name, files[i]);
+        }
+
+        // Adding one more key to FormData object
+        //fileData.append('username', 'Manas');
+        //alert('1');
+        $.ajax({
+          url: '/UserLeavePolicies/UploadFiles',
+          type: "POST",
+          contentType: false, // Not to set any content header
+          processData: false, // Not to process data
+          data: fileData,
+          success: function (result) {
+            //alert(result);
+            //alert('4');
+            $("#NewData").html(result);
+          },
+          error: function (err) {
+            alert(err.statusText);
+            //alert('5');
           }
         });
-      });
-    </script>
+      } else {
+        alert("FormData is not supported.");
+      }
+    });
+  });
+</script>
 
 
 
-    @section Scripts {
-      @Scripts.Render("~/bundles/jqueryval")
-    }
+@section Scripts {
+  @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+ 
+ 
+<script>
+
+  $(function () {
+    $('input[type=radio]').on('change', function (e) {
+       var whichOne = $(e.currentTarget).val();
+       $('select').hide();
+       $('select[name=' + whichOne + ']').show();
+    });
+});
+</script>

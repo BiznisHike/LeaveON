@@ -43,6 +43,7 @@ namespace LeaveON.Controllers
     public ActionResult Create()
     {
       ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "UserName");
+      ViewBag.LeaveTypes = new SelectList(db.LeaveTypes, "Id", "Name");
       return View();
     }
 
