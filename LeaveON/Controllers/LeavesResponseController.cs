@@ -11,7 +11,7 @@ using Repository.Models;
 
 namespace LeaveON.Controllers
 {
-  public class LeavesController : Controller
+  public class LeavesResponseController : Controller
   {
     private LeaveONEntities db = new LeaveONEntities();
 
@@ -44,6 +44,7 @@ namespace LeaveON.Controllers
       ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes, "Id", "Name");
       ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId");
       ViewBag.LineManagers = new SelectList(db.AspNetUsers, "Id", "UserName");
+      ViewBag.UserName = "LoggedIn User";
       return View();
     }
 
@@ -52,8 +53,9 @@ namespace LeaveON.Controllers
     // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Create([Bind(Include = "Id,UserId,LeaveTypeId,Reason,StartDate,EndDate,TotalDays,EmergencyContact,ResponseDate1,ResponseDate2,IsAccepted1,IsAccepted2,LineManager1,LineManager2,Remarks1,Remarks2,DateCreated,DateModified,UserLeavePolicyId")] Leave leave)
+    public async Task<ActionResult> Create([Bind(Include = "Id,UserId,LeaveTypeId,Reason,StartDate,EndDate,TotalDays,EmergencyContact,LineManager1,LineManager2")] Leave leave)
     {
+      leave.DateCreated = DateTime.UtcNow;
       if (ModelState.IsValid)
       {
         db.Leaves.Add(leave);
@@ -91,6 +93,7 @@ namespace LeaveON.Controllers
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> Edit([Bind(Include = "Id,UserId,LeaveTypeId,Reason,StartDate,EndDate,TotalDays,EmergencyContact,ResponseDate1,ResponseDate2,IsAccepted1,IsAccepted2,LineManager1,LineManager2,Remarks1,Remarks2,DateCreated,DateModified,UserLeavePolicyId")] Leave leave)
     {
+      leave.DateModified = DateTime.UtcNow;
       if (ModelState.IsValid)
       {
         db.Entry(leave).State = EntityState.Modified;

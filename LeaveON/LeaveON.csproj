@@ -224,7 +224,8 @@
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="Controllers\EmployeesAPIController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LeavesController.cs" />
+    <Compile Include="Controllers\LeavesResponseController.cs" />
+    <Compile Include="Controllers\LeavesRequestController.cs" />
     <Compile Include="Controllers\LeaveTypesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MeController.cs" />
@@ -2286,11 +2287,11 @@
     <Content Include="Views\UserLeavePolicyDetails\Details.cshtml" />
     <Content Include="Views\UserLeavePolicyDetails\Edit.cshtml" />
     <Content Include="Views\UserLeavePolicyDetails\Index.cshtml" />
-    <Content Include="Views\Leaves\Create.cshtml" />
-    <Content Include="Views\Leaves\Delete.cshtml" />
-    <Content Include="Views\Leaves\Details.cshtml" />
-    <Content Include="Views\Leaves\Edit.cshtml" />
-    <Content Include="Views\Leaves\Index.cshtml" />
+    <Content Include="Views\LeavesRequest\Create.cshtml" />
+    <Content Include="Views\LeavesRequest\Delete.cshtml" />
+    <Content Include="Views\LeavesRequest\Details.cshtml" />
+    <Content Include="Views\LeavesRequest\Edit.cshtml" />
+    <Content Include="Views\LeavesRequest\Index.cshtml" />
     <Content Include="Views\LeaveTypes\Create.cshtml" />
     <Content Include="Views\LeaveTypes\Delete.cshtml" />
     <Content Include="Views\LeaveTypes\Details.cshtml" />
@@ -2309,6 +2310,13 @@
     <Content Include="Views\Shared\_Layout_old.cshtml" />
     <Content Include="Views\UserLeavePolicies\Create - Copy.cshtml" />
     <Content Include="Views\UserLeavePolicies\_DisplayAnnualLeaves.cshtml" />
+    <Content Include="Views\LeavesRequest\View.cshtml" />
+    <Content Include="Views\LeavesResponse\Create.cshtml" />
+    <Content Include="Views\LeavesResponse\Delete.cshtml" />
+    <Content Include="Views\LeavesResponse\Details.cshtml" />
+    <Content Include="Views\LeavesResponse\Edit.cshtml" />
+    <Content Include="Views\LeavesResponse\Index.cshtml" />
+    <Content Include="Views\LeavesResponse\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
