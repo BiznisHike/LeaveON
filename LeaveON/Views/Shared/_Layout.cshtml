@@ -7,6 +7,14 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+
+  @* this all was for multiselect dropdown but now using for all code *@
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+  @*  *@
+
+
+
+
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <!-- Ionicons -->
@@ -31,10 +39,31 @@
 
 
 
+
+
+
+  <!-- jQuery -->  <!-- multiselect run with this jquery ver and bleow also. no diff till yet 28-apr -->
+  @*<script src="~/plugins/jquery/jquery.min.js"></script>*@
+  <!-- Bootstrap 4 -->  <!-- multiselect not run with this so commented -->
+  @*<script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>*@
+
+  @* this all was for multiselect dropdown but now using for all code *@
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+  
+
+
+
+
+
+
+
+
   <!-- jQuery -->
-  <script src="../../plugins/jquery/jquery.min.js"></script>
+  @*<script src="../../plugins/jquery/jquery.min.js"></script>*@
   <!-- Bootstrap 4 -->
-  <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  @*<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>*@
   <!-- Select2 -->
   <script src="../../plugins/select2/js/select2.full.min.js"></script>
   <!-- Bootstrap4 Duallistbox -->
@@ -49,11 +78,17 @@
   <script src="../../plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
   <!-- Bootstrap Switch -->
   <script src="../../plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+  <!-- bs-custom-file-input -->
+  <script src="~/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
   <!-- AdminLTE App -->
   <script src="../../dist/js/adminlte.min.js"></script>
   <!-- AdminLTE for demo purposes -->
   <script src="../../dist/js/demo.js"></script>
-  <!-- Page script -->
+  <script type="text/javascript">
+    $(document).ready(function () {
+      bsCustomFileInput.init();
+    });
+  </script>
 
 
 
@@ -209,7 +244,7 @@
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
-            with font-awesome or any other icon font library -->
+  with font-awesome or any other icon font library -->
             <li class="nav-item">
               <a href="/Leaves/Create" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
@@ -325,10 +360,27 @@
                     <p>Leave Types List</p>
                   </a>
                 </li>
+              </ul>
+            </li>
+            <li class="nav-item has-treeview">
+              <a href="/UserLeavePolicies/Create" class="nav-link">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                  User Leave Policies
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="/LeaveTypes/Create" class="nav-link">
+                  <a href="/UserLeavePolicies/Index" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Add Leave Type</p>
+                    <p>User Leave Polices List</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/UserLeavePolicies/Create" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Add User Leave Policy</p>
                   </a>
                 </li>
               </ul>
@@ -916,11 +968,6 @@
 
 
   
-  <script type="text/javascript">
-    $(document).ready(function () {
-      bsCustomFileInput.init();
-    });
-  </script>
 
   @RenderSection("Scripts", required: false)
 </body>

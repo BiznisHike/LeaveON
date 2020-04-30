@@ -4,6 +4,11 @@
   ViewBag.Title = "Create";
   Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+
 <!-- DataTables -->
 <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
@@ -16,94 +21,94 @@
 {
   @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-  <h4>UserLeavePolicy</h4>
-  <hr />
-  @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-  <div class="form-group">
-    @Html.LabelFor(model => model.UserId, "UserId", htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-      @Html.DropDownList("UserId", null, htmlAttributes: new { @class = "form-control" })
-      @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+  <div class="form-horizontal">
+    <h4>UserLeavePolicy</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+      @Html.LabelFor(model => model.UserId, "UserId", htmlAttributes: new { @class = "control-label col-md-2" })
+      <div class="col-md-10">
+        @Html.DropDownList("UserId", null, htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+      </div>
     </div>
-  </div>
 
 
-  <div class="form-group">
-    @Html.LabelFor(model => model.WeeklyOffDays, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-      @*@Html.EditorFor(model => model.WeeklyOffDays, new { htmlAttributes = new { @class = "form-control" } })*@
+    <div class="form-group">
+      @Html.LabelFor(model => model.WeeklyOffDays, htmlAttributes: new { @class = "control-label col-md-2" })
+      <div class="col-md-10">
+        @*@Html.EditorFor(model => model.WeeklyOffDays, new { htmlAttributes = new { @class = "form-control" } })*@
 
-      <select class="selectpicker" id="multiselect" multiple data-live-search="false">
-        <option value="1">Saturday</option>
-        <option value="2">Sunday</option>
-        <option value="3">Monday</option>
-        <option value="4">Tuesday</option>
-        <option value="5">Wednesday</option>
-        <option value="6">Thursday</option>
-        <option value="7">Friday</option>
-      </select>
-      @Html.ValidationMessageFor(model => model.WeeklyOffDays, "", new { @class = "text-danger" })
+        <select class="selectpicker" id="multiselect" multiple data-live-search="true">
+          <option value="1">Saturday</option>
+          <option value="2">Sunday</option>
+          <option value="3">Monday</option>
+          <option value="4">Tuesday</option>
+          <option value="5">Wednesday</option>
+          <option value="6">Thursday</option>
+          <option value="7">Friday</option>
+        </select>
+        @Html.ValidationMessageFor(model => model.WeeklyOffDays, "", new { @class = "text-danger" })
+      </div>
     </div>
-  </div>
 
-  <div class="form-group">
-    @Html.LabelFor(model => model.AnnualOffDays, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-      @*@Html.EditorFor(model => model.AnnualOffDays, new { htmlAttributes = new { @class = "form-control" } })*@
-      (1) Please chosse file. This file should contain Annual off days record in three comma separated columns (CSV) {No,Date,Description} format.<br />
-      
-      <input type="file" id="FileUpload1" />
-      @*       @Html.ValidationMessageFor(model => model.AnnualOffDays, "", new { @class = "text-danger" })*@
-      
+    <div class="form-group">
+      @Html.LabelFor(model => model.AnnualOffDays, htmlAttributes: new { @class = "control-label col-md-2" })
+      <div class="col-md-10">
+        @*@Html.EditorFor(model => model.AnnualOffDays, new { htmlAttributes = new { @class = "form-control" } })*@
+        (1) Please chosse file. This file should contain Annual off days record in three comma separated columns (CSV) {No,Date,Description} format.<br />
+
+        <input type="file" id="FileUpload1" />
+        @*       @Html.ValidationMessageFor(model => model.AnnualOffDays, "", new { @class = "text-danger" })*@
+
+
+      </div>
+      <div class="col-md-10">
+        (2) Click to upload file<br />
+        <input type="button" id="btnUpload" value="Upload file" />
+      </div>
 
     </div>
-    <div class="col-md-10">
-      (2) Click to upload file<br />
-      <input type="button" id="btnUpload" value="Upload file" />
-    </div>
-      
-  </div>
 
 
-  <div id="NewData">
-    @{
-      if (ViewBag.AnnualLeaves != null)
-      {
-        Html.RenderPartial("_DisplayAnnualLeaves");
+    <div id="NewData">
+      @{
+        if (ViewBag.AnnualLeaves != null)
+        {
+          Html.RenderPartial("_DisplayAnnualLeaves");
+        }
       }
-    }
-  </div>
-  <div class="form-group">
-    @Html.LabelFor(model => model.FiscalYearStart, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-      @Html.EditorFor(model => model.FiscalYearStart, new { htmlAttributes = new { @class = "form-control" } })
-      @Html.ValidationMessageFor(model => model.FiscalYearStart, "", new { @class = "text-danger" })
     </div>
-  </div>
+    <div class="form-group">
+      @Html.LabelFor(model => model.FiscalYearStart, htmlAttributes: new { @class = "control-label col-md-2" })
+      <div class="col-md-10">
+        @Html.EditorFor(model => model.FiscalYearStart, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.FiscalYearStart, "", new { @class = "text-danger" })
+      </div>
+    </div>
 
-  <div class="form-group">
-    @Html.LabelFor(model => model.FiscalYearEnd, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-      @Html.EditorFor(model => model.FiscalYearEnd, new { htmlAttributes = new { @class = "form-control" } })
-      @Html.ValidationMessageFor(model => model.FiscalYearEnd, "", new { @class = "text-danger" })
+    <div class="form-group">
+      @Html.LabelFor(model => model.FiscalYearEnd, htmlAttributes: new { @class = "control-label col-md-2" })
+      <div class="col-md-10">
+        @Html.EditorFor(model => model.FiscalYearEnd, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.FiscalYearEnd, "", new { @class = "text-danger" })
+      </div>
     </div>
-  </div>
 
-  <div class="form-group">
-    @Html.LabelFor(model => model.FiscalYearPeriod, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-      @Html.EditorFor(model => model.FiscalYearPeriod, new { htmlAttributes = new { @class = "form-control" } })
-      @Html.ValidationMessageFor(model => model.FiscalYearPeriod, "", new { @class = "text-danger" })
+    <div class="form-group">
+      @Html.LabelFor(model => model.FiscalYearPeriod, htmlAttributes: new { @class = "control-label col-md-2" })
+      <div class="col-md-10">
+        @Html.EditorFor(model => model.FiscalYearPeriod, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.FiscalYearPeriod, "", new { @class = "text-danger" })
+      </div>
     </div>
-  </div>
 
-  <div class="form-group">
-    <div class="col-md-offset-2 col-md-10">
-      <input type="submit" value="Create" class="btn btn-default" />
+    <div class="form-group">
+      <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Create" class="btn btn-default" />
+      </div>
     </div>
   </div>
-</div>
 }
 
 <div>
@@ -150,12 +155,16 @@
 
 <script>
   $(document).ready(function () {
-   
+
+      //$('#multiselect').multiselect({
+      //      includeSelectAllOption: true
+      //  });
+
     $('#btnUpload').click(function () {
-      
+
       // Checking whether FormData is available in browser
       if (window.FormData !== undefined) {
-        
+
         var fileUpload = $("#FileUpload1").get(0);
         var files = fileUpload.files;
 
@@ -169,7 +178,7 @@
 
         // Adding one more key to FormData object
         //fileData.append('username', 'Manas');
-      //alert('1');  
+        //alert('1');
         $.ajax({
           url: '/UserLeavePolicies/UploadFiles',
           type: "POST",
