@@ -17,19 +17,15 @@
 
 
 
-<p>
-  @Html.ActionLink("Create New", "Create")
-</p>
-
-
+ 
 
 <section class="content">
   <div class="row">
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Leaves History</h3>
-
+          <h3 class="card-title">Leaves Response List</h3>
+           
 
         </div>
 
@@ -142,11 +138,11 @@
   $(function () {
     
     $('#example2').DataTable({
-      "paging": true,
+      "paging": false,
       "lengthChange": false,
       "searching": false,
       "ordering": true,
-      "info": true,
+      "info": false,
       "autoWidth": false,
       "responsive": true,
       "order": [[0, "desc"]]

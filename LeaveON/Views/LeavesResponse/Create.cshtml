@@ -39,7 +39,7 @@
     </div>
 
     <div class="form-group">
-      @Html.LabelFor(model => model.LeaveTypeId, "Leave Type", htmlAttributes: new { @class = ""  })
+      @Html.LabelFor(model => model.LeaveTypeId, "Leave Type", htmlAttributes: new { @class = "" })
 
       @Html.DropDownList("LeaveTypeId", null, htmlAttributes: new { @class = "form-control", disabled = "disabled" })
       @Html.ValidationMessageFor(model => model.LeaveTypeId, "", new { @class = "text-danger" })
@@ -76,7 +76,7 @@
     <div class="form-group">
       @Html.LabelFor(model => model.StartDate, "Start Date", htmlAttributes: new { @class = " " })
 
-      @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", @id = "datepickerStart", disabled = "disabled" , } })
+      @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", @id = "datepickerStart", disabled = "disabled", } })
       @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
 
     </div>
@@ -84,7 +84,7 @@
     <div class="form-group">
       @Html.LabelFor(model => model.EndDate, "End Date", htmlAttributes: new { @class = " " })
 
-      @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control", @id = "datepickerEnd", disabled = "disabled"  } })
+      @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control", @id = "datepickerEnd", disabled = "disabled" } })
       @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
 
     </div>
@@ -93,7 +93,7 @@
     <div class="form-group">
       @Html.LabelFor(model => model.TotalDays, "Total Days", htmlAttributes: new { @class = " " })
 
-      @Html.EditorFor(model => model.TotalDays, new { htmlAttributes = new { @class = "form-control", id = "diff", disabled = "disabled"  } })
+      @Html.EditorFor(model => model.TotalDays, new { htmlAttributes = new { @class = "form-control", id = "diff", disabled = "disabled" } })
       @Html.ValidationMessageFor(model => model.TotalDays, "", new { @class = "text-danger" })
 
     </div>
@@ -101,7 +101,7 @@
     <div class="form-group">
       @Html.LabelFor(model => model.EmergencyContact, "Emergency Contact", htmlAttributes: new { @class = " " })
 
-      @Html.EditorFor(model => model.EmergencyContact, new { htmlAttributes = new { @class = "form-control", disabled = "disabled"  } })
+      @Html.EditorFor(model => model.EmergencyContact, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
       @Html.ValidationMessageFor(model => model.EmergencyContact, "", new { @class = "text-danger" })
 
     </div>
@@ -109,7 +109,7 @@
       @Html.LabelFor(model => model.LineManager1, "Line Manager 1", htmlAttributes: new { @class = " " })
 
 
-      @Html.DropDownList("LineManagers", null, htmlAttributes: new { @class = "form-control", disabled = "disabled"  })
+      @Html.DropDownList("LineManagers", null, htmlAttributes: new { @class = "form-control", disabled = "disabled" })
       @Html.ValidationMessageFor(model => model.LineManager1, "", new { @class = "text-danger" })
 
       @*@Html.EditorFor(model => model.LineManager1, new { htmlAttributes = new { @class = "form-control" } })
@@ -121,7 +121,7 @@
       @Html.LabelFor(model => model.LineManager2, "Line Manager 2", htmlAttributes: new { @class = " " })
 
 
-      @Html.DropDownList("LineManagers", null, htmlAttributes: new { @class = "form-control", disabled = "disabled"  })
+      @Html.DropDownList("LineManagers", null, htmlAttributes: new { @class = "form-control", disabled = "disabled" })
 
       @*@Html.EditorFor(model => model.LineManager2, new { htmlAttributes = new { @class = "form-control" } })*@
       @Html.ValidationMessageFor(model => model.LineManager2, "", new { @class = "text-danger" })
@@ -129,13 +129,19 @@
     </div>
 
 
-    <div class="card-footer">
-      @*  class="btn btn-primary"*@
-      <button type="submit" class="btn btn-primary">Submit</button>
+    <div class="form-group">
+      <div class="class=" card-footer"">
+        @*  class="btn btn-primary"*@
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+      <br />
+
+      <div>
+        @Html.ActionLink("Back to List", "Index")
+      </div>
 
     </div>
 
-    <hr />
 
     @*<div class="form-group">
       @Html.LabelFor(model => model.ResponseDate1, "Response Date 1", htmlAttributes: new { @class = " " })
@@ -210,7 +216,7 @@
 
 
   </div>
-      
+
     }
 
   </div>
@@ -379,12 +385,10 @@
   <!-- /.card -->
 </div>
 <!--/.col (right) -->
-<h2>Create</h2>
+ 
 
 
-<div>
-  @Html.ActionLink("Back to List", "Index")
-</div>
+
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">

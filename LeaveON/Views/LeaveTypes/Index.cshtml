@@ -13,9 +13,7 @@
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 
 
-<p>
-  @Html.ActionLink("Create New", "Create")
-</p>
+ 
 
 
 <section class="content">
@@ -23,7 +21,7 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title">LeaveTypes History</h3>
+          <h3 class="card-title">LeaveTypes  List @Html.ActionLink("Create New", "Create")</h3>
 
 
         </div>
@@ -96,12 +94,12 @@
 <!-- page script -->
 <script>
    
-    $('#example2').DataTable({
-      "paging": true,
+  $('#example2').DataTable({
+    "paging": false,
       "lengthChange": false,
       "searching": false,
-      "ordering": true,
-      "info": true,
+    "ordering": true,
+    "info": false,
       "autoWidth": false,
       "responsive": true,
     });
