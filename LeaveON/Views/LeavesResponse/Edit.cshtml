@@ -36,7 +36,7 @@
     <div class="form-group">
       @Html.LabelFor(model => model.UserId, "User", htmlAttributes: new { @class = " " })
 
-      @Html.EditorFor(model => model.UserId, new { htmlAttributes = new { @class = "form-control" } })
+      @Html.EditorFor(model => model.UserId, new { htmlAttributes = new { @class = "form-control" , disabled = "disabled"} })
       @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
 
     </div>
@@ -44,15 +44,15 @@
     <div class="form-group">
       @Html.LabelFor(model => model.LeaveTypeId, "Leave Type", htmlAttributes: new { @class = " " })
 
-      @Html.DropDownList("LeaveTypeId", null, htmlAttributes: new { @class = "form-control" })
+      @Html.DropDownList("LeaveTypeId", null, htmlAttributes: new { @class = "form-control" , disabled = "disabled"})
       @Html.ValidationMessageFor(model => model.LeaveTypeId, "", new { @class = "text-danger" })
 
     </div>
 
     <div class="form-group">
       @Html.LabelFor(model => model.Reason, "Reason", htmlAttributes: new { @class = " " })
-
-      @Html.EditorFor(model => model.Reason, new { htmlAttributes = new { @class = "form-control" } })
+       
+      @Html.EditorFor(model => model.Reason, new { htmlAttributes = new { @class = "form-control"  , disabled = "disabled" } })
       @Html.ValidationMessageFor(model => model.Reason, "", new { @class = "text-danger" })
 
     </div>
@@ -62,7 +62,7 @@
     <div class="form-group">
       @Html.LabelFor(model => model.StartDate, "Start Date", htmlAttributes: new { @class = " " })
 
-      @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
+      @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control"  , disabled = "disabled" } })
       @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
 
     </div>
@@ -70,7 +70,7 @@
     <div class="form-group">
       @Html.LabelFor(model => model.EndDate, "End Date", htmlAttributes: new { @class = " " })
 
-      @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
+      @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control"  , disabled = "disabled" } })
       @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
 
     </div>
@@ -79,7 +79,7 @@
     <div class="form-group">
       @Html.LabelFor(model => model.TotalDays, "Total Days", htmlAttributes: new { @class = " " })
 
-      @Html.EditorFor(model => model.TotalDays, new { htmlAttributes = new { @class = "form-control" } })
+      @Html.EditorFor(model => model.TotalDays, new { htmlAttributes = new { @class = "form-control"   , disabled = "disabled"} })
       @Html.ValidationMessageFor(model => model.TotalDays, "", new { @class = "text-danger" })
 
     </div>
@@ -87,7 +87,7 @@
     <div class="form-group">
       @Html.LabelFor(model => model.EmergencyContact, "Emergency Contact", htmlAttributes: new { @class = " " })
 
-      @Html.EditorFor(model => model.EmergencyContact, new { htmlAttributes = new { @class = "form-control" } })
+      @Html.EditorFor(model => model.EmergencyContact, new { htmlAttributes = new { @class = "form-control"   , disabled = "disabled"} })
       @Html.ValidationMessageFor(model => model.EmergencyContact, "", new { @class = "text-danger" })
 
     </div>
@@ -135,14 +135,7 @@
 
 
 
-    <div class="form-group">
-      @Html.LabelFor(model => model.ResponseDate2, "Response Date 2", htmlAttributes: new { @class = " " })
-
-      @Html.EditorFor(model => model.ResponseDate2, new { htmlAttributes = new { @class = "form-control" } })
-      @Html.ValidationMessageFor(model => model.ResponseDate2, "", new { @class = "text-danger" })
-
-    </div>
-
+     
 
 
     <div class="form-group">
@@ -165,21 +158,9 @@
 
     </div>
 
-    <div class="form-group">
-      @Html.LabelFor(model => model.DateCreated, "Date Created", htmlAttributes: new { @class = " " })
+   
 
-      @Html.EditorFor(model => model.DateCreated, new { htmlAttributes = new { @class = "form-control" } })
-      @Html.ValidationMessageFor(model => model.DateCreated, "", new { @class = "text-danger" })
-
-    </div>
-
-    <div class="form-group">
-      @Html.LabelFor(model => model.DateModified, "Date Modified", htmlAttributes: new { @class = " " })
-
-      @Html.EditorFor(model => model.DateModified, new { htmlAttributes = new { @class = "form-control" } })
-      @Html.ValidationMessageFor(model => model.DateModified, "", new { @class = "text-danger" })
-
-    </div>
+     
 
     <div class="form-group">
       @Html.LabelFor(model => model.UserLeavePolicyId, "User Leave Policy  ", htmlAttributes: new { @class = " " })

@@ -413,7 +413,24 @@
       selectOtherMonths: true,
       changeMonth: true,
       changeYear: true,
-      numberOfMonths: 2
+      numberOfMonths: 2,
+      onSelect: function () {
+           myfunc();
+
+      }
+      });
+   
+
+    function myfunc() {
+      var start = $("#datepickerStart").datepicker("getDate");
+      var end = $("#datepickerEnd").datepicker("getDate");
+      var diff = new Date(end - start);
+
+      var days = diff / 1000 / 60 / 60 / 24 + 1;
+
+      $('#diff').val(days);
+    }
+
       //showButtonPanel: true
       
       
@@ -424,8 +441,7 @@
 
       //minDate: -20,
       //maxDate: "+1M +10D"
-    });
-
+    
   });
 </script>
 
