@@ -1,54 +1,84 @@
 @model LeaveON.Models.RegisterViewModel
 @{
-  ViewBag.Title = "Register";
+  ViewBag.Title = "Create";
+  Layout = "~/Views/Shared/_LayoutAnonymous.cshtml";
+
 }
+<div class="register-box">
+  <div class="register-logo">
+    <h2><b>Register</b></h2>
+  </div>
 
-<h2>@ViewBag.Title.</h2>
+  <div class="card">
+    <div class="card-body register-card-body">
+      <p class="login-box-msg">Register a new membership</p>
+      @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+      {
+        @Html.AntiForgeryToken()
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-  @Html.AntiForgeryToken()
-  <h4>Create a new account.</h4>
-  <hr />
-  @Html.ValidationSummary("", new { @class = "text-danger" })
-  <div class="form-group">
-    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-    <div class="col-md-10">
-      @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-    </div>
-  </div>
-  <div class="form-group">
-    @Html.LabelFor(m => m.Hometown, new { @class = "col-md-2 control-label" })
-    <div class="col-md-10">
-      @Html.TextBoxFor(m => m.Hometown, new { @class = "form-control" })
-    </div>
-  </div>
-  <div class="form-group">
-    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-    <div class="col-md-10">
-      @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-    </div>
-  </div>
-  <div class="form-group">
-    @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-    <div class="col-md-10">
-      @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-    </div>
-  </div>
-  <div class="form-group">
-    @Html.Label("DepartmentId", htmlAttributes: new { @class = "col-md-2 control-label" })
-    <div class="col-md-10">
-      @Html.DropDownList("DepartmentId", new SelectList(ViewBag.Departments, "Id", "Name"), new { @class = "form-control" })
-      
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="col-md-offset-2 col-md-10">
-      <input type="submit" class="btn btn-default" value="Register" />
-    </div>
-  </div>
-}
+        @Html.ValidationSummary("", new { @class = "text-danger" })
 
-@*@section Scripts {
-      @Scripts.Render("~/bundles/jqueryval")
-  }*@
+    <form action="../../index.html" method="post">
+      <div class="input-group mb-3">
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
+        <div class="input-group-append">
+          <div class="input-group-text">
+            <span class="fas fa-user"></span>
+          </div>
+        </div>
+      </div>
+      <div class="input-group mb-3">
+        @Html.TextBoxFor(m => m.Hometown, new { @class = "form-control", placeholder = "HomeTown" })
+        <div class="input-group-append">
+          <div class="input-group-text">
+            <span class="fa fa-home"></span>
+          </div>
+        </div>
+      </div>
+      <div class="input-group mb-3">
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+        <div class="input-group-append">
+          <div class="input-group-text">
+            <span class="fas fa-lock"></span>
+          </div>
+        </div>
+      </div>
+      <div class="input-group mb-3">
+        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm Password" })
+        <div class="input-group-append">
+          <div class="input-group-text">
+            <span class="fas fa-lock"></span>
+          </div>
+        </div>
+      </div>
+      <div class="input-group mb-3">
+        @Html.DropDownList("DepartmentId", new SelectList(ViewBag.Departments, "Id", "Name"), new { @class = "form-control", placeholder = "Department" })
+        <div class="input-group-append">
+          <div class="input-group-text">
+
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <button type="submit" class="btn btn-primary btn-block">Register</button>
+      </div>
+    </form>
+
+         
+
+        <a href="login.cshtml" class="text-center">I already have a membership</a>
+      }
+    </div>
+
+    <!-- /.form-box -->
+  </div><!-- /.card -->
+</div>
+
+
+<!-- /.register-box -->
+<!-- jQuery -->
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/adminlte.min.js"></script>
