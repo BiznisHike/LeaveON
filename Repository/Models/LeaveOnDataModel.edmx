@@ -93,7 +93,7 @@
           <Property Name="Id" Type="decimal" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserId" Type="nvarchar" MaxLength="128" />
           <Property Name="WeeklyOffDays" Type="nvarchar" MaxLength="50" />
-          <Property Name="AnnualOffDays" Type="nvarchar" MaxLength="50" />
+          <Property Name="AnnualOffDays" Type="nvarchar" MaxLength="1000" />
           <Property Name="FiscalYearStart" Type="datetime" />
           <Property Name="FiscalYearEnd" Type="datetime" />
           <Property Name="FiscalYearPeriod" Type="nvarchar" MaxLength="50" />
@@ -107,6 +107,7 @@
           <Property Name="LeaveTypeId" Type="int" />
           <Property Name="Allowed" Type="int" />
           <Property Name="Taken" Type="int" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <Association Name="FK_AspNetUsers_Deparment">
           <End Role="Department" Type="Self.Department" Multiplicity="1">
@@ -300,7 +301,7 @@
           <Property Name="Id" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="WeeklyOffDays" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="AnnualOffDays" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AnnualOffDays" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="FiscalYearStart" Type="DateTime" Precision="3" />
           <Property Name="FiscalYearEnd" Type="DateTime" Precision="3" />
           <Property Name="FiscalYearPeriod" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -318,6 +319,7 @@
           <Property Name="Allowed" Type="Int32" />
           <Property Name="Taken" Type="Int32" />
           <NavigationProperty Name="UserLeavePolicy" Relationship="Self.FK_UserLeavePolicyDetail_UserLeavePolicy" FromRole="UserLeavePolicyDetail" ToRole="UserLeavePolicy" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Leave_LeaveType">
           <End Role="LeaveType" Type="Self.LeaveType" Multiplicity="1">
@@ -563,6 +565,7 @@
           <EntitySetMapping Name="UserLeavePolicyDetails">
             <EntityTypeMapping TypeName="LeaveONModels.UserLeavePolicyDetail">
               <MappingFragment StoreEntitySet="UserLeavePolicyDetail">
+                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserLeavePolicyId" ColumnName="UserLeavePolicyId" />
                 <ScalarProperty Name="LeaveTypeId" ColumnName="LeaveTypeId" />

@@ -42,9 +42,13 @@ namespace LeaveON.Controllers
     // GET: UserLeavePolicies/Create
     public ActionResult Create()
     {
-      ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "UserName");
+      ViewBag.Employees = new SelectList(db.AspNetUsers, "Id", "UserName");
       ViewBag.LeaveTypes = new SelectList(db.LeaveTypes, "Id", "Name");
-      return View();
+      ViewBag.Departments = new SelectList(db.Departments, "Id", "Name");
+      
+      UserLeavePolicyViewModel userLeavePolicyViewModel = new UserLeavePolicyViewModel();
+      return View(userLeavePolicyViewModel);
+      //return View();
     }
 
     // POST: UserLeavePolicies/Create
@@ -52,8 +56,11 @@ namespace LeaveON.Controllers
     // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Create([Bind(Include = "Id,UserId,WeeklyOffDays,AnnualOffDays,FiscalYearStart,FiscalYearEnd,FiscalYearPeriod")] UserLeavePolicy userLeavePolicy)
+    public async Task<ActionResult> Create([Bind(Prefix = "UserLeavePolicy", Include = "Id,UserId,WeeklyOffDays,AnnualOffDays,FiscalYearStart,FiscalYearEnd,FiscalYearPeriod")] UserLeavePolicy userLeavePolicy,
+      [Bind(Prefix = "UserLeavePolicyDetail", Include = "LeaveTypeId,Allowed")] List<UserLeavePolicyDetail> userLeavePolicyDetail, string[] Departments,string[] Employees, string PolicyFor)
     {
+      userLeavePolicy.UserLeavePolicyDetails = userLeavePolicyDetail;
+      
       if (ModelState.IsValid)
       {
         db.UserLeavePolicies.Add(userLeavePolicy);
@@ -64,6 +71,21 @@ namespace LeaveON.Controllers
       ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Hometown", userLeavePolicy.UserId);
       return View(userLeavePolicy);
     }
+
+    //[HttpPost]
+    //[ValidateAntiForgeryToken]
+    //public async Task<ActionResult> Create(UserLeavePolicyViewModel userLeavePolicyViewModel)
+    //{
+    //  if (ModelState.IsValid)
+    //  {
+    //    db.UserLeavePolicies.Add(userLeavePolicyViewModel.userLeavePolicy);
+    //    await db.SaveChangesAsync();
+    //    return RedirectToAction("Index");
+    //  }
+
+    //  ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Hometown", userLeavePolicyViewModel.userLeavePolicy.UserId);
+    //  return View(userLeavePolicyViewModel.userLeavePolicy);
+    //}
 
     // GET: UserLeavePolicies/Edit/5
     public async Task<ActionResult> Edit(decimal id)

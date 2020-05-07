@@ -19,6 +19,7 @@ namespace Repository.Models
         public Nullable<int> LeaveTypeId { get; set; }
         public Nullable<int> Allowed { get; set; }
         public Nullable<int> Taken { get; set; }
+        public string Description { get; set; }
     
         public virtual UserLeavePolicy UserLeavePolicy { get; set; }
     }

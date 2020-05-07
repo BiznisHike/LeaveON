@@ -9,9 +9,11 @@ namespace LeaveON.Models
   public class UserLeavePolicyViewModel
   {
 
-    public List<AnnualLeaveModel> AnnualLeaves { get; set; }
-    public UserLeavePolicy UserLeavePolicies { get; set; }
-
+    public UserLeavePolicy userLeavePolicy { get; set; }
+    public IQueryable<UserLeavePolicyDetail> userLeavePolicyDetail { get; set; }
+    public IQueryable<Department> departments { get; set; }
+    public bool PolicyFor;
+    
   }
 
 }
