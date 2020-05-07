@@ -1,83 +1,90 @@
-﻿@model Repository.Models.UserLeavePolicy
+@model Repository.Models.UserLeavePolicy
 
 @{
-    ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+  ViewBag.Title = "Edit";
+  Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
+<!-- left column -->
+<div class="col-md-6">
+  <!-- general form elements -->
+  <div class="card card-primary">
+    <div class="card-header">
+      <h3 class="card-title">Edit Department</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
 
+    @using (Html.BeginForm())
+    {
+      @Html.AntiForgeryToken()
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>UserLeavePolicy</h4>
-        <hr />
+      <div class="card-body">
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.UserId, "UserId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("UserId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
-            </div>
+          @Html.LabelFor(model => model.UserId, "User Id", htmlAttributes: new { @class = " " })
+
+          @Html.DropDownList("UserId", null, htmlAttributes: new { @class = "form-control" })
+          @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.WeeklyOffDays, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.WeeklyOffDays, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.WeeklyOffDays, "", new { @class = "text-danger" })
-            </div>
+          @Html.LabelFor(model => model.WeeklyOffDays, "Weekly Off Days", htmlAttributes: new { @class = " " })
+
+          @Html.EditorFor(model => model.WeeklyOffDays, new { htmlAttributes = new { @class = "form-control" } })
+          @Html.ValidationMessageFor(model => model.WeeklyOffDays, "", new { @class = "text-danger" })
+
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.AnnualOffDays, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.AnnualOffDays, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.AnnualOffDays, "", new { @class = "text-danger" })
-            </div>
+          @Html.LabelFor(model => model.AnnualOffDays, "Annual Off Days", htmlAttributes: new { @class = " " })
+
+          @Html.EditorFor(model => model.AnnualOffDays, new { htmlAttributes = new { @class = "form-control" } })
+          @Html.ValidationMessageFor(model => model.AnnualOffDays, "", new { @class = "text-danger" })
+
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FiscalYearStart, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FiscalYearStart, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FiscalYearStart, "", new { @class = "text-danger" })
-            </div>
+          @Html.LabelFor(model => model.FiscalYearStart, "Fisacal Year Start", htmlAttributes: new { @class = " " })
+
+          @Html.EditorFor(model => model.FiscalYearStart, new { htmlAttributes = new { @class = "form-control" } })
+          @Html.ValidationMessageFor(model => model.FiscalYearStart, "", new { @class = "text-danger" })
+
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FiscalYearEnd, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FiscalYearEnd, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FiscalYearEnd, "", new { @class = "text-danger" })
-            </div>
+          @Html.LabelFor(model => model.FiscalYearEnd, "Fiscal Year End", htmlAttributes: new { @class = " " })
+
+          @Html.EditorFor(model => model.FiscalYearEnd, new { htmlAttributes = new { @class = "form-control" } })
+          @Html.ValidationMessageFor(model => model.FiscalYearEnd, "", new { @class = "text-danger" })
+
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FiscalYearPeriod, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FiscalYearPeriod, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FiscalYearPeriod, "", new { @class = "text-danger" })
-            </div>
+          @Html.LabelFor(model => model.FiscalYearPeriod, "Fiscal Year Period", htmlAttributes: new { @class = " " })
+
+          @Html.EditorFor(model => model.FiscalYearPeriod, new { htmlAttributes = new { @class = "form-control" } })
+          @Html.ValidationMessageFor(model => model.FiscalYearPeriod, "", new { @class = "text-danger" })
+
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
+          <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-primary" />
+          </div>
         </div>
-    </div>
-}
+      </div>
+      <div>
+        @Html.ActionLink("Back to List", "Index")
+      </div>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+    }
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+
+    @section Scripts {
+      @Scripts.Render("~/bundles/jqueryval")
+    }

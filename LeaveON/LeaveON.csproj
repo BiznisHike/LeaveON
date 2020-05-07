@@ -2317,6 +2317,7 @@
     <Content Include="Views\LeavesResponse\Edit.cshtml" />
     <Content Include="Views\LeavesResponse\Index.cshtml" />
     <Content Include="Views\LeavesResponse\View.cshtml" />
+    <Content Include="Views\Shared\_LayoutAnonymous.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
