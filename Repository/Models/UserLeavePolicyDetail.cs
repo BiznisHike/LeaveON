@@ -18,9 +18,11 @@ namespace Repository.Models
         public Nullable<decimal> UserLeavePolicyId { get; set; }
         public Nullable<int> LeaveTypeId { get; set; }
         public Nullable<int> Allowed { get; set; }
-        public Nullable<int> Taken { get; set; }
         public string Description { get; set; }
+        public Nullable<int> CountryId { get; set; }
     
+        public virtual Country Country { get; set; }
+        public virtual LeaveType LeaveType { get; set; }
         public virtual UserLeavePolicy UserLeavePolicy { get; set; }
     }
 }

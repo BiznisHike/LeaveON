@@ -25,13 +25,13 @@ namespace Repository.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
+        public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<Leave> Leaves { get; set; }
+        public virtual DbSet<LeaveBalance> LeaveBalances { get; set; }
         public virtual DbSet<LeaveType> LeaveTypes { get; set; }
         public virtual DbSet<UserLeavePolicy> UserLeavePolicies { get; set; }
         public virtual DbSet<UserLeavePolicyDetail> UserLeavePolicyDetails { get; set; }
-        public virtual DbSet<Employee> Employees { get; set; }
-        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
-        public virtual DbSet<Department> Departments { get; set; }
     }
 }

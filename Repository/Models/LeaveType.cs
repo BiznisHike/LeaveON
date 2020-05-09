@@ -18,14 +18,20 @@ namespace Repository.Models
         public LeaveType()
         {
             this.Leaves = new HashSet<Leave>();
+            this.LeaveBalances = new HashSet<LeaveBalance>();
+            this.UserLeavePolicyDetails = new HashSet<UserLeavePolicyDetail>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
         public Nullable<int> CountryId { get; set; }
     
+        public virtual Country Country { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Leave> Leaves { get; set; }
-        public virtual Country Country { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LeaveBalance> LeaveBalances { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserLeavePolicyDetail> UserLeavePolicyDetails { get; set; }
     }
 }

@@ -17,7 +17,8 @@ namespace Repository.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public AspNetUser()
         {
-            this.UserLeavePolicies = new HashSet<UserLeavePolicy>();
+            this.Leaves = new HashSet<Leave>();
+            this.LeaveBalances = new HashSet<LeaveBalance>();
         }
     
         public string Id { get; set; }
@@ -37,9 +38,13 @@ namespace Repository.Models
         public Nullable<System.DateTime> DateModified { get; set; }
         public string Remarks { get; set; }
         public int DepartmentId { get; set; }
+        public Nullable<decimal> UserLeavePolicyId { get; set; }
     
         public virtual Department Department { get; set; }
+        public virtual UserLeavePolicy UserLeavePolicy { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserLeavePolicy> UserLeavePolicies { get; set; }
+        public virtual ICollection<Leave> Leaves { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LeaveBalance> LeaveBalances { get; set; }
     }
 }

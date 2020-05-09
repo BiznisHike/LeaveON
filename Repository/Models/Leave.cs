@@ -28,13 +28,12 @@ namespace Repository.Models
         public Nullable<int> IsAccepted2 { get; set; }
         public string LineManager1 { get; set; }
         public string LineManager2 { get; set; }
-        public Nullable<System.DateTime> DateCreated { get; set; }
-        public Nullable<System.DateTime> DateModified { get; set; }
-        public Nullable<decimal> UserLeavePolicyId { get; set; }
         public string Remarks1 { get; set; }
         public string Remarks2 { get; set; }
+        public Nullable<System.DateTime> DateCreated { get; set; }
+        public Nullable<System.DateTime> DateModified { get; set; }
     
+        public virtual AspNetUser AspNetUser { get; set; }
         public virtual LeaveType LeaveType { get; set; }
-        public virtual UserLeavePolicy UserLeavePolicy { get; set; }
     }
 }

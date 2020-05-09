@@ -17,22 +17,21 @@ namespace Repository.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public UserLeavePolicy()
         {
-            this.Leaves = new HashSet<Leave>();
+            this.AspNetUsers = new HashSet<AspNetUser>();
             this.UserLeavePolicyDetails = new HashSet<UserLeavePolicyDetail>();
         }
     
         public decimal Id { get; set; }
-        public string UserId { get; set; }
         public string WeeklyOffDays { get; set; }
         public string AnnualOffDays { get; set; }
         public Nullable<System.DateTime> FiscalYearStart { get; set; }
         public Nullable<System.DateTime> FiscalYearEnd { get; set; }
         public string FiscalYearPeriod { get; set; }
+        public Nullable<int> CountryId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Leave> Leaves { get; set; }
+        public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserLeavePolicyDetail> UserLeavePolicyDetails { get; set; }
-        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

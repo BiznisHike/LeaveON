@@ -19,6 +19,7 @@ namespace Repository.Models
         {
             this.Departments = new HashSet<Department>();
             this.LeaveTypes = new HashSet<LeaveType>();
+            this.UserLeavePolicyDetails = new HashSet<UserLeavePolicyDetail>();
         }
     
         public int Id { get; set; }
@@ -30,5 +31,7 @@ namespace Repository.Models
         public virtual ICollection<Department> Departments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LeaveType> LeaveTypes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserLeavePolicyDetail> UserLeavePolicyDetails { get; set; }
     }
 }

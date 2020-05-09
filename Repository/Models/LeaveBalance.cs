@@ -12,9 +12,16 @@ namespace Repository.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Employee
+    public partial class LeaveBalance
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public decimal Id { get; set; }
+        public string UserId { get; set; }
+        public Nullable<int> LeaveTypeId { get; set; }
+        public Nullable<int> Taken { get; set; }
+        public Nullable<int> Balance { get; set; }
+        public string Description { get; set; }
+    
+        public virtual AspNetUser AspNetUser { get; set; }
+        public virtual LeaveType LeaveType { get; set; }
     }
 }

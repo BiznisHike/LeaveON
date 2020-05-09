@@ -219,10 +219,8 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AspNetUsersController.cs" />
-    <Compile Include="Controllers\CountriesAPIController.cs" />
     <Compile Include="Controllers\CountriesController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
-    <Compile Include="Controllers\EmployeesAPIController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LeavesResponseController.cs" />
     <Compile Include="Controllers\LeavesRequestController.cs" />
@@ -2272,11 +2270,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Scripts\knockout.validation.min.js.map" />
-    <Content Include="Views\Countries\Create.cshtml" />
-    <Content Include="Views\Countries\Delete.cshtml" />
-    <Content Include="Views\Countries\Details.cshtml" />
-    <Content Include="Views\Countries\Edit.cshtml" />
-    <Content Include="Views\Countries\Index.cshtml" />
     <Content Include="Views\UserLeavePolicies\Create.cshtml" />
     <Content Include="Views\UserLeavePolicies\Delete.cshtml" />
     <Content Include="Views\UserLeavePolicies\Details.cshtml" />
@@ -2318,6 +2311,11 @@
     <Content Include="Views\LeavesResponse\Index.cshtml" />
     <Content Include="Views\LeavesResponse\View.cshtml" />
     <Content Include="Views\Shared\_LayoutAnonymous.cshtml" />
+    <Content Include="Views\Countries\Create.cshtml" />
+    <Content Include="Views\Countries\Delete.cshtml" />
+    <Content Include="Views\Countries\Details.cshtml" />
+    <Content Include="Views\Countries\Edit.cshtml" />
+    <Content Include="Views\Countries\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

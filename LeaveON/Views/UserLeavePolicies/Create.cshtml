@@ -33,10 +33,10 @@
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-          @Html.LabelFor(model => model.userLeavePolicy.UserId, "User", htmlAttributes: new { @class = " " })
+          @*@Html.LabelFor(model => model.userLeavePolicy.UserId, "User", htmlAttributes: new { @class = " " })
 
-          @Html.DropDownList("Employees", null, htmlAttributes: new { @class = "form-control" })
-          @Html.ValidationMessageFor(model => model.userLeavePolicy.UserId, "", new { @class = "text-danger" })
+            @Html.DropDownList("Employees", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.userLeavePolicy.UserId, "", new { @class = "text-danger" })*@
 
         </div>
         <div class="form-group">
@@ -93,27 +93,25 @@
 
           @*@Html.EditorFor(model => model.userLeavePolicy.AnnualOffDays, new { htmlAttributes = new { @class = "form-control" } })*@
 
-          <br>
-          <div class="alert alert-success" role="alert">
-            <div class="alert-icon">
+          <div class="alert alert-default-light" role="alert">
+            @*<div class="alert-icon">
 
-            </div>
+              </div>*@
             (1) Please chosse file. This file should contain Annual off days record in three comma separated columns (CSV) <mark>No,Date,Description</mark> format
+            <input type="file" id="FileUpload1" />
           </div>
-          <input type="file" id="FileUpload1" />
+
           @*       @Html.ValidationMessageFor(model => model.userLeavePolicy.AnnualOffDays, "", new { @class = "text-danger" })*@
 
-          <br />
+          @*<br />*@
 
-          <div class="alert alert-success" role="alert">
-            <div class="alert-icon">
+        <div class="alert alert-default-light" role="alert">
+          (2) Click to upload file.
+          <input type="button" id="btnUpload" value="Upload file" />
+        </div>
 
-            </div>
-            (2) Click to upload file.
-          </div>
-
-          <input type="button" id="btnUpload" value="Upload file" class="btn btn-primary" />
-          <br />
+          
+          @*<br />*@
 
         </div>
         <div id="NewData">
@@ -298,11 +296,11 @@
 
 
           <div id="divDep">
-            @Html.DropDownList("Departments", null, htmlAttributes: new { @class = "form-control selectpicker", @id = "listDepartments", @multiple = "multiple", data_live_search = "true", data_actions_box="true", data_done_button="true" })
+            @Html.DropDownList("Departments", null, htmlAttributes: new { @class = "form-control selectpicker", @id = "listDepartments", @multiple = "multiple", data_live_search = "true", data_actions_box = "true", data_done_button = "true" })
           </div>
 
-          <div id="divEmp" style = "display: none;" >
-            @Html.DropDownList("Employees", null, htmlAttributes: new { @class = "form-control selectpicker", @id = "listEmployees", @multiple = "multiple", data_live_search = "true", data_actions_box="true", data_done_button="true" })
+          <div id="divEmp" style="display: none;">
+            @Html.DropDownList("Employees", null, htmlAttributes: new { @class = "form-control selectpicker", @id = "listEmployees", @multiple = "multiple", data_live_search = "true", data_actions_box = "true", data_done_button = "true" })
           </div>
           @*
             <select name="search-alias-us" id="com" class="searchSelect form-control" title="Search in">

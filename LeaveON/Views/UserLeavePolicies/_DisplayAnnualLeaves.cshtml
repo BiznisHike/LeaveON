@@ -46,13 +46,20 @@
         @Html.DisplayName("Description")
       </th>
     </tr>
-    @foreach (var item in ViewBag.AnnualLeaves)
-    {
-      <tr>
-        <td>@item.Id</td>
-        <td>@item.LeaveDate</td>
-        <td>@item.Description</td>
-      </tr>
+    @{
+      int counter = 0;
+      foreach (var item in ViewBag.AnnualLeaves)
+      {
+
+        <tr>
+          <td style="display:none;"><input type="hidden" name="userLeavePolicy.Index" value="@(counter)" /></td>
+          @*<td><input type="text" autocomplete="off" class="form-control" name="SaleOrderDetail[0].SalePrice" id="salePrice0"></td>*@
+          <td><input type="text" autocomplete="off" class="form-control" name="id[@(counter)]" id="id@(counter)" value=@(item.Id)></td>
+          <td><input type="text" autocomplete="off" class="form-control" name="AnnualOffDays[@(counter)]" id="AnnualOffDays@(counter)" value=@(item.LeaveDate)></td>
+          <td><input type="text" autocomplete="off" class="form-control" name="Description[@(counter)]" id="Description@(counter)" value="@(item.Description)"></td>
+        </tr>
+        counter += 1;
+      }
     }
   </table>
 </div>

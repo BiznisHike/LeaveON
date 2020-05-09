@@ -18,7 +18,8 @@ namespace LeaveON.Controllers
     // GET: Leaves
     public async Task<ActionResult> Index()
     {
-      var leaves = db.Leaves.Include(l => l.LeaveType).Include(l => l.UserLeavePolicy);
+      //var leaves = db.Leaves.Include(l => l.LeaveType).Include(l => l.UserLeavePolicy);
+      var leaves = db.Leaves;
       return View(await leaves.ToListAsync());
     }
 
@@ -64,7 +65,7 @@ namespace LeaveON.Controllers
       }
 
       ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes, "Id", "Name", leave.LeaveTypeId);
-      ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId", leave.UserLeavePolicyId);
+      //ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId", leave.UserLeavePolicyId);
       ViewBag.LineManagers = new SelectList(db.AspNetUsers, "Id", "UserName");
       return View(leave);
     }
@@ -82,7 +83,7 @@ namespace LeaveON.Controllers
         return HttpNotFound();
       }
       ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes, "Id", "Name", leave.LeaveTypeId);
-      ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId", leave.UserLeavePolicyId);
+      //ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId", leave.UserLeavePolicyId);
       return View(leave);
     }
 
@@ -101,7 +102,7 @@ namespace LeaveON.Controllers
         return RedirectToAction("Index");
       }
       ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes, "Id", "Name", leave.LeaveTypeId);
-      ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId", leave.UserLeavePolicyId);
+      //ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId", leave.UserLeavePolicyId);
       return View(leave);
     }
 

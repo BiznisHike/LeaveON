@@ -20,7 +20,8 @@ namespace LeaveON.Controllers
     // GET: UserLeavePolicies
     public async Task<ActionResult> Index()
     {
-      var userLeavePolicies = db.UserLeavePolicies.Include(u => u.AspNetUser);
+      //var userLeavePolicies = db.UserLeavePolicies.Include(u => u.AspNetUser);
+      var userLeavePolicies = db.UserLeavePolicies;
       return View(await userLeavePolicies.ToListAsync());
     }
 
@@ -45,7 +46,7 @@ namespace LeaveON.Controllers
       ViewBag.Employees = new SelectList(db.AspNetUsers, "Id", "UserName");
       ViewBag.LeaveTypes = new SelectList(db.LeaveTypes, "Id", "Name");
       ViewBag.Departments = new SelectList(db.Departments, "Id", "Name");
-      
+
       UserLeavePolicyViewModel userLeavePolicyViewModel = new UserLeavePolicyViewModel();
       return View(userLeavePolicyViewModel);
       //return View();
@@ -56,19 +57,45 @@ namespace LeaveON.Controllers
     // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Create([Bind(Prefix = "UserLeavePolicy", Include = "Id,UserId,WeeklyOffDays,AnnualOffDays,FiscalYearStart,FiscalYearEnd,FiscalYearPeriod")] UserLeavePolicy userLeavePolicy,
-      [Bind(Prefix = "UserLeavePolicyDetail", Include = "LeaveTypeId,Allowed")] List<UserLeavePolicyDetail> userLeavePolicyDetail, string[] Departments,string[] Employees, string PolicyFor)
+    public async Task<ActionResult> Create([Bind(Prefix = "UserLeavePolicy", Include = "Id,UserId,WeeklyOffDays,FiscalYearStart,FiscalYearEnd,FiscalYearPeriod")] UserLeavePolicy userLeavePolicy,
+      [Bind(Prefix = "UserLeavePolicyDetail", Include = "LeaveTypeId,Allowed")] List<UserLeavePolicyDetail> userLeavePolicyDetail, string[] AnnualOffDays, string[] Departments, string[] Employees, string PolicyFor)
     {
+      decimal maxId = db.UserLeavePolicies.DefaultIfEmpty().Max(p => p == null ? 0 : p.Id);
+      userLeavePolicy.Id = maxId;
+      userLeavePolicy.CountryId = 1;//from which user is Login. but admin who can view all coutries there we have to user a list of country so that he choose a country
+      userLeavePolicy.AnnualOffDays = string.Join(",", AnnualOffDays);
+
+      foreach (UserLeavePolicyDetail item in userLeavePolicyDetail.ToList<UserLeavePolicyDetail>())
+      {
+        if (item.Allowed == null)
+        {
+          userLeavePolicyDetail.Remove(item);
+        }
+      }
       userLeavePolicy.UserLeavePolicyDetails = userLeavePolicyDetail;
-      
+
+
+
       if (ModelState.IsValid)
       {
         db.UserLeavePolicies.Add(userLeavePolicy);
+
+        int[] DepartmentsList = Array.ConvertAll(Departments, int.Parse);
+        Department dep;
+        foreach (int itm in DepartmentsList)
+        {
+          dep = db.Departments.FirstOrDefault(x => x.Id == itm);
+          foreach (AspNetUser user in dep.AspNetUsers)
+          {
+            user.UserLeavePolicyId = userLeavePolicy.Id;
+          }
+        }
+
         await db.SaveChangesAsync();
         return RedirectToAction("Index");
       }
 
-      ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Hometown", userLeavePolicy.UserId);
+      //ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Hometown", userLeavePolicy.UserId);
       return View(userLeavePolicy);
     }
 
@@ -99,7 +126,7 @@ namespace LeaveON.Controllers
       {
         return HttpNotFound();
       }
-      ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Hometown", userLeavePolicy.UserId);
+      //ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Hometown", userLeavePolicy.UserId);
       return View(userLeavePolicy);
     }
     [HttpPost]
@@ -128,7 +155,7 @@ namespace LeaveON.Controllers
             //Read the contents of CSV file.
             string csvData = System.IO.File.ReadAllText(filePath);
             int cntr = 0;
-            
+
             //Execute a loop over the rows.
             foreach (string row in csvData.Split('\n'))
             {
@@ -195,7 +222,7 @@ namespace LeaveON.Controllers
         await db.SaveChangesAsync();
         return RedirectToAction("Index");
       }
-      ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Hometown", userLeavePolicy.UserId);
+      //ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Hometown", userLeavePolicy.UserId);
       return View(userLeavePolicy);
     }
 

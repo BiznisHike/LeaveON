@@ -26,6 +26,7 @@
           <Property Name="DateModified" Type="datetime" />
           <Property Name="Remarks" Type="nvarchar(max)" />
           <Property Name="DepartmentId" Type="int" Nullable="false" />
+          <Property Name="UserLeavePolicyId" Type="decimal" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="Country">
           <Key>
@@ -46,13 +47,6 @@
           <Property Name="CountryId" Type="int" />
           <Property Name="DateCreated" Type="datetime" />
           <Property Name="DateModified" Type="datetime" />
-        </EntityType>
-        <EntityType Name="Employee">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Leave">
           <Key>
@@ -76,7 +70,17 @@
           <Property Name="Remarks2" Type="varchar" MaxLength="150" />
           <Property Name="DateCreated" Type="datetime" />
           <Property Name="DateModified" Type="datetime" />
-          <Property Name="UserLeavePolicyId" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="LeaveBalance">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="decimal" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" />
+          <Property Name="LeaveTypeId" Type="int" />
+          <Property Name="Taken" Type="int" />
+          <Property Name="Balance" Type="int" />
+          <Property Name="Description" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="LeaveType">
           <Key>
@@ -91,12 +95,12 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="decimal" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserId" Type="nvarchar" MaxLength="128" />
           <Property Name="WeeklyOffDays" Type="nvarchar" MaxLength="50" />
           <Property Name="AnnualOffDays" Type="nvarchar" MaxLength="1000" />
           <Property Name="FiscalYearStart" Type="datetime" />
           <Property Name="FiscalYearEnd" Type="datetime" />
           <Property Name="FiscalYearPeriod" Type="nvarchar" MaxLength="50" />
+          <Property Name="CountryId" Type="int" />
         </EntityType>
         <EntityType Name="UserLeavePolicyDetail">
           <Key>
@@ -106,8 +110,8 @@
           <Property Name="UserLeavePolicyId" Type="decimal" Precision="18" Scale="0" />
           <Property Name="LeaveTypeId" Type="int" />
           <Property Name="Allowed" Type="int" />
-          <Property Name="Taken" Type="int" />
           <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="CountryId" Type="int" />
         </EntityType>
         <Association Name="FK_AspNetUsers_Deparment">
           <End Role="Department" Type="Self.Department" Multiplicity="1">
@@ -120,6 +124,20 @@
             </Principal>
             <Dependent Role="AspNetUsers">
               <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AspNetUsers_UserLeavePolicy">
+          <End Role="UserLeavePolicy" Type="Self.UserLeavePolicy" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserLeavePolicy">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUsers">
+              <PropertyRef Name="UserLeavePolicyId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -137,6 +155,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Leave_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Leave" Type="Self.Leave" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Leave">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Leave_LeaveType">
           <End Role="LeaveType" Type="Self.LeaveType" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -151,17 +183,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Leave_UserLeavePolicy">
-          <End Role="UserLeavePolicy" Type="Self.UserLeavePolicy" Multiplicity="0..1">
+        <Association Name="FK_LeaveBalance_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Leave" Type="Self.Leave" Multiplicity="*" />
+          <End Role="LeaveBalance" Type="Self.LeaveBalance" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="UserLeavePolicy">
+            <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Leave">
-              <PropertyRef Name="UserLeavePolicyId" />
+            <Dependent Role="LeaveBalance">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LeaveBalance_LeaveType">
+          <End Role="LeaveType" Type="Self.LeaveType" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="LeaveBalance" Type="Self.LeaveBalance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LeaveType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LeaveBalance">
+              <PropertyRef Name="LeaveTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -177,17 +223,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_UserLeavePolicy_AspNetUsers">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1">
+        <Association Name="FK_UserLeavePolicyDetail_Country">
+          <End Role="Country" Type="Self.Country" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="UserLeavePolicy" Type="Self.UserLeavePolicy" Multiplicity="*" />
+          <End Role="UserLeavePolicyDetail" Type="Self.UserLeavePolicyDetail" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
+            <Principal Role="Country">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="UserLeavePolicy">
-              <PropertyRef Name="UserId" />
+            <Dependent Role="UserLeavePolicyDetail">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserLeavePolicyDetail_LeaveType">
+          <End Role="LeaveType" Type="Self.LeaveType" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserLeavePolicyDetail" Type="Self.UserLeavePolicyDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LeaveType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserLeavePolicyDetail">
+              <PropertyRef Name="LeaveTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -209,8 +269,8 @@
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Leave" EntityType="Self.Leave" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LeaveBalance" EntityType="Self.LeaveBalance" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LeaveType" EntityType="Self.LeaveType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserLeavePolicy" EntityType="Self.UserLeavePolicy" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserLeavePolicyDetail" EntityType="Self.UserLeavePolicyDetail" Schema="dbo" store:Type="Tables" />
@@ -218,25 +278,41 @@
             <End Role="Department" EntitySet="Department" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <AssociationSet Name="FK_AspNetUsers_UserLeavePolicy" Association="Self.FK_AspNetUsers_UserLeavePolicy">
+            <End Role="UserLeavePolicy" EntitySet="UserLeavePolicy" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
           <AssociationSet Name="FK_Deparment_Country" Association="Self.FK_Deparment_Country">
             <End Role="Country" EntitySet="Country" />
             <End Role="Department" EntitySet="Department" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Leave_AspNetUsers" Association="Self.FK_Leave_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Leave" EntitySet="Leave" />
           </AssociationSet>
           <AssociationSet Name="FK_Leave_LeaveType" Association="Self.FK_Leave_LeaveType">
             <End Role="LeaveType" EntitySet="LeaveType" />
             <End Role="Leave" EntitySet="Leave" />
           </AssociationSet>
-          <AssociationSet Name="FK_Leave_UserLeavePolicy" Association="Self.FK_Leave_UserLeavePolicy">
-            <End Role="UserLeavePolicy" EntitySet="UserLeavePolicy" />
-            <End Role="Leave" EntitySet="Leave" />
+          <AssociationSet Name="FK_LeaveBalance_AspNetUsers" Association="Self.FK_LeaveBalance_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="LeaveBalance" EntitySet="LeaveBalance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LeaveBalance_LeaveType" Association="Self.FK_LeaveBalance_LeaveType">
+            <End Role="LeaveType" EntitySet="LeaveType" />
+            <End Role="LeaveBalance" EntitySet="LeaveBalance" />
           </AssociationSet>
           <AssociationSet Name="FK_LeaveType_Country" Association="Self.FK_LeaveType_Country">
             <End Role="Country" EntitySet="Country" />
             <End Role="LeaveType" EntitySet="LeaveType" />
           </AssociationSet>
-          <AssociationSet Name="FK_UserLeavePolicy_AspNetUsers" Association="Self.FK_UserLeavePolicy_AspNetUsers">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="UserLeavePolicy" EntitySet="UserLeavePolicy" />
+          <AssociationSet Name="FK_UserLeavePolicyDetail_Country" Association="Self.FK_UserLeavePolicyDetail_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="UserLeavePolicyDetail" EntitySet="UserLeavePolicyDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserLeavePolicyDetail_LeaveType" Association="Self.FK_UserLeavePolicyDetail_LeaveType">
+            <End Role="LeaveType" EntitySet="LeaveType" />
+            <End Role="UserLeavePolicyDetail" EntitySet="UserLeavePolicyDetail" />
           </AssociationSet>
           <AssociationSet Name="FK_UserLeavePolicyDetail_UserLeavePolicy" Association="Self.FK_UserLeavePolicyDetail_UserLeavePolicy">
             <End Role="UserLeavePolicy" EntitySet="UserLeavePolicy" />
@@ -247,150 +323,30 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LeaveONModels" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Country">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DateCreated" Type="DateTime" Precision="3" />
-          <Property Name="DateModified" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Departments" Relationship="LeaveONModels.FK_Deparment_Country" FromRole="Country" ToRole="Department" />
-          <NavigationProperty Name="LeaveTypes" Relationship="LeaveONModels.FK_LeaveType_Country" FromRole="Country" ToRole="LeaveType" />
-        </EntityType>
-        <EntityType Name="Leave">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="LeaveTypeId" Type="Int32" Nullable="false" />
-          <Property Name="Reason" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="TotalDays" Type="Int32" />
-          <Property Name="EmergencyContact" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="ResponseDate1" Type="DateTime" Precision="3" />
-          <Property Name="ResponseDate2" Type="DateTime" Precision="3" />
-          <Property Name="IsAccepted1" Type="Int32" />
-          <Property Name="IsAccepted2" Type="Int32" />
-          <Property Name="LineManager1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LineManager2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DateCreated" Type="DateTime" Precision="3" />
-          <Property Name="DateModified" Type="DateTime" Precision="3" />
-          <Property Name="UserLeavePolicyId" Type="Decimal" Precision="18" Scale="0" />
-          <NavigationProperty Name="LeaveType" Relationship="Self.FK_Leave_LeaveType" FromRole="Leave" ToRole="LeaveType" />
-          <NavigationProperty Name="UserLeavePolicy" Relationship="Self.FK_Leave_UserLeavePolicy" FromRole="Leave" ToRole="UserLeavePolicy" />
-          <Property Name="Remarks1" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Remarks2" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="LeaveType">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CountryId" Type="Int32" />
-          <NavigationProperty Name="Leaves" Relationship="Self.FK_Leave_LeaveType" FromRole="LeaveType" ToRole="Leave" />
-          <NavigationProperty Name="Country" Relationship="LeaveONModels.FK_LeaveType_Country" FromRole="LeaveType" ToRole="Country" />
-        </EntityType>
-        <EntityType Name="UserLeavePolicy">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="WeeklyOffDays" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="AnnualOffDays" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="FiscalYearStart" Type="DateTime" Precision="3" />
-          <Property Name="FiscalYearEnd" Type="DateTime" Precision="3" />
-          <Property Name="FiscalYearPeriod" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Leaves" Relationship="Self.FK_Leave_UserLeavePolicy" FromRole="UserLeavePolicy" ToRole="Leave" />
-          <NavigationProperty Name="UserLeavePolicyDetails" Relationship="Self.FK_UserLeavePolicyDetail_UserLeavePolicy" FromRole="UserLeavePolicy" ToRole="UserLeavePolicyDetail" />
-          <NavigationProperty Name="AspNetUser" Relationship="LeaveONModels.FK_UserLeavePolicy_AspNetUsers" FromRole="UserLeavePolicy" ToRole="AspNetUser" />
-        </EntityType>
-        <EntityType Name="UserLeavePolicyDetail">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserLeavePolicyId" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="LeaveTypeId" Type="Int32" />
-          <Property Name="Allowed" Type="Int32" />
-          <Property Name="Taken" Type="Int32" />
-          <NavigationProperty Name="UserLeavePolicy" Relationship="Self.FK_UserLeavePolicyDetail_UserLeavePolicy" FromRole="UserLeavePolicyDetail" ToRole="UserLeavePolicy" />
-          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <Association Name="FK_Leave_LeaveType">
-          <End Role="LeaveType" Type="Self.LeaveType" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Leave" Type="Self.Leave" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="LeaveType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Leave">
-              <PropertyRef Name="LeaveTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Leave_UserLeavePolicy">
-          <End Role="UserLeavePolicy" Type="Self.UserLeavePolicy" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Leave" Type="Self.Leave" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserLeavePolicy">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Leave">
-              <PropertyRef Name="UserLeavePolicyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UserLeavePolicyDetail_UserLeavePolicy">
-          <End Role="UserLeavePolicy" Type="Self.UserLeavePolicy" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="UserLeavePolicyDetail" Type="Self.UserLeavePolicyDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserLeavePolicy">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="UserLeavePolicyDetail">
-              <PropertyRef Name="UserLeavePolicyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="LeaveONEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Countries" EntityType="Self.Country" />
-          <EntitySet Name="Leaves" EntityType="Self.Leave" />
-          <EntitySet Name="LeaveTypes" EntityType="Self.LeaveType" />
-          <EntitySet Name="UserLeavePolicies" EntityType="Self.UserLeavePolicy" />
-          <EntitySet Name="UserLeavePolicyDetails" EntityType="Self.UserLeavePolicyDetail" />
-          <AssociationSet Name="FK_Leave_LeaveType" Association="Self.FK_Leave_LeaveType">
-            <End Role="LeaveType" EntitySet="LeaveTypes" />
-            <End Role="Leave" EntitySet="Leaves" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Leave_UserLeavePolicy" Association="Self.FK_Leave_UserLeavePolicy">
-            <End Role="UserLeavePolicy" EntitySet="UserLeavePolicies" />
-            <End Role="Leave" EntitySet="Leaves" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UserLeavePolicyDetail_UserLeavePolicy" Association="Self.FK_UserLeavePolicyDetail_UserLeavePolicy">
-            <End Role="UserLeavePolicy" EntitySet="UserLeavePolicies" />
-            <End Role="UserLeavePolicyDetail" EntitySet="UserLeavePolicyDetails" />
-          </AssociationSet>
-          <EntitySet Name="Employees" EntityType="LeaveONModels.Employee" />
           <EntitySet Name="AspNetUsers" EntityType="LeaveONModels.AspNetUser" />
+          <EntitySet Name="Countries" EntityType="LeaveONModels.Country" />
           <EntitySet Name="Departments" EntityType="LeaveONModels.Department" />
+          <EntitySet Name="Leaves" EntityType="LeaveONModels.Leave" />
+          <EntitySet Name="LeaveBalances" EntityType="LeaveONModels.LeaveBalance" />
+          <EntitySet Name="LeaveTypes" EntityType="LeaveONModels.LeaveType" />
+          <EntitySet Name="UserLeavePolicies" EntityType="LeaveONModels.UserLeavePolicy" />
+          <EntitySet Name="UserLeavePolicyDetails" EntityType="LeaveONModels.UserLeavePolicyDetail" />
           <AssociationSet Name="FK_AspNetUsers_Deparment" Association="LeaveONModels.FK_AspNetUsers_Deparment">
             <End Role="Department" EntitySet="Departments" />
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
           </AssociationSet>
-          <AssociationSet Name="FK_UserLeavePolicy_AspNetUsers" Association="LeaveONModels.FK_UserLeavePolicy_AspNetUsers">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+          <AssociationSet Name="FK_AspNetUsers_UserLeavePolicy" Association="LeaveONModels.FK_AspNetUsers_UserLeavePolicy">
             <End Role="UserLeavePolicy" EntitySet="UserLeavePolicies" />
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Leave_AspNetUsers" Association="LeaveONModels.FK_Leave_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Leave" EntitySet="Leaves" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LeaveBalance_AspNetUsers" Association="LeaveONModels.FK_LeaveBalance_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="LeaveBalance" EntitySet="LeaveBalances" />
           </AssociationSet>
           <AssociationSet Name="FK_Deparment_Country" Association="LeaveONModels.FK_Deparment_Country">
             <End Role="Country" EntitySet="Countries" />
@@ -400,14 +356,27 @@
             <End Role="Country" EntitySet="Countries" />
             <End Role="LeaveType" EntitySet="LeaveTypes" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserLeavePolicyDetail_Country" Association="LeaveONModels.FK_UserLeavePolicyDetail_Country">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="UserLeavePolicyDetail" EntitySet="UserLeavePolicyDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Leave_LeaveType" Association="LeaveONModels.FK_Leave_LeaveType">
+            <End Role="LeaveType" EntitySet="LeaveTypes" />
+            <End Role="Leave" EntitySet="Leaves" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LeaveBalance_LeaveType" Association="LeaveONModels.FK_LeaveBalance_LeaveType">
+            <End Role="LeaveType" EntitySet="LeaveTypes" />
+            <End Role="LeaveBalance" EntitySet="LeaveBalances" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserLeavePolicyDetail_LeaveType" Association="LeaveONModels.FK_UserLeavePolicyDetail_LeaveType">
+            <End Role="LeaveType" EntitySet="LeaveTypes" />
+            <End Role="UserLeavePolicyDetail" EntitySet="UserLeavePolicyDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserLeavePolicyDetail_UserLeavePolicy" Association="LeaveONModels.FK_UserLeavePolicyDetail_UserLeavePolicy">
+            <End Role="UserLeavePolicy" EntitySet="UserLeavePolicies" />
+            <End Role="UserLeavePolicyDetail" EntitySet="UserLeavePolicyDetails" />
+          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="Employee">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="AspNetUser">
           <Key>
             <PropertyRef Name="Id" />
@@ -429,8 +398,23 @@
           <Property Name="DateModified" Type="DateTime" Precision="3" />
           <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="DepartmentId" Type="Int32" Nullable="false" />
+          <Property Name="UserLeavePolicyId" Type="Decimal" Precision="18" Scale="0" />
           <NavigationProperty Name="Department" Relationship="LeaveONModels.FK_AspNetUsers_Deparment" FromRole="AspNetUser" ToRole="Department" />
-          <NavigationProperty Name="UserLeavePolicies" Relationship="LeaveONModels.FK_UserLeavePolicy_AspNetUsers" FromRole="AspNetUser" ToRole="UserLeavePolicy" />
+          <NavigationProperty Name="UserLeavePolicy" Relationship="LeaveONModels.FK_AspNetUsers_UserLeavePolicy" FromRole="AspNetUser" ToRole="UserLeavePolicy" />
+          <NavigationProperty Name="Leaves" Relationship="LeaveONModels.FK_Leave_AspNetUsers" FromRole="AspNetUser" ToRole="Leave" />
+          <NavigationProperty Name="LeaveBalances" Relationship="LeaveONModels.FK_LeaveBalance_AspNetUsers" FromRole="AspNetUser" ToRole="LeaveBalance" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="DateModified" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Departments" Relationship="LeaveONModels.FK_Deparment_Country" FromRole="Country" ToRole="Department" />
+          <NavigationProperty Name="LeaveTypes" Relationship="LeaveONModels.FK_LeaveType_Country" FromRole="Country" ToRole="LeaveType" />
+          <NavigationProperty Name="UserLeavePolicyDetails" Relationship="LeaveONModels.FK_UserLeavePolicyDetail_Country" FromRole="Country" ToRole="UserLeavePolicyDetail" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -444,6 +428,84 @@
           <Property Name="DateModified" Type="DateTime" Precision="3" />
           <NavigationProperty Name="AspNetUsers" Relationship="LeaveONModels.FK_AspNetUsers_Deparment" FromRole="Department" ToRole="AspNetUser" />
           <NavigationProperty Name="Country" Relationship="LeaveONModels.FK_Deparment_Country" FromRole="Department" ToRole="Country" />
+        </EntityType>
+        <EntityType Name="Leave">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="LeaveTypeId" Type="Int32" Nullable="false" />
+          <Property Name="Reason" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TotalDays" Type="Int32" />
+          <Property Name="EmergencyContact" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ResponseDate1" Type="DateTime" Precision="3" />
+          <Property Name="ResponseDate2" Type="DateTime" Precision="3" />
+          <Property Name="IsAccepted1" Type="Int32" />
+          <Property Name="IsAccepted2" Type="Int32" />
+          <Property Name="LineManager1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LineManager2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Remarks1" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Remarks2" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="DateModified" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="AspNetUser" Relationship="LeaveONModels.FK_Leave_AspNetUsers" FromRole="Leave" ToRole="AspNetUser" />
+          <NavigationProperty Name="LeaveType" Relationship="LeaveONModels.FK_Leave_LeaveType" FromRole="Leave" ToRole="LeaveType" />
+        </EntityType>
+        <EntityType Name="LeaveBalance">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="LeaveTypeId" Type="Int32" />
+          <Property Name="Taken" Type="Int32" />
+          <Property Name="Balance" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="LeaveONModels.FK_LeaveBalance_AspNetUsers" FromRole="LeaveBalance" ToRole="AspNetUser" />
+          <NavigationProperty Name="LeaveType" Relationship="LeaveONModels.FK_LeaveBalance_LeaveType" FromRole="LeaveBalance" ToRole="LeaveType" />
+        </EntityType>
+        <EntityType Name="LeaveType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CountryId" Type="Int32" />
+          <NavigationProperty Name="Country" Relationship="LeaveONModels.FK_LeaveType_Country" FromRole="LeaveType" ToRole="Country" />
+          <NavigationProperty Name="Leaves" Relationship="LeaveONModels.FK_Leave_LeaveType" FromRole="LeaveType" ToRole="Leave" />
+          <NavigationProperty Name="LeaveBalances" Relationship="LeaveONModels.FK_LeaveBalance_LeaveType" FromRole="LeaveType" ToRole="LeaveBalance" />
+          <NavigationProperty Name="UserLeavePolicyDetails" Relationship="LeaveONModels.FK_UserLeavePolicyDetail_LeaveType" FromRole="LeaveType" ToRole="UserLeavePolicyDetail" />
+        </EntityType>
+        <EntityType Name="UserLeavePolicy">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WeeklyOffDays" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AnnualOffDays" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FiscalYearStart" Type="DateTime" Precision="3" />
+          <Property Name="FiscalYearEnd" Type="DateTime" Precision="3" />
+          <Property Name="FiscalYearPeriod" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CountryId" Type="Int32" />
+          <NavigationProperty Name="AspNetUsers" Relationship="LeaveONModels.FK_AspNetUsers_UserLeavePolicy" FromRole="UserLeavePolicy" ToRole="AspNetUser" />
+          <NavigationProperty Name="UserLeavePolicyDetails" Relationship="LeaveONModels.FK_UserLeavePolicyDetail_UserLeavePolicy" FromRole="UserLeavePolicy" ToRole="UserLeavePolicyDetail" />
+        </EntityType>
+        <EntityType Name="UserLeavePolicyDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserLeavePolicyId" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="LeaveTypeId" Type="Int32" />
+          <Property Name="Allowed" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CountryId" Type="Int32" />
+          <NavigationProperty Name="Country" Relationship="LeaveONModels.FK_UserLeavePolicyDetail_Country" FromRole="UserLeavePolicyDetail" ToRole="Country" />
+          <NavigationProperty Name="LeaveType" Relationship="LeaveONModels.FK_UserLeavePolicyDetail_LeaveType" FromRole="UserLeavePolicyDetail" ToRole="LeaveType" />
+          <NavigationProperty Name="UserLeavePolicy" Relationship="LeaveONModels.FK_UserLeavePolicyDetail_UserLeavePolicy" FromRole="UserLeavePolicyDetail" ToRole="UserLeavePolicy" />
         </EntityType>
         <Association Name="FK_AspNetUsers_Deparment">
           <End Type="LeaveONModels.Department" Role="Department" Multiplicity="1">
@@ -459,16 +521,44 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_UserLeavePolicy_AspNetUsers">
+        <Association Name="FK_AspNetUsers_UserLeavePolicy">
+          <End Type="LeaveONModels.UserLeavePolicy" Role="UserLeavePolicy" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="LeaveONModels.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserLeavePolicy">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUser">
+              <PropertyRef Name="UserLeavePolicyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Leave_AspNetUsers">
           <End Type="LeaveONModels.AspNetUser" Role="AspNetUser" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Type="LeaveONModels.UserLeavePolicy" Role="UserLeavePolicy" Multiplicity="*" />
+          <End Type="LeaveONModels.Leave" Role="Leave" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetUser">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="UserLeavePolicy">
+            <Dependent Role="Leave">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LeaveBalance_AspNetUsers">
+          <End Type="LeaveONModels.AspNetUser" Role="AspNetUser" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="LeaveONModels.LeaveBalance" Role="LeaveBalance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LeaveBalance">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
@@ -499,92 +589,86 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK_UserLeavePolicyDetail_Country">
+          <End Type="LeaveONModels.Country" Role="Country" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="LeaveONModels.UserLeavePolicyDetail" Role="UserLeavePolicyDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserLeavePolicyDetail">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Leave_LeaveType">
+          <End Type="LeaveONModels.LeaveType" Role="LeaveType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="LeaveONModels.Leave" Role="Leave" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LeaveType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Leave">
+              <PropertyRef Name="LeaveTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LeaveBalance_LeaveType">
+          <End Type="LeaveONModels.LeaveType" Role="LeaveType" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="LeaveONModels.LeaveBalance" Role="LeaveBalance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LeaveType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LeaveBalance">
+              <PropertyRef Name="LeaveTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserLeavePolicyDetail_LeaveType">
+          <End Type="LeaveONModels.LeaveType" Role="LeaveType" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="LeaveONModels.UserLeavePolicyDetail" Role="UserLeavePolicyDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LeaveType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserLeavePolicyDetail">
+              <PropertyRef Name="LeaveTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserLeavePolicyDetail_UserLeavePolicy">
+          <End Type="LeaveONModels.UserLeavePolicy" Role="UserLeavePolicy" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="LeaveONModels.UserLeavePolicyDetail" Role="UserLeavePolicyDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserLeavePolicy">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserLeavePolicyDetail">
+              <PropertyRef Name="UserLeavePolicyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="LeaveONModelsStoreContainer" CdmEntityContainer="LeaveONEntities">
-          <EntitySetMapping Name="Countries">
-            <EntityTypeMapping TypeName="LeaveONModels.Country">
-              <MappingFragment StoreEntitySet="Country">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
-                <ScalarProperty Name="DateModified" ColumnName="DateModified" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Leaves">
-            <EntityTypeMapping TypeName="LeaveONModels.Leave">
-              <MappingFragment StoreEntitySet="Leave">
-                <ScalarProperty Name="TotalDays" ColumnName="TotalDays" />
-                <ScalarProperty Name="Remarks2" ColumnName="Remarks2" />
-                <ScalarProperty Name="Remarks1" ColumnName="Remarks1" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="LeaveTypeId" ColumnName="LeaveTypeId" />
-                <ScalarProperty Name="Reason" ColumnName="Reason" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="EmergencyContact" ColumnName="EmergencyContact" />
-                <ScalarProperty Name="ResponseDate1" ColumnName="ResponseDate1" />
-                <ScalarProperty Name="ResponseDate2" ColumnName="ResponseDate2" />
-                <ScalarProperty Name="IsAccepted1" ColumnName="IsAccepted1" />
-                <ScalarProperty Name="IsAccepted2" ColumnName="IsAccepted2" />
-                <ScalarProperty Name="LineManager1" ColumnName="LineManager1" />
-                <ScalarProperty Name="LineManager2" ColumnName="LineManager2" />
-                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
-                <ScalarProperty Name="DateModified" ColumnName="DateModified" />
-                <ScalarProperty Name="UserLeavePolicyId" ColumnName="UserLeavePolicyId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="LeaveTypes">
-            <EntityTypeMapping TypeName="LeaveONModels.LeaveType">
-              <MappingFragment StoreEntitySet="LeaveType">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="UserLeavePolicies">
-            <EntityTypeMapping TypeName="LeaveONModels.UserLeavePolicy">
-              <MappingFragment StoreEntitySet="UserLeavePolicy">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="WeeklyOffDays" ColumnName="WeeklyOffDays" />
-                <ScalarProperty Name="AnnualOffDays" ColumnName="AnnualOffDays" />
-                <ScalarProperty Name="FiscalYearStart" ColumnName="FiscalYearStart" />
-                <ScalarProperty Name="FiscalYearEnd" ColumnName="FiscalYearEnd" />
-                <ScalarProperty Name="FiscalYearPeriod" ColumnName="FiscalYearPeriod" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="UserLeavePolicyDetails">
-            <EntityTypeMapping TypeName="LeaveONModels.UserLeavePolicyDetail">
-              <MappingFragment StoreEntitySet="UserLeavePolicyDetail">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="UserLeavePolicyId" ColumnName="UserLeavePolicyId" />
-                <ScalarProperty Name="LeaveTypeId" ColumnName="LeaveTypeId" />
-                <ScalarProperty Name="Allowed" ColumnName="Allowed" />
-                <ScalarProperty Name="Taken" ColumnName="Taken" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Employees">
-            <EntityTypeMapping TypeName="LeaveONModels.Employee">
-              <MappingFragment StoreEntitySet="Employee">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="AspNetUsers">
             <EntityTypeMapping TypeName="LeaveONModels.AspNetUser">
               <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="UserLeavePolicyId" ColumnName="UserLeavePolicyId" />
                 <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="DateModified" ColumnName="DateModified" />
@@ -605,6 +689,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="LeaveONModels.Country">
+              <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Departments">
             <EntityTypeMapping TypeName="LeaveONModels.Department">
               <MappingFragment StoreEntitySet="Department">
@@ -613,6 +707,76 @@
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Idc" ColumnName="Idc" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Leaves">
+            <EntityTypeMapping TypeName="LeaveONModels.Leave">
+              <MappingFragment StoreEntitySet="Leave">
+                <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Remarks2" ColumnName="Remarks2" />
+                <ScalarProperty Name="Remarks1" ColumnName="Remarks1" />
+                <ScalarProperty Name="LineManager2" ColumnName="LineManager2" />
+                <ScalarProperty Name="LineManager1" ColumnName="LineManager1" />
+                <ScalarProperty Name="IsAccepted2" ColumnName="IsAccepted2" />
+                <ScalarProperty Name="IsAccepted1" ColumnName="IsAccepted1" />
+                <ScalarProperty Name="ResponseDate2" ColumnName="ResponseDate2" />
+                <ScalarProperty Name="ResponseDate1" ColumnName="ResponseDate1" />
+                <ScalarProperty Name="EmergencyContact" ColumnName="EmergencyContact" />
+                <ScalarProperty Name="TotalDays" ColumnName="TotalDays" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="LeaveTypeId" ColumnName="LeaveTypeId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LeaveBalances">
+            <EntityTypeMapping TypeName="LeaveONModels.LeaveBalance">
+              <MappingFragment StoreEntitySet="LeaveBalance">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="Taken" ColumnName="Taken" />
+                <ScalarProperty Name="LeaveTypeId" ColumnName="LeaveTypeId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LeaveTypes">
+            <EntityTypeMapping TypeName="LeaveONModels.LeaveType">
+              <MappingFragment StoreEntitySet="LeaveType">
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserLeavePolicies">
+            <EntityTypeMapping TypeName="LeaveONModels.UserLeavePolicy">
+              <MappingFragment StoreEntitySet="UserLeavePolicy">
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="FiscalYearPeriod" ColumnName="FiscalYearPeriod" />
+                <ScalarProperty Name="FiscalYearEnd" ColumnName="FiscalYearEnd" />
+                <ScalarProperty Name="FiscalYearStart" ColumnName="FiscalYearStart" />
+                <ScalarProperty Name="AnnualOffDays" ColumnName="AnnualOffDays" />
+                <ScalarProperty Name="WeeklyOffDays" ColumnName="WeeklyOffDays" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserLeavePolicyDetails">
+            <EntityTypeMapping TypeName="LeaveONModels.UserLeavePolicyDetail">
+              <MappingFragment StoreEntitySet="UserLeavePolicyDetail">
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Allowed" ColumnName="Allowed" />
+                <ScalarProperty Name="LeaveTypeId" ColumnName="LeaveTypeId" />
+                <ScalarProperty Name="UserLeavePolicyId" ColumnName="UserLeavePolicyId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
