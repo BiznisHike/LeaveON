@@ -29,6 +29,7 @@ namespace Repository.Models
         public string FiscalYearPeriod { get; set; }
         public Nullable<int> CountryId { get; set; }
         public Nullable<bool> DepartmentPolicy { get; set; }
+        public string Description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetUser> AspNetUsers { get; set; }

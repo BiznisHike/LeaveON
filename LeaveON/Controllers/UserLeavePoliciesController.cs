@@ -133,7 +133,7 @@ namespace LeaveON.Controllers
       userLeavePolicyViewModel.userLeavePolicy = userLeavePolicy;
       userLeavePolicyViewModel.userLeavePolicyDetail = userLeavePolicy.UserLeavePolicyDetails.AsQueryable<UserLeavePolicyDetail>();
       userLeavePolicyViewModel.departments = db.Departments.Where(x => x.CountryId == 1).AsQueryable<Department>();//TODO Convert 1 to current user country variable
-                                                                                                              //userLeavePolicyViewModel.departments= depFilterd;
+                                                                                                                   //userLeavePolicyViewModel.departments= depFilterd;
       IQueryable<AspNetUser> usersFilterd = db.AspNetUsers.Where(x => x.UserLeavePolicyId == id);
 
 
@@ -149,6 +149,7 @@ namespace LeaveON.Controllers
 
       ViewBag.SelectedDepartments = SelectedDeps;
       ViewBag.SelectedEmployees = SelectedEmps;
+
       if (userLeavePolicy.DepartmentPolicy == true)
       {
         ViewBag.DepStatus = true;
@@ -159,6 +160,30 @@ namespace LeaveON.Controllers
         ViewBag.DepStatus = false;
         ViewBag.EmpStatus = true;
       }
+
+      
+      List<SelectListItem> WeakSelectList = new List<SelectListItem>()
+      {
+
+          new SelectListItem{Text = "Saturday", Value = "1"},
+          new SelectListItem{Text = "Sunday", Value = "2"},
+          new SelectListItem{Text = "Monday", Value = "3"},
+          new SelectListItem{Text = "Tuesday", Value = "4"},
+          new SelectListItem{Text = "Wednesday", Value = "5"},
+          new SelectListItem{Text = "Thursday", Value = "6"},
+          new SelectListItem{Text = "Friday", Value = "7"}
+      };
+
+      ViewBag.WeeklyOffDays = WeakSelectList;
+      List<string> DaysSelected = new List<string>();
+      foreach ( string day in userLeavePolicy.WeeklyOffDays.Split(','))
+      {
+        //int intDay = int.Parse(day);
+        DaysSelected.Add(day);
+        //DaysSelected.Add()
+      }
+      ViewBag.DaysSelected = DaysSelected;
+
 
       if (userLeavePolicy == null)
       {
@@ -187,6 +212,7 @@ namespace LeaveON.Controllers
       //ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Hometown", userLeavePolicy.UserId);
       return View(userLeavePolicy);
     }
+
     [HttpPost]
     public ActionResult UploadFiles()
     {

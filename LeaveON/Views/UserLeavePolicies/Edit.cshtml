@@ -74,15 +74,21 @@
           @*<input type="hidden" name="WeeklyOffDays" id="WeeklyOffDays" />*@
 
           <br>
-          <select class="selectpicker" id="multiSelectOffDays" multiple="multiple" data-live-search="false" data-done-button="true">
-            <option value="1">Saturday</option>
-            <option value="2">Sunday</option>
-            <option value="3">Monday</option>
-            <option value="4">Tuesday</option>
-            <option value="5">Wednesday</option>
-            <option value="6">Thursday</option>
-            <option value="7">Friday</option>
-          </select>
+
+          @*<select class="selectpicker" id="multiSelectOffDays" multiple="multiple" data-live-search="false" data-done-button="true">
+      <option value="1">Saturday</option>
+      <option value="2">Sunday</option>
+      <option value="3">Monday</option>
+      <option value="4">Tuesday</option>
+      <option value="5">Wednesday</option>
+      <option value="6">Thursday</option>
+      <option value="7">Friday</option>
+    </select>*@
+
+          @*@Html.DropDownList("multiSelectOffDays", new MultiSelectList(ViewBag.WeeklyOffDays , "Value", "Text", ViewBag.DaysSelected), htmlAttributes: new { @class = "form-control selectpicker", @id = "multiSelectOffDays", @multiple = "multiple", data_live_search = "true", data_actions_box = "true", data_done_button = "true" })*@
+          @Html.DropDownList("multiSelectOffDays", new MultiSelectList(ViewBag.WeeklyOffDays, "Value", "Text", ViewBag.DaysSelected), htmlAttributes: new { @class = "form-control selectpicker", @id = "multiSelectOffDays", @multiple = "multiple", data_done_button = "true" })
+
+
           @Html.ValidationMessageFor(model => model.userLeavePolicy.WeeklyOffDays, "", new { @class = "text-danger" })
 
 
@@ -349,9 +355,7 @@
 <script>
   $(document).ready(function () {
 
-    //$('#multiSelectOffDays').multiselect({
-    //      includeSelectAllOption: true
-    //  });
+ 
 
     $('#btnUpload').click(function () {
 
