@@ -149,7 +149,16 @@ namespace LeaveON.Controllers
 
       ViewBag.SelectedDepartments = SelectedDeps;
       ViewBag.SelectedEmployees = SelectedEmps;
-      
+      if (userLeavePolicy.DepartmentPolicy == true)
+      {
+        ViewBag.DepStatus = true;
+        ViewBag.EmpStatus = false;
+      }
+      else
+      {
+        ViewBag.DepStatus = false;
+        ViewBag.EmpStatus = true;
+      }
 
       if (userLeavePolicy == null)
       {
