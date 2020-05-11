@@ -100,6 +100,7 @@
           <Property Name="FiscalYearStart" Type="datetime" />
           <Property Name="FiscalYearEnd" Type="datetime" />
           <Property Name="FiscalYearPeriod" Type="nvarchar" MaxLength="50" />
+          <Property Name="DepartmentPolicy" Type="bit" />
           <Property Name="CountryId" Type="int" />
         </EntityType>
         <EntityType Name="UserLeavePolicyDetail">
@@ -492,6 +493,7 @@
           <Property Name="CountryId" Type="Int32" />
           <NavigationProperty Name="AspNetUsers" Relationship="LeaveONModels.FK_AspNetUsers_UserLeavePolicy" FromRole="UserLeavePolicy" ToRole="AspNetUser" />
           <NavigationProperty Name="UserLeavePolicyDetails" Relationship="LeaveONModels.FK_UserLeavePolicyDetail_UserLeavePolicy" FromRole="UserLeavePolicy" ToRole="UserLeavePolicyDetail" />
+          <Property Name="DepartmentPolicy" Type="Boolean" />
         </EntityType>
         <EntityType Name="UserLeavePolicyDetail">
           <Key>
@@ -759,6 +761,7 @@
           <EntitySetMapping Name="UserLeavePolicies">
             <EntityTypeMapping TypeName="LeaveONModels.UserLeavePolicy">
               <MappingFragment StoreEntitySet="UserLeavePolicy">
+                <ScalarProperty Name="DepartmentPolicy" ColumnName="DepartmentPolicy" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="FiscalYearPeriod" ColumnName="FiscalYearPeriod" />
                 <ScalarProperty Name="FiscalYearEnd" ColumnName="FiscalYearEnd" />

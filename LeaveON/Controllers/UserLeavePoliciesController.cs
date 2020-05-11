@@ -64,7 +64,7 @@ namespace LeaveON.Controllers
       userLeavePolicy.Id = maxId;
       userLeavePolicy.CountryId = 1;//from which user is Login. but admin who can view all coutries there we have to user a list of country so that he choose a country
       userLeavePolicy.AnnualOffDays = string.Join(",", AnnualOffDays);
-
+      userLeavePolicy.DepartmentPolicy = (PolicyFor == "Dep") ? true : false;
       foreach (UserLeavePolicyDetail item in userLeavePolicyDetail.ToList<UserLeavePolicyDetail>())
       {
         if (item.Allowed == null)
@@ -121,10 +121,59 @@ namespace LeaveON.Controllers
       {
         return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
       }
+      ViewBag.Employees = new SelectList(db.AspNetUsers, "Id", "UserName");
+      ViewBag.LeaveTypes = new SelectList(db.LeaveTypes, "Id", "Name");
+      //always remember viewbag name should not be as model name. other wise probelm. if same multilist will not show selected values
+      ViewBag.Departments = new SelectList(db.Departments, "Id", "Name");
+
+      UserLeavePolicyViewModel userLeavePolicyViewModel = new UserLeavePolicyViewModel();
+
       UserLeavePolicy userLeavePolicy = await db.UserLeavePolicies.FindAsync(id);
+
+      userLeavePolicyViewModel.userLeavePolicy = userLeavePolicy;
+      userLeavePolicyViewModel.userLeavePolicyDetail = userLeavePolicy.UserLeavePolicyDetails.AsQueryable<UserLeavePolicyDetail>();
+      userLeavePolicyViewModel.departments = db.Departments.Where(x => x.CountryId == 1).AsQueryable<Department>();//TODO Convert 1 to current user country variable
+                                                                                                              //userLeavePolicyViewModel.departments= depFilterd;
+      IQueryable<AspNetUser> usersFilterd = db.AspNetUsers.Where(x => x.UserLeavePolicyId == id);
+
+
+      foreach (AspNetUser usr in usersFilterd)
+      {
+        //depFilterd = db.Departments.Where(x => x.Id == usr.DepartmentId).Distinct<Department>().ToList<Department>();
+      }
+      //List<int> SelectedDeps = new List<int>(new int[] { 1,2 });
+      List<string> SelectedDeps = new List<string>();
+      List<string> SelectedEmps = new List<string>();
+      SelectedDeps = usersFilterd.Select(p => p.DepartmentId.ToString()).Distinct<string>().ToList<string>();
+      SelectedEmps = usersFilterd.Select(p => p.Id).Distinct<string>().ToList<string>();
+
+      ViewBag.SelectedDepartments = SelectedDeps;
+      ViewBag.SelectedEmployees = SelectedEmps;
+      
+
       if (userLeavePolicy == null)
       {
         return HttpNotFound();
+      }
+      //ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Hometown", userLeavePolicy.UserId);
+      //return View(userLeavePolicy);
+
+      return View(userLeavePolicyViewModel);
+
+    }
+
+    // POST: UserLeavePolicies/Edit/5
+    // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+    // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<ActionResult> Edit([Bind(Include = "Id,UserId,WeeklyOffDays,AnnualOffDays,FiscalYearStart,FiscalYearEnd,FiscalYearPeriod")] UserLeavePolicy userLeavePolicy)
+    {
+      if (ModelState.IsValid)
+      {
+        db.Entry(userLeavePolicy).State = EntityState.Modified;
+        await db.SaveChangesAsync();
+        return RedirectToAction("Index");
       }
       //ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Hometown", userLeavePolicy.UserId);
       return View(userLeavePolicy);
@@ -207,23 +256,6 @@ namespace LeaveON.Controllers
       {
         return Json("No files selected.");
       }
-    }
-
-    // POST: UserLeavePolicies/Edit/5
-    // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-    // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Edit([Bind(Include = "Id,UserId,WeeklyOffDays,AnnualOffDays,FiscalYearStart,FiscalYearEnd,FiscalYearPeriod")] UserLeavePolicy userLeavePolicy)
-    {
-      if (ModelState.IsValid)
-      {
-        db.Entry(userLeavePolicy).State = EntityState.Modified;
-        await db.SaveChangesAsync();
-        return RedirectToAction("Index");
-      }
-      //ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Hometown", userLeavePolicy.UserId);
-      return View(userLeavePolicy);
     }
 
     // GET: UserLeavePolicies/Delete/5
