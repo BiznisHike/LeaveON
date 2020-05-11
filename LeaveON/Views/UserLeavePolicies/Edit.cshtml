@@ -174,94 +174,15 @@
                             <tr>
                               <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="@sNo" /></td>
                               <td> @Html.DropDownList("UserLeavePolicyDetail[" + sNo + "].LeaveTypeId", new SelectList(ViewBag.LeaveTypes, "Value", "Text", item.LeaveTypeId), null, new { @class = "form-control" })</td>
-                              <td><input name="UserLeavePolicyDetail[@sNo].Allowed" class="form-control" placeholder="Allowed"> </td>
-                              <td><input name="UserLeavePolicyDetail[@sNo].Taken" class="form-control" placeholder="Taken"> </td>
-                              <td><input name="UserLeavePolicyDetail[@sNo].Description" class="form-control" placeholder="Description"> </td>
+                              <td><input name="UserLeavePolicyDetail[@sNo].Allowed" value="@(item.Allowed)" class="form-control" placeholder="Allowed"> </td>
+                              <td><input name="UserLeavePolicyDetail[@sNo].Taken" value=" " class="form-control" placeholder="Taken"> </td>
+                              <td><input name="UserLeavePolicyDetail[@sNo].Description" value="@(item.Description)"  class="form-control" placeholder="Description"> </td>
                             </tr>
                             sNo += 1;
-                            if (sNo == 2) { break; };
+                            //if (sNo == 2) { break; };
                           }
                         }
-                        <tr>
-                          <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="2" /></td>
-                          <td>  @Html.DropDownList("UserLeavePolicyDetail[" + "2" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
-                          <td><input name="Allowed" class="form-control" placeholder="Allowed"> </td>
-                          <td><input class="form-control" placeholder="Taken"> </td>
-                          <td><input class="form-control" placeholder="Description"> </td>
-                        </tr>
-
-                        <tr>
-                          <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="3" /></td>
-                          <td>  @Html.DropDownList("UserLeavePolicyDetail[" + "3" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
-                          <td><input name="Allowed" class="form-control" placeholder="Allowed"> </td>
-                          <td><input class="form-control" placeholder="Taken"> </td>
-                          <td><input class="form-control" placeholder="Description"> </td>
-
-
-                        </tr>
-                        <tr>
-                          <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="4" /></td>
-                          <td>  @Html.DropDownList("UserLeavePolicyDetail[" + "4" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
-                          <td><input name="Allowed" class="form-control" placeholder="Allowed"> </td>
-                          <td><input class="form-control" placeholder="Taken"> </td>
-                          <td><input class="form-control" placeholder="Description"> </td>
-
-
-                        </tr>
-                        <tr>
-                          <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="5" /></td>
-                          <td>  @Html.DropDownList("UserLeavePolicyDetail[" + "5" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
-                          <td><input name="Allowed" class="form-control" placeholder="Allowed"> </td>
-                          <td><input class="form-control" placeholder="Taken"> </td>
-                          <td><input class="form-control" placeholder="Description"> </td>
-
-
-                        </tr>
-                        <tr>
-                          <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="6" /></td>
-                          <td>  @Html.DropDownList("UserLeavePolicyDetail[" + "6" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
-                          <td><input name="Allowed" class="form-control" placeholder="Allowed"> </td>
-                          <td><input class="form-control" placeholder="Taken"> </td>
-                          <td><input class="form-control" placeholder="Description"> </td>
-
-
-                        </tr>
-                        <tr>
-                          <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="7" /></td>
-                          <td> @Html.DropDownList("UserLeavePolicyDetail[" + "7" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
-                          <td><input name="Allowed" class="form-control" placeholder="Allowed"> </td>
-                          <td><input class="form-control" placeholder="Taken"> </td>
-                          <td><input class="form-control" placeholder="Description"> </td>
-
-
-                        </tr>
-                        <tr>
-                          <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="8" /></td>
-                          <td>  @Html.DropDownList("UserLeavePolicyDetail[" + "8" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
-                          <td><input name="Allowed" class="form-control" placeholder="Allowed"> </td>
-                          <td><input class="form-control" placeholder="Taken"> </td>
-                          <td><input class="form-control" placeholder="Description"> </td>
-
-
-                        </tr>
-                        <tr>
-                          <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="9" /></td>
-                          <td>  @Html.DropDownList("UserLeavePolicyDetail[" + "9" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
-                          <td><input name="Allowed" class="form-control" placeholder="Allowed"> </td>
-                          <td><input class="form-control" placeholder="Taken"> </td>
-                          <td><input class="form-control" placeholder="Description"> </td>
-
-
-                        </tr>
-                        <tr>
-                          <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="10" /></td>
-                          <td>  @Html.DropDownList("UserLeavePolicyDetail[" + "10" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
-                          <td><input name="Allowed" class="form-control" placeholder="Allowed"> </td>
-                          <td><input class="form-control" placeholder="Taken"> </td>
-                          <td><input class="form-control" placeholder="Description"> </td>
-
-
-                        </tr>
+                        
                       </tbody>
                       @*<tfoot>
                         <tr>
