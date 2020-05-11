@@ -42,7 +42,7 @@
         <div class="form-group">
           @Html.LabelFor(model => model.userLeavePolicy.FiscalYearStart, "Fiscal Year Start", htmlAttributes: new { @class = " " })
 
-          @Html.EditorFor(model => model.userLeavePolicy.FiscalYearStart, new { htmlAttributes = new { @class = "form-control" } })
+          @Html.EditorFor(model => model.userLeavePolicy.FiscalYearStart, new { htmlAttributes = new { @class = "form-control", @id = "datepickerStart" } })
           @Html.ValidationMessageFor(model => model.userLeavePolicy.FiscalYearStart, "", new { @class = "text-danger" })
 
         </div>
@@ -50,7 +50,7 @@
         <div class="form-group">
           @Html.LabelFor(model => model.userLeavePolicy.FiscalYearEnd, "Fiscal Year End", htmlAttributes: new { @class = " " })
 
-          @Html.EditorFor(model => model.userLeavePolicy.FiscalYearEnd, new { htmlAttributes = new { @class = "form-control" } })
+          @Html.EditorFor(model => model.userLeavePolicy.FiscalYearEnd, new { htmlAttributes = new { @class = "form-control", @id = "datepickerEnd" } })
           @Html.ValidationMessageFor(model => model.userLeavePolicy.FiscalYearEnd, "", new { @class = "text-danger" })
 
         </div>
@@ -105,12 +105,12 @@
 
           @*<br />*@
 
-        <div class="alert alert-default-light" role="alert">
-          (2) Click to upload file.
-          <input type="button" id="btnUpload" value="Upload file" />
-        </div>
+          <div class="alert alert-default-light" role="alert">
+            (2) Click to upload file.
+            <input type="button" id="btnUpload" value="Upload file" />
+          </div>
 
-          
+
           @*<br />*@
 
         </div>
@@ -339,7 +339,10 @@
 </div>
 
 
-
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+@*<script src="https://code.jquery.com/jquery-1.12.4.js"></script>*@
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 
 <script>
@@ -437,7 +440,63 @@
 
 
   });
+
+  $(function () {
+    $("#datepickerStart").datepicker({
+      showOtherMonths: true,
+      selectOtherMonths: true,
+      changeMonth: true,
+      changeYear: true,
+      numberOfMonths: 2
+      //showButtonPanel: true
+
+      //showOn: "button",
+      //buttonImage: "images/calendar.gif",
+      //buttonImageOnly: true,
+      //buttonText: "Select date",
+
+      //minDate: -20,
+      //maxDate: "+1M +10D"
+    });
+    $("#datepickerEnd").datepicker({
+      showOtherMonths: true,
+      selectOtherMonths: true,
+      changeMonth: true,
+      changeYear: true,
+      numberOfMonths: 2,
+      onSelect: function () {
+        myfunc();
+
+      }
+    });
+
+
+    function myfunc() {
+      var start = $("#datepickerStart").datepicker("getDate");
+      var end = $("#datepickerEnd").datepicker("getDate");
+      var diff = new Date(end - start);
+
+      var days = diff / 1000 / 60 / 60 / 24 + 1;
+
+      $('#diff').val(days);
+    }
+
+    //showButtonPanel: true
+
+
+    //showOn: "button",
+    //buttonImage: "images/calendar.gif",
+    //buttonImageOnly: true,
+    //buttonText: "Select date",
+
+    //minDate: -20,
+    //maxDate: "+1M +10D"
+
+  });
 </script>
+
+
+
 
 
 
