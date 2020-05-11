@@ -276,22 +276,22 @@
         <div>
 
           @*@Html.DropDownList("SaleOrderDetail[" + sNo + "].SaleType", new SelectList(ViewBag.OptionLst, "Value", "Text", item.SaleType),
-                                  new { @class = "form-control", id = "saleType" + sNo })
-    @Html.DropDownListFor
+                                          new { @class = "form-control", id = "saleType" + sNo })
+            @Html.DropDownListFor
 
-    @Html.DropDownListFor(model => model.departments, Model.departments)
+            @Html.DropDownListFor(model => model.departments, Model.departments)
 
-    model => model.userLeavePolicy.WeeklyOffDays, "", new { @class = "text-danger" }
+            model => model.userLeavePolicy.WeeklyOffDays, "", new { @class = "text-danger" }
 
-    @Html.DropDownList*@
+            @Html.DropDownList*@
 
-          
-          <input type="radio" name="PolicyFor" id="rdoDepartments" value="1" checked="@(Model.userLeavePolicy.DepartmentPolicy)">Departments
 
-          <input type="radio" name="PolicyFor" id="rdoEmployees" value="0">Employees
+          <input type="radio" name="PolicyFor" id="rdoDepartments" value="1" checked="@(ViewBag.DepStatus)">Departments
+
+          <input type="radio" name="PolicyFor" id="rdoEmployees" value="0" checked="@(ViewBag.EmpStatus)">Employees
 
           @*@Html.RadioButtonFor(model => model.userLeavePolicy.DepartmentPolicy, "1", new { @checked = true })
-          @Html.RadioButtonFor(model => model.userLeavePolicy.DepartmentPolicy, "0", new { @checked = true })*@
+            @Html.RadioButtonFor(model => model.userLeavePolicy.DepartmentPolicy, "0", new { @checked = true })*@
 
 
           @*@Html.DropDownList("UserLeavePolicyDetail[" + sNo + "].LeaveTypeId", new SelectList(ViewBag.LeaveTypes, "Value", "Text", item.LeaveTypeId), null, new { @class = "form-control" })*@
@@ -307,16 +307,16 @@
             @Html.DropDownList("EmployeeList", new MultiSelectList(ViewBag.Employees, "Value", "Text", ViewBag.SelectedEmployees), htmlAttributes: new { @class = "form-control selectpicker", @id = "listEmployees", @multiple = "multiple", data_live_search = "true", data_actions_box = "true", data_done_button = "true" })
           </div>
           @*
-    <select name="search-alias-us" id="com" class="searchSelect form-control" title="Search in">
-      <option value="aps" selected="selected">All Departments</option>
-      <option value="CS">CS</option>
-      <option value="ABC">ABC</option>
-    </select>
-    <select name="search-alias-ca" id="ca" class="searchSelect form-control" title="Search in">
-      <option value="aps" selected="selected">Employees</option>
-      <option value="Ali">Ali</option>
-      <option value="Ahmad">Ahmad</option>
-    </select>*@
+            <select name="search-alias-us" id="com" class="searchSelect form-control" title="Search in">
+              <option value="aps" selected="selected">All Departments</option>
+              <option value="CS">CS</option>
+              <option value="ABC">ABC</option>
+            </select>
+            <select name="search-alias-ca" id="ca" class="searchSelect form-control" title="Search in">
+              <option value="aps" selected="selected">Employees</option>
+              <option value="Ali">Ali</option>
+              <option value="Ahmad">Ahmad</option>
+            </select>*@
 
 
 
@@ -405,7 +405,10 @@
     //}
     //else document.getElementById('ifYes').style.display = 'none';
 
-
+    if ($('input[id="rdoEmployees"]').is(':checked')) {
+      $("#divEmp").show();
+      $("#divDep").hide();
+    }
     $('input:radio[name=PolicyFor]').change(function () {
       if (this.value == '1') {
         $("#divDep").show();
