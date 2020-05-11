@@ -51,8 +51,8 @@
 
     <div class="form-group">
       @Html.LabelFor(model => model.Reason, "Reason", htmlAttributes: new { @class = " " })
-
-      @Html.EditorFor(model => model.Reason, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+    
+      @Html.TextAreaFor(model => model.Reason , new{@class = "form-control", rows="3", disabled = "disabled" })
       @Html.ValidationMessageFor(model => model.Reason, "", new { @class = "text-danger" })
 
     </div>
