@@ -246,10 +246,14 @@ namespace LeaveON.Controllers
         {
           userLeavePolicyDetail.Remove(item);
         }
+        else
+        {
+          item.UserLeavePolicyId = userLeavePolicy.Id;
+        }
       }
-      //userLeavePolicy.UserLeavePolicyDetails = userLeavePolicyDetail;
+      
 
-
+      
 
       if (ModelState.IsValid)
       {
@@ -280,11 +284,15 @@ namespace LeaveON.Controllers
 
           }
         }
-                              
 
+        IQueryable<UserLeavePolicyDetail> oldLPD = db.UserLeavePolicyDetails.AsQueryable().Where(x => x.UserLeavePolicyId == userLeavePolicy.Id);
 
+        //userLeavePolicy.UserLeavePolicyDetails = userLeavePolicyDetail;
 
+        db.UserLeavePolicyDetails.RemoveRange(oldLPD);
         db.Entry(userLeavePolicy).State = EntityState.Modified;
+        db.UserLeavePolicyDetails.AddRange(userLeavePolicyDetail);
+
         await db.SaveChangesAsync();
         return RedirectToAction("Index");
       }
