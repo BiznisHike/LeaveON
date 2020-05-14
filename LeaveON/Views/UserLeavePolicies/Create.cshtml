@@ -29,315 +29,322 @@
     {
       @Html.AntiForgeryToken()
 
-  <div class="card-body">
+      <div class="card-body">
 
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-      @*@Html.LabelFor(model => model.userLeavePolicy.UserId, "User", htmlAttributes: new { @class = " " })
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+          @*@Html.LabelFor(model => model.userLeavePolicy.UserId, "User", htmlAttributes: new { @class = " " })
 
-      @Html.DropDownList("Employees", null, htmlAttributes: new { @class = "form-control" })
-      @Html.ValidationMessageFor(model => model.userLeavePolicy.UserId, "", new { @class = "text-danger" })*@
+    @Html.DropDownList("Employees", null, htmlAttributes: new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.userLeavePolicy.UserId, "", new { @class = "text-danger" })*@
 
-    </div>
-    <div class="form-group">
-      @Html.LabelFor(model => model.userLeavePolicy.Description, "Description", htmlAttributes: new { @class = " " })
+        </div>
+        <div class="form-group">
+          @Html.LabelFor(model => model.userLeavePolicy.Description, "Description", htmlAttributes: new { @class = " " })
 
-      @Html.EditorFor(model => model.userLeavePolicy.Description, new { htmlAttributes = new { @class = "form-control"} })
-      @Html.ValidationMessageFor(model => model.userLeavePolicy.Description, "", new { @class = "text-danger" })
+          @Html.EditorFor(model => model.userLeavePolicy.Description, new { htmlAttributes = new { @class = "form-control" } })
+          @Html.ValidationMessageFor(model => model.userLeavePolicy.Description, "", new { @class = "text-danger" })
 
-    </div>
-    <div class="form-group">
-      @Html.LabelFor(model => model.userLeavePolicy.FiscalYearStart, "Fiscal Year Start", htmlAttributes: new { @class = " " })
+        </div>
+        <div class="form-group">
+          @Html.LabelFor(model => model.userLeavePolicy.FiscalYearStart, "Fiscal Year Start", htmlAttributes: new { @class = " " })
 
-      @Html.EditorFor(model => model.userLeavePolicy.FiscalYearStart, new { htmlAttributes = new { @class = "form-control", @id = "datepickerStart" } })
-      @Html.ValidationMessageFor(model => model.userLeavePolicy.FiscalYearStart, "", new { @class = "text-danger" })
+          @Html.EditorFor(model => model.userLeavePolicy.FiscalYearStart, new { htmlAttributes = new { @class = "form-control", @id = "datepickerStart" } })
+          @Html.ValidationMessageFor(model => model.userLeavePolicy.FiscalYearStart, "", new { @class = "text-danger" })
 
-    </div>
+        </div>
 
-    <div class="form-group">
-      @Html.LabelFor(model => model.userLeavePolicy.FiscalYearEnd, "Fiscal Year End", htmlAttributes: new { @class = " " })
+        <div class="form-group">
+          @Html.LabelFor(model => model.userLeavePolicy.FiscalYearEnd, "Fiscal Year End", htmlAttributes: new { @class = " " })
 
-      @Html.EditorFor(model => model.userLeavePolicy.FiscalYearEnd, new { htmlAttributes = new { @class = "form-control", @id = "datepickerEnd" } })
-      @Html.ValidationMessageFor(model => model.userLeavePolicy.FiscalYearEnd, "", new { @class = "text-danger" })
+          @Html.EditorFor(model => model.userLeavePolicy.FiscalYearEnd, new { htmlAttributes = new { @class = "form-control", @id = "datepickerEnd" } })
+          @Html.ValidationMessageFor(model => model.userLeavePolicy.FiscalYearEnd, "", new { @class = "text-danger" })
 
-    </div>
+        </div>
 
-    <div class="form-group">
-      @Html.LabelFor(model => model.userLeavePolicy.FiscalYearPeriod, "Fiscal Year Period", htmlAttributes: new { @class = " " })
+        <div class="form-group">
+          @Html.LabelFor(model => model.userLeavePolicy.FiscalYearPeriod, "Fiscal Year Period", htmlAttributes: new { @class = " " })
 
-      @Html.EditorFor(model => model.userLeavePolicy.FiscalYearPeriod, new { htmlAttributes = new { @class = "form-control" } })
-      @Html.ValidationMessageFor(model => model.userLeavePolicy.FiscalYearPeriod, "", new { @class = "text-danger" })
+          @Html.EditorFor(model => model.userLeavePolicy.FiscalYearPeriod, new { htmlAttributes = new { @class = "form-control" } })
+          @Html.ValidationMessageFor(model => model.userLeavePolicy.FiscalYearPeriod, "", new { @class = "text-danger" })
 
-    </div>
+        </div>
 
-    <div class="form-group">
-      @Html.LabelFor(model => model.userLeavePolicy.WeeklyOffDays, "Weekly Off Days", htmlAttributes: new { @class = " " })
+        <div class="form-group">
+          @Html.LabelFor(model => model.userLeavePolicy.WeeklyOffDays, "Weekly Off Days", htmlAttributes: new { @class = " " })
 
-      @*@Html.EditorFor(model => model.userLeavePolicy.WeeklyOffDays, new { htmlAttributes = new { @class = "form-control" } })*@
-
-
-      @Html.HiddenFor(model => model.userLeavePolicy.WeeklyOffDays, new { htmlAttributes = new { @class = "form-control" } })
-
-      @*<input type="hidden" name="WeeklyOffDays" id="WeeklyOffDays" />*@
-
-      <br>
-      <select class="selectpicker" id="multiSelectOffDays" multiple="multiple" data-live-search="false" data-done-button="true">
-        <option value="1">Saturday</option>
-        <option value="2">Sunday</option>
-        <option value="3">Monday</option>
-        <option value="4">Tuesday</option>
-        <option value="5">Wednesday</option>
-        <option value="6">Thursday</option>
-        <option value="7">Friday</option>
-      </select>
-      @Html.ValidationMessageFor(model => model.userLeavePolicy.WeeklyOffDays, "", new { @class = "text-danger" })
+          @*@Html.EditorFor(model => model.userLeavePolicy.WeeklyOffDays, new { htmlAttributes = new { @class = "form-control" } })*@
 
 
-    </div>
+          @Html.HiddenFor(model => model.userLeavePolicy.WeeklyOffDays, new { htmlAttributes = new { @class = "form-control" } })
 
-    <div class="form-group">
-      @Html.LabelFor(model => model.userLeavePolicy.AnnualOffDays, "Annual Off Days", htmlAttributes: new { @class = " " })
+          @*<input type="hidden" name="WeeklyOffDays" id="WeeklyOffDays" />*@
 
-      @*@Html.EditorFor(model => model.userLeavePolicy.AnnualOffDays, new { htmlAttributes = new { @class = "form-control" } })*@
-
-      <div class="alert alert-default-light" role="alert">
-        @*<div class="alert-icon">
-
-        </div>*@
-        (1) Please chosse file. This file should contain Annual off days record in three comma separated columns (CSV) <mark>No,Date,Description</mark> format
-        <input type="file" id="FileUpload1" />
-      </div>
-
-      @*       @Html.ValidationMessageFor(model => model.userLeavePolicy.AnnualOffDays, "", new { @class = "text-danger" })*@
-
-      @*<br />*@
-
-      <div class="alert alert-default-light" role="alert">
-        (2) Click to upload file.
-        <input type="button" id="btnUpload" value="Upload file" />
-      </div>
+          <br>
+          <select class="selectpicker" id="multiSelectOffDays" multiple="multiple" data-live-search="false" data-done-button="true">
+            <option value="1">Saturday</option>
+            <option value="2">Sunday</option>
+            <option value="3">Monday</option>
+            <option value="4">Tuesday</option>
+            <option value="5">Wednesday</option>
+            <option value="6">Thursday</option>
+            <option value="7">Friday</option>
+          </select>
+          @Html.ValidationMessageFor(model => model.userLeavePolicy.WeeklyOffDays, "", new { @class = "text-danger" })
 
 
-      @*<br />*@
+        </div>
 
-    </div>
-    <div id="NewData">
-      @{
-        if (ViewBag.AnnualLeaves != null)
-        {
-          Html.RenderPartial("_DisplayAnnualLeaves");
-        }
-      }
-    </div>
-    <section class="content">
-      <div class="row">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">Total Leave Allowed</h3>
-              <br />
-              <hr />
+        <div class="form-group">
+          @Html.LabelFor(model => model.userLeavePolicy.AnnualOffDays, "Annual Off Days", htmlAttributes: new { @class = " " })
 
-              <div d="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                <div class="row">
-                  <div class="col-sm-12 col-md-6">
-                  </div>
-                  <div class="col-sm-12 col-md-6"></div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-12">
+          @*@Html.EditorFor(model => model.userLeavePolicy.AnnualOffDays, new { htmlAttributes = new { @class = "form-control" } })*@
 
-                    <table class="table table-bordered table-hover dataTable dtr-inline" role="grid">
-                      <thead>
-                        <tr>
+          <div class="alert alert-default-light" role="alert">
+            @*<div class="alert-icon">
 
-                          <th>Leave Type</th>
-                          <th>Allowed</th>
-                          <th>Taken</th>
-                          <th>Description</th>
+              </div>*@
+            (1) Please chosse file. This file should contain Annual off days record in three comma separated columns (CSV) <mark>No,Date,Description</mark> format
+            <input type="file" id="FileUpload1" />
+          </div>
+
+          @*       @Html.ValidationMessageFor(model => model.userLeavePolicy.AnnualOffDays, "", new { @class = "text-danger" })*@
+
+          @*<br />*@
+
+          <div class="alert alert-default-light" role="alert">
+            (2) Click to upload file.
+            <input type="button" id="btnUpload" value="Upload file" />
+          </div>
 
 
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="0" /></td>
-                          <td> @Html.DropDownList("UserLeavePolicyDetail[" + "0" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
-                          <td><input name="UserLeavePolicyDetail[0].Allowed" class="form-control" placeholder="Allowed"> </td>
-                          <td><input name="UserLeavePolicyDetail[0].Taken" class="form-control" placeholder="Taken"> </td>
-                          <td><input name="UserLeavePolicyDetail[0].Description" class="form-control" placeholder="Description"> </td>
+          @*<br />*@
 
-                        </tr>
-                        <tr>
-                          <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="1" /></td>
-                          <td> @Html.DropDownList("UserLeavePolicyDetail[" + "1" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
-                          <td><input name="UserLeavePolicyDetail[1].Allowed" class="form-control" placeholder="Allowed"> </td>
-                          <td><input name="UserLeavePolicyDetail[1].Taken" class="form-control" placeholder="Taken"> </td>
-                          <td><input name="UserLeavePolicyDetail[1].Description" class="form-control" placeholder="Description"> </td>
+        </div>
+        <div id="NewData">
+          @{
+            if (ViewBag.AnnualLeaves != null)
+            {
+              Html.RenderPartial("_DisplayAnnualLeaves");
+            }
+          }
 
+        </div>
+        <section class="content">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Total Leave Allowed</h3>
+                  <br />
+                  <hr />
 
-                        </tr>
-                        <tr>
-                          <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="2" /></td>
-                          <td>  @Html.DropDownList("UserLeavePolicyDetail[" + "2" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
-                          <td><input name="UserLeavePolicyDetail[2].Allowed" class="form-control" placeholder="Allowed"> </td>
-                          <td><input name="UserLeavePolicyDetail[2].Taken" class="form-control" placeholder="Taken"> </td>
-                          <td><input name="UserLeavePolicyDetail[2].Description" class="form-control" placeholder="Description"> </td>
+                  <div d="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                      <div class="col-sm-12 col-md-6">
+                      </div>
+                      <div class="col-sm-12 col-md-6"></div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12">
 
+                        <table id="allowedLeaves" class="table table-bordered table-hover dataTable dtr-inline" role="grid">
+                          <thead>
+                            <tr>
 
-                        </tr>
-
-                        <tr>
-                          <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="3" /></td>
-                          <td>  @Html.DropDownList("UserLeavePolicyDetail[" + "3" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
-                          <td><input name="UserLeavePolicyDetail[3].Allowed" class="form-control" placeholder="Allowed"> </td>
-                          <td><input name=" UserLeavePolicyDetail[3].Taken" class="form-control" placeholder="Taken"> </td>
-                          <td><input name="UserLeavePolicyDetail[3].Description" class="form-control" placeholder="Description"> </td>
-
-
-                        </tr>
-                        <tr>
-                          <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="4" /></td>
-                          <td>  @Html.DropDownList("UserLeavePolicyDetail[" + "4" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
-                          <td><input name="UserLeavePolicyDetail[4].Allowed" class="form-control" placeholder="Allowed"> </td>
-                          <td><input name="UserLeavePolicyDetail[4].Taken" class="form-control" placeholder="Taken"> </td>
-                          <td><input name="UserLeavePolicyDetail[4].Description" class="form-control" placeholder="Description"> </td>
+                              <th>Leave Type</th>
+                              <th>Allowed</th>
+                              <th>Taken</th>
+                              <th>Description</th>
 
 
-                        </tr>
-                        <tr>
-                          <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="5" /></td>
-                          <td>  @Html.DropDownList("UserLeavePolicyDetail[" + "5" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
-                          <td><input name="UserLeavePolicyDetail[5].Allowed" class="form-control" placeholder="Allowed"> </td>
-                          <td><input name="UserLeavePolicyDetail[5].Taken" class="form-control" placeholder="Taken"> </td>
-                          <td><input name="UserLeavePolicyDetail[5].Description"class="form-control" placeholder="Description"> </td>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @*<tr>
+                                <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="0" /></td>
+                                <td> @Html.DropDownList("UserLeavePolicyDetail[" + "0" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
+                                <td><input name="UserLeavePolicyDetail[0].Allowed" class="form-control" placeholder="Allowed"> </td>
+                                <td><input name="UserLeavePolicyDetail[0].Taken" class="form-control" placeholder="Taken"> </td>
+                                <td><input name="UserLeavePolicyDetail[0].Description" class="form-control" placeholder="Description"> </td>
+
+                              </tr>
+                              <tr>
+                                <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="1" /></td>
+                                <td> @Html.DropDownList("UserLeavePolicyDetail[" + "1" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
+                                <td><input name="UserLeavePolicyDetail[1].Allowed" class="form-control" placeholder="Allowed"> </td>
+                                <td><input name="UserLeavePolicyDetail[1].Taken" class="form-control" placeholder="Taken"> </td>
+                                <td><input name="UserLeavePolicyDetail[1].Description" class="form-control" placeholder="Description"> </td>
 
 
-                        </tr>
-                        <tr>
-                          <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="6" /></td>
-                          <td>  @Html.DropDownList("UserLeavePolicyDetail[" + "6" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
-                          <td><input name="UserLeavePolicyDetail[6].Allowed" class="form-control" placeholder="Allowed"> </td>
-                          <td><input name="UserLeavePolicyDetail[6].Taken" class="form-control" placeholder="Taken"> </td>
-                          <td><input name=" UserLeavePolicyDetail[6].Description" class="form-control" placeholder="Description"> </td>
+                              </tr>
+                              <tr>
+                                <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="2" /></td>
+                                <td>  @Html.DropDownList("UserLeavePolicyDetail[" + "2" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
+                                <td><input name="UserLeavePolicyDetail[2].Allowed" class="form-control" placeholder="Allowed"> </td>
+                                <td><input name="UserLeavePolicyDetail[2].Taken" class="form-control" placeholder="Taken"> </td>
+                                <td><input name="UserLeavePolicyDetail[2].Description" class="form-control" placeholder="Description"> </td>
 
 
-                        </tr>
-                        <tr>
-                          <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="7" /></td>
-                          <td> @Html.DropDownList("UserLeavePolicyDetail[" + "7" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
-                          <td><input name="UserLeavePolicyDetail[7].Allowed" class="form-control" placeholder="Allowed"> </td>
-                          <td><input name="UserLeavePolicyDetail[7].Taken" class="form-control" placeholder="Taken"> </td>
-                          <td><input name=" UserLeavePolicyDetail[7].Description" class="form-control" placeholder="Description"> </td>
+                              </tr>
+
+                              <tr>
+                                <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="3" /></td>
+                                <td>  @Html.DropDownList("UserLeavePolicyDetail[" + "3" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
+                                <td><input name="UserLeavePolicyDetail[3].Allowed" class="form-control" placeholder="Allowed"> </td>
+                                <td><input name=" UserLeavePolicyDetail[3].Taken" class="form-control" placeholder="Taken"> </td>
+                                <td><input name="UserLeavePolicyDetail[3].Description" class="form-control" placeholder="Description"> </td>
 
 
-                        </tr>
-                        <tr>
-                          <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="8" /></td>
-                          <td>  @Html.DropDownList("UserLeavePolicyDetail[" + "8" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
-                          <td><input name="UserLeavePolicyDetail[8].Allowed" class="form-control" placeholder="Allowed"> </td>
-                          <td><input name="UserLeavePolicyDetail[8].Taken" class="form-control" placeholder="Taken"> </td>
-                          <td><input  name=" UserLeavePolicyDetail[8].Description" class="form-control" placeholder="Description"> </td>
+                              </tr>
+                              <tr>
+                                <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="4" /></td>
+                                <td>  @Html.DropDownList("UserLeavePolicyDetail[" + "4" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
+                                <td><input name="UserLeavePolicyDetail[4].Allowed" class="form-control" placeholder="Allowed"> </td>
+                                <td><input name="UserLeavePolicyDetail[4].Taken" class="form-control" placeholder="Taken"> </td>
+                                <td><input name="UserLeavePolicyDetail[4].Description" class="form-control" placeholder="Description"> </td>
 
 
-                        </tr>
-                        <tr>
-                          <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="9" /></td>
-                          <td>  @Html.DropDownList("UserLeavePolicyDetail[" + "9" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
-                          <td><input name="UserLeavePolicyDetail[9].Allowed" class="form-control" placeholder="Allowed"> </td>
-                          <td><input name="UserLeavePolicyDetail[9].Taken" class="form-control" placeholder="Taken"> </td>
-                          <td><input  name="UserLeavePolicyDetail[9].Description" class="form-control" placeholder="Description"> </td>
+                              </tr>
+                              <tr>
+                                <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="5" /></td>
+                                <td>  @Html.DropDownList("UserLeavePolicyDetail[" + "5" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
+                                <td><input name="UserLeavePolicyDetail[5].Allowed" class="form-control" placeholder="Allowed"> </td>
+                                <td><input name="UserLeavePolicyDetail[5].Taken" class="form-control" placeholder="Taken"> </td>
+                                <td><input name="UserLeavePolicyDetail[5].Description"class="form-control" placeholder="Description"> </td>
 
 
-                        </tr>
-                        <tr>
-                          <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="10" /></td>
-                          <td>  @Html.DropDownList("UserLeavePolicyDetail[" + "10" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
-                          <td><input name="UserLeavePolicyDetail[10].Allowed" class="form-control" placeholder="Allowed"> </td>
-                          <td><input name="UserLeavePolicyDetail[10].Taken" class="form-control" placeholder="Taken"> </td>
-                          <td><input name="UserLeavePolicyDetail[10].Description" class="form-control" placeholder="Description"> </td>
+                              </tr>
+                              <tr>
+                                <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="6" /></td>
+                                <td>  @Html.DropDownList("UserLeavePolicyDetail[" + "6" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
+                                <td><input name="UserLeavePolicyDetail[6].Allowed" class="form-control" placeholder="Allowed"> </td>
+                                <td><input name="UserLeavePolicyDetail[6].Taken" class="form-control" placeholder="Taken"> </td>
+                                <td><input name=" UserLeavePolicyDetail[6].Description" class="form-control" placeholder="Description"> </td>
 
 
-                        </tr>
-                      </tbody>
-                      @*<tfoot>
-                        <tr>
-                          <td></td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                        </tr>
-                      </tfoot>*@
+                              </tr>
+                              <tr>
+                                <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="7" /></td>
+                                <td> @Html.DropDownList("UserLeavePolicyDetail[" + "7" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
+                                <td><input name="UserLeavePolicyDetail[7].Allowed" class="form-control" placeholder="Allowed"> </td>
+                                <td><input name="UserLeavePolicyDetail[7].Taken" class="form-control" placeholder="Taken"> </td>
+                                <td><input name=" UserLeavePolicyDetail[7].Description" class="form-control" placeholder="Description"> </td>
 
-                    </table>
+
+                              </tr>
+                              <tr>
+                                <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="8" /></td>
+                                <td>  @Html.DropDownList("UserLeavePolicyDetail[" + "8" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
+                                <td><input name="UserLeavePolicyDetail[8].Allowed" class="form-control" placeholder="Allowed"> </td>
+                                <td><input name="UserLeavePolicyDetail[8].Taken" class="form-control" placeholder="Taken"> </td>
+                                <td><input  name=" UserLeavePolicyDetail[8].Description" class="form-control" placeholder="Description"> </td>
+
+
+                              </tr>
+                              <tr>
+                                <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="9" /></td>
+                                <td>  @Html.DropDownList("UserLeavePolicyDetail[" + "9" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
+                                <td><input name="UserLeavePolicyDetail[9].Allowed" class="form-control" placeholder="Allowed"> </td>
+                                <td><input name="UserLeavePolicyDetail[9].Taken" class="form-control" placeholder="Taken"> </td>
+                                <td><input  name="UserLeavePolicyDetail[9].Description" class="form-control" placeholder="Description"> </td>
+
+
+                              </tr>
+                              <tr>
+                                <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="10" /></td>
+                                <td>  @Html.DropDownList("UserLeavePolicyDetail[" + "10" + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
+                                <td><input name="UserLeavePolicyDetail[10].Allowed" class="form-control" placeholder="Allowed"> </td>
+                                <td><input name="UserLeavePolicyDetail[10].Taken" class="form-control" placeholder="Taken"> </td>
+                                <td><input name="UserLeavePolicyDetail[10].Description" class="form-control" placeholder="Description"> </td>
+
+
+                              </tr>*@
+
+
+
+
+                          </tbody>
+                          @*<tfoot>
+                              <tr>
+                                <td></td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                              </tr>
+                            </tfoot>*@
+
+                        </table>
+                        <input type="button" id="addBtn" />
+                        <input type="button" id="displayAlert" />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        </section>
+
+
+        <div>
+
+          @*@Html.DropDownList("SaleOrderDetail[" + sNo + "].SaleType", new SelectList(ViewBag.OptionLst, "Value", "Text", item.SaleType),
+                                          new { @class = "form-control", id = "saleType" + sNo })
+            @Html.DropDownListFor
+
+            @Html.DropDownListFor(model => model.departments, Model.departments)
+
+            model => model.userLeavePolicy.WeeklyOffDays, "", new { @class = "text-danger" }
+
+            @Html.DropDownList*@
+
+
+          <input type="radio" name="PolicyFor" id="rdoDepartments" checked="checked" value="1">Departments
+
+
+          <input type="radio" name="PolicyFor" id="rdoEmployees" value="0">Employees
+
+
+          <div id="divDep">
+            @Html.DropDownList("Departments", null, htmlAttributes: new { @class = "form-control selectpicker", @id = "listDepartments", @multiple = "multiple", data_live_search = "true", data_actions_box = "true", data_done_button = "true" })
+          </div>
+
+          <div id="divEmp" style="display: none;">
+            @Html.DropDownList("Employees", null, htmlAttributes: new { @class = "form-control selectpicker", @id = "listEmployees", @multiple = "multiple", data_live_search = "true", data_actions_box = "true", data_done_button = "true" })
+          </div>
+          @*
+            <select name="search-alias-us" id="com" class="searchSelect form-control" title="Search in">
+              <option value="aps" selected="selected">All Departments</option>
+              <option value="CS">CS</option>
+              <option value="ABC">ABC</option>
+            </select>
+            <select name="search-alias-ca" id="ca" class="searchSelect form-control" title="Search in">
+              <option value="aps" selected="selected">Employees</option>
+              <option value="Ali">Ali</option>
+              <option value="Ahmad">Ahmad</option>
+            </select>*@
+
+
+
+        </div>
+
+
+
+        <br />
+
+        <div class="form-group">
+          <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-primary" />
+          </div>
+        </div>
+        <div>
+          @Html.ActionLink("Back to List", "Index")
         </div>
       </div>
-    </section>
-
-
-    <div>
-
-      @*@Html.DropDownList("SaleOrderDetail[" + sNo + "].SaleType", new SelectList(ViewBag.OptionLst, "Value", "Text", item.SaleType),
-                                    new { @class = "form-control", id = "saleType" + sNo })
-      @Html.DropDownListFor
-
-      @Html.DropDownListFor(model => model.departments, Model.departments)
-
-      model => model.userLeavePolicy.WeeklyOffDays, "", new { @class = "text-danger" }
-
-      @Html.DropDownList*@
-
-
-      <input type="radio" name="PolicyFor" id="rdoDepartments" checked="checked" value="1">Departments
-
-
-      <input type="radio" name="PolicyFor" id="rdoEmployees" value="0">Employees
-
-
-      <div id="divDep">
-        @Html.DropDownList("Departments", null, htmlAttributes: new { @class = "form-control selectpicker", @id = "listDepartments", @multiple = "multiple", data_live_search = "true", data_actions_box = "true", data_done_button = "true" })
-      </div>
-
-      <div id="divEmp" style="display: none;">
-        @Html.DropDownList("Employees", null, htmlAttributes: new { @class = "form-control selectpicker", @id = "listEmployees", @multiple = "multiple", data_live_search = "true", data_actions_box = "true", data_done_button = "true" })
-      </div>
-      @*
-      <select name="search-alias-us" id="com" class="searchSelect form-control" title="Search in">
-        <option value="aps" selected="selected">All Departments</option>
-        <option value="CS">CS</option>
-        <option value="ABC">ABC</option>
-      </select>
-      <select name="search-alias-ca" id="ca" class="searchSelect form-control" title="Search in">
-        <option value="aps" selected="selected">Employees</option>
-        <option value="Ali">Ali</option>
-        <option value="Ahmad">Ahmad</option>
-      </select>*@
-
-
-
-    </div>
-
-
-
-    <br />
-
-    <div class="form-group">
-      <div class="col-md-offset-2 col-md-10">
-        <input type="submit" value="Create" class="btn btn-primary" />
-      </div>
-    </div>
-    <div>
-      @Html.ActionLink("Back to List", "Index")
-    </div>
-  </div>
 
 
     }
@@ -354,10 +361,30 @@
 
 <script>
   $(document).ready(function () {
-
+    var idxId = 0;
     //$('#multiSelectOffDays').multiselect({
     //      includeSelectAllOption: true
     //  });
+
+    //displayAlert
+     $("#displayAlert").on("click", function () {
+          $('#allowedLeaves tr').each(function() {
+            //var customerId = $(this).find(".customerIDCell").html();
+            alert($(this).prop('outerHTML'));
+            //alert($(this).prop('HTML'));//.prop('outerHTML'));
+            //alert('hi');
+          });
+     });
+
+     $("#addBtn").on("click", function () {
+        $.get('@Url.Action("AddNewRow")?IndexId=' + idxId , function (data) {
+          $("#allowedLeaves").append(data);
+             idxId += 1;
+
+        });
+
+
+  });
 
     $('#btnUpload').click(function () {
 
@@ -478,7 +505,7 @@
     });
 
 
-    
+
     //showButtonPanel: true
 
 

@@ -2301,7 +2301,6 @@
     <Content Include="Views\AspNetUsers\Edit.cshtml" />
     <Content Include="Views\AspNetUsers\Index.cshtml" />
     <Content Include="Views\Shared\_Layout_old.cshtml" />
-    <Content Include="Views\UserLeavePolicies\Create - Copy.cshtml" />
     <Content Include="Views\UserLeavePolicies\_DisplayAnnualLeaves.cshtml" />
     <Content Include="Views\LeavesRequest\View.cshtml" />
     <Content Include="Views\LeavesResponse\Create.cshtml" />
@@ -2317,6 +2316,7 @@
     <Content Include="Views\Countries\Edit.cshtml" />
     <Content Include="Views\Countries\Index.cshtml" />
     <Content Include="Views\UserLeavePolicies\Edit - Copy.cshtml" />
+    <Content Include="Views\UserLeavePolicies\_NewRow.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

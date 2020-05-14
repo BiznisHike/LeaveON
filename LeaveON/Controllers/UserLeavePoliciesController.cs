@@ -16,7 +16,7 @@ namespace LeaveON.Controllers
   public class UserLeavePoliciesController : Controller
   {
     private LeaveONEntities db = new LeaveONEntities();
-
+    
     // GET: UserLeavePolicies
     public async Task<ActionResult> Index()
     {
@@ -39,12 +39,17 @@ namespace LeaveON.Controllers
       }
       return View(userLeavePolicy);
     }
-
+    [HttpGet]
+    public ActionResult AddNewRow(string IndexId)
+    {
+      ViewBag.LeaveTypes = new SelectList(db.LeaveTypes, "Id", "Name");
+      return PartialView("_newRow", IndexId);
+    }
     // GET: UserLeavePolicies/Create
     public ActionResult Create()
     {
       ViewBag.Employees = new SelectList(db.AspNetUsers, "Id", "UserName");
-      ViewBag.LeaveTypes = new SelectList(db.LeaveTypes, "Id", "Name");
+      //ViewBag.LeaveTypes = new SelectList(db.LeaveTypes, "Id", "Name");
       ViewBag.Departments = new SelectList(db.Departments, "Id", "Name");
 
       UserLeavePolicyViewModel userLeavePolicyViewModel = new UserLeavePolicyViewModel();
@@ -58,7 +63,7 @@ namespace LeaveON.Controllers
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> Create([Bind(Prefix = "UserLeavePolicy", Include = "Id,UserId,WeeklyOffDays,FiscalYearStart,FiscalYearEnd,FiscalYearPeriod")] UserLeavePolicy userLeavePolicy,
-      [Bind(Prefix = "UserLeavePolicyDetail", Include = "LeaveTypeId,Allowed")] List<UserLeavePolicyDetail> userLeavePolicyDetail, string[] AnnualOffDays, string[] Departments, string[] Employees, string PolicyFor)
+      [Bind(Prefix = "UserLeavePolicyDetail", Include = "LeaveTypeId,Allowed,Description")] List<UserLeavePolicyDetail> userLeavePolicyDetail, string[] AnnualOffDays, string[] Departments, string[] Employees, string PolicyFor)
     {
       decimal maxId = db.UserLeavePolicies.DefaultIfEmpty().Max(p => p == null ? 0 : p.Id);
       userLeavePolicy.Id = maxId;
@@ -79,18 +84,30 @@ namespace LeaveON.Controllers
       if (ModelState.IsValid)
       {
         db.UserLeavePolicies.Add(userLeavePolicy);
-
-        int[] DepartmentsList = Array.ConvertAll(Departments, int.Parse);
-        Department dep;
-        foreach (int itm in DepartmentsList)
+        if (PolicyFor == "1")//department
         {
-          dep = db.Departments.FirstOrDefault(x => x.Id == itm);
-          foreach (AspNetUser user in dep.AspNetUsers)
+          int[] DepartmentsList = Array.ConvertAll(Departments, int.Parse);
+          Department dep;
+          foreach (int itm in DepartmentsList)
           {
-            user.UserLeavePolicyId = userLeavePolicy.Id;
+            dep = db.Departments.FirstOrDefault(x => x.Id == itm);
+            foreach (AspNetUser user in dep.AspNetUsers)
+            {
+              user.UserLeavePolicyId = userLeavePolicy.Id;
+            }
           }
         }
-
+        else
+        {
+          AspNetUser user;
+          foreach (string empId in Employees)
+          {
+            user = db.AspNetUsers.FirstOrDefault(x => x.Id == empId);
+            user.UserLeavePolicyId = userLeavePolicy.Id;
+              //user.UserLeavePolicyId = userLeavePolicy.Id;
+            
+          }
+        }
         await db.SaveChangesAsync();
         return RedirectToAction("Index");
       }
@@ -161,7 +178,7 @@ namespace LeaveON.Controllers
         ViewBag.EmpStatus = true;
       }
 
-      
+
       List<SelectListItem> WeakSelectList = new List<SelectListItem>()
       {
 
@@ -176,14 +193,24 @@ namespace LeaveON.Controllers
 
       ViewBag.WeeklyOffDays = WeakSelectList;
       List<string> DaysSelected = new List<string>();
-      foreach ( string day in userLeavePolicy.WeeklyOffDays.Split(','))
+      foreach (string day in userLeavePolicy.WeeklyOffDays.Split(','))
       {
         //int intDay = int.Parse(day);
         DaysSelected.Add(day);
         //DaysSelected.Add()
       }
       ViewBag.DaysSelected = DaysSelected;
+      List<AnnualLeaveModel> AnnualOffDaysList = new List<AnnualLeaveModel>();
+      int cntr = 0;
+      foreach (string day in userLeavePolicy.AnnualOffDays.Split(','))
+      {
+        cntr += 1;
+        AnnualOffDaysList.Add(new AnnualLeaveModel { Id = cntr, LeaveDate = day, Description = "" });
 
+
+      }
+
+      ViewBag.AnnualLeaves = AnnualOffDaysList;
 
       if (userLeavePolicy == null)
       {
@@ -201,10 +228,62 @@ namespace LeaveON.Controllers
     // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Edit([Bind(Include = "Id,UserId,WeeklyOffDays,AnnualOffDays,FiscalYearStart,FiscalYearEnd,FiscalYearPeriod")] UserLeavePolicy userLeavePolicy)
+    public async Task<ActionResult> Edit([Bind(Prefix = "UserLeavePolicy", Include = "Id,UserId,WeeklyOffDays,FiscalYearStart,FiscalYearEnd,FiscalYearPeriod")] UserLeavePolicy userLeavePolicy,
+      [Bind(Prefix = "UserLeavePolicyDetail", Include = "LeaveTypeId,Allowed")] List<UserLeavePolicyDetail> userLeavePolicyDetail, string[] AnnualOffDays, string[] DepartmentList, string[] EmployeeList, string PolicyFor)
     {
+
+
+      //UserLeavePolicy userLeavePolicyOld = await db.UserLeavePolicies.FindAsync(userLeavePolicy.Id);
+      //db.UserLeavePolicyDetails.RemoveRange(userLeavePolicyOld.UserLeavePolicyDetails);
+      //await db.SaveChangesAsync();
+
+      userLeavePolicy.CountryId = 1;//from which user is Login. but admin who can view all coutries there we have to user a list of country so that he choose a country
+      userLeavePolicy.AnnualOffDays = string.Join(",", AnnualOffDays);
+      userLeavePolicy.DepartmentPolicy = (PolicyFor == "Dep") ? true : false;
+      foreach (UserLeavePolicyDetail item in userLeavePolicyDetail.ToList<UserLeavePolicyDetail>())
+      {
+        if (item.Allowed == null)
+        {
+          userLeavePolicyDetail.Remove(item);
+        }
+      }
+      //userLeavePolicy.UserLeavePolicyDetails = userLeavePolicyDetail;
+
+
+
       if (ModelState.IsValid)
       {
+
+        //db.UserLeavePolicies.Add(userLeavePolicy);
+
+        if (PolicyFor == "1")//department
+        {
+          int[] DepartmentsList = Array.ConvertAll(DepartmentList, int.Parse);
+          Department dep;
+          foreach (int itm in DepartmentsList)
+          {
+            dep = db.Departments.FirstOrDefault(x => x.Id == itm);
+            foreach (AspNetUser user in dep.AspNetUsers)
+            {
+              user.UserLeavePolicyId = userLeavePolicy.Id;
+            }
+          }
+        }
+        else
+        {
+          AspNetUser user;
+          foreach (string empId in EmployeeList)
+          {
+            user = db.AspNetUsers.FirstOrDefault(x => x.Id == empId);
+            user.UserLeavePolicyId = userLeavePolicy.Id;
+            //user.UserLeavePolicyId = userLeavePolicy.Id;
+
+          }
+        }
+                              
+
+
+
         db.Entry(userLeavePolicy).State = EntityState.Modified;
         await db.SaveChangesAsync();
         return RedirectToAction("Index");
