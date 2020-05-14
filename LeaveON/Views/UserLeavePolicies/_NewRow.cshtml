@@ -1,8 +1,14 @@
 @model string
-<tr>
-  <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="@Model" /></td>
-  <td> @Html.DropDownList("UserLeavePolicyDetail[" + Model + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
-  <td><input name="UserLeavePolicyDetail[@Model].Allowed" class="form-control" placeholder="Allowed"> </td>
-  <td><input name="UserLeavePolicyDetail[@Model].Taken" class="form-control" placeholder="Taken"> </td>
-  <td><input name="UserLeavePolicyDetail[@Model].Description" class="form-control" placeholder="Description"> </td>
-</tr>
+ 
+  <tr>
+    <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="@Model" /></td>
+    <td> @Html.DropDownList("UserLeavePolicyDetail[" + Model + "].LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypes, null, new { @class = "form-control" })</td>
+    <td><input name="UserLeavePolicyDetail[@Model].Allowed" class="form-control" placeholder="Allowed"> </td>
+    <td><input name="UserLeavePolicyDetail[@Model].Taken" class="form-control" placeholder="Taken"> </td>
+    <td><input name="UserLeavePolicyDetail[@Model].Description" class="form-control" placeholder="Description"> </td>
+    <td> <a href="javascript:void(0);" class=" btn btn-danger removeRow">x</a></td>
+    
+    
+  </tr>
+ 
+
