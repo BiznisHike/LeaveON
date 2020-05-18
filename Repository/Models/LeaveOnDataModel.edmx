@@ -64,8 +64,8 @@
           <Property Name="ResponseDate2" Type="datetime" />
           <Property Name="IsAccepted1" Type="int" />
           <Property Name="IsAccepted2" Type="int" />
-          <Property Name="LineManager1" Type="nvarchar" MaxLength="50" />
-          <Property Name="LineManager2" Type="nvarchar" MaxLength="50" />
+          <Property Name="LineManager1Id" Type="nvarchar" MaxLength="128" />
+          <Property Name="LineManager2Id" Type="nvarchar" MaxLength="128" />
           <Property Name="Remarks1" Type="varchar" MaxLength="150" />
           <Property Name="Remarks2" Type="varchar" MaxLength="150" />
           <Property Name="DateCreated" Type="datetime" />
@@ -102,6 +102,7 @@
           <Property Name="FiscalYearPeriod" Type="nvarchar" MaxLength="50" />
           <Property Name="DepartmentPolicy" Type="bit" />
           <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="DefaultPolicy" Type="bit" />
           <Property Name="CountryId" Type="int" />
         </EntityType>
         <EntityType Name="UserLeavePolicyDetail">
@@ -447,14 +448,14 @@
           <Property Name="ResponseDate2" Type="DateTime" Precision="3" />
           <Property Name="IsAccepted1" Type="Int32" />
           <Property Name="IsAccepted2" Type="Int32" />
-          <Property Name="LineManager1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LineManager2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Remarks1" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="Remarks2" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="DateCreated" Type="DateTime" Precision="3" />
           <Property Name="DateModified" Type="DateTime" Precision="3" />
           <NavigationProperty Name="AspNetUser" Relationship="LeaveONModels.FK_Leave_AspNetUsers" FromRole="Leave" ToRole="AspNetUser" />
           <NavigationProperty Name="LeaveType" Relationship="LeaveONModels.FK_Leave_LeaveType" FromRole="Leave" ToRole="LeaveType" />
+          <Property Name="LineManager1Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="LineManager2Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="LeaveBalance">
           <Key>
@@ -496,6 +497,7 @@
           <NavigationProperty Name="UserLeavePolicyDetails" Relationship="LeaveONModels.FK_UserLeavePolicyDetail_UserLeavePolicy" FromRole="UserLeavePolicy" ToRole="UserLeavePolicyDetail" />
           <Property Name="DepartmentPolicy" Type="Boolean" />
           <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DefaultPolicy" Type="Boolean" />
         </EntityType>
         <EntityType Name="UserLeavePolicyDetail">
           <Key>
@@ -718,12 +720,12 @@
           <EntitySetMapping Name="Leaves">
             <EntityTypeMapping TypeName="LeaveONModels.Leave">
               <MappingFragment StoreEntitySet="Leave">
+                <ScalarProperty Name="LineManager2Id" ColumnName="LineManager2Id" />
+                <ScalarProperty Name="LineManager1Id" ColumnName="LineManager1Id" />
                 <ScalarProperty Name="DateModified" ColumnName="DateModified" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
                 <ScalarProperty Name="Remarks2" ColumnName="Remarks2" />
                 <ScalarProperty Name="Remarks1" ColumnName="Remarks1" />
-                <ScalarProperty Name="LineManager2" ColumnName="LineManager2" />
-                <ScalarProperty Name="LineManager1" ColumnName="LineManager1" />
                 <ScalarProperty Name="IsAccepted2" ColumnName="IsAccepted2" />
                 <ScalarProperty Name="IsAccepted1" ColumnName="IsAccepted1" />
                 <ScalarProperty Name="ResponseDate2" ColumnName="ResponseDate2" />
@@ -763,6 +765,7 @@
           <EntitySetMapping Name="UserLeavePolicies">
             <EntityTypeMapping TypeName="LeaveONModels.UserLeavePolicy">
               <MappingFragment StoreEntitySet="UserLeavePolicy">
+                <ScalarProperty Name="DefaultPolicy" ColumnName="DefaultPolicy" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="DepartmentPolicy" ColumnName="DepartmentPolicy" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />

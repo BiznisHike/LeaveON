@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -11,7 +11,9 @@ using Repository.Models;
 
 namespace LeaveON.Controllers
 {
-    public class AspNetUsersController : Controller
+  //[Authorize]
+  [Authorize(Roles = "Admin,Manager")]
+  public class AspNetUsersController : Controller
     {
         private LeaveONEntities db = new LeaveONEntities();
 

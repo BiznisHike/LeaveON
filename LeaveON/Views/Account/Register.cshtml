@@ -52,6 +52,21 @@
         </div>
       </div>
       <div class="input-group mb-3">
+        @*@Html.DropDownList("DepartmentId", new SelectList(ViewBag.Departments, "Id", "Name"), new { @class = "form-control", placeholder = "Department" })*@
+        @Html.DropDownList("Role", new SelectListItem[]{
+          new SelectListItem() {Text = "Admin", Value="Admin"},
+          new SelectListItem() {Text = "Manager", Value="Manager"},
+          new SelectListItem() {Text = "User", Value="User"}}
+          , htmlAttributes: new { @class = "form-control" })
+        <div class="input-group-append">
+          <div class="input-group-text">
+
+          </div>
+        </div>
+      </div>
+
+
+      <div class="input-group mb-3">
         @Html.DropDownList("DepartmentId", new SelectList(ViewBag.Departments, "Id", "Name"), new { @class = "form-control", placeholder = "Department" })
         <div class="input-group-append">
           <div class="input-group-text">

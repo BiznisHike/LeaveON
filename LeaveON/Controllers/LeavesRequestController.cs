@@ -11,6 +11,8 @@ using Repository.Models;
 
 namespace LeaveON.Controllers
 {
+  //[Authorize]
+  [Authorize(Roles = "Admin,Manager,User")]
   public class LeavesRequestController : Controller
   {
     private LeaveONEntities db = new LeaveONEntities();
@@ -54,7 +56,7 @@ namespace LeaveON.Controllers
     // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Create([Bind(Include = "Id,UserId,LeaveTypeId,Reason,StartDate,EndDate,TotalDays,EmergencyContact,LineManager1,LineManager2")] Leave leave)
+    public async Task<ActionResult> Create([Bind(Include = "Id,UserId,LeaveTypeId,Reason,StartDate,EndDate,TotalDays,EmergencyContact,LineManager1Id,LineManager2Id")] Leave leave)
     {
       leave.DateCreated = DateTime.UtcNow;
       if (ModelState.IsValid)
@@ -92,7 +94,7 @@ namespace LeaveON.Controllers
     // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Edit([Bind(Include = "Id,UserId,LeaveTypeId,Reason,StartDate,EndDate,TotalDays,EmergencyContact,ResponseDate1,ResponseDate2,IsAccepted1,IsAccepted2,LineManager1,LineManager2,Remarks1,Remarks2,DateCreated,DateModified,UserLeavePolicyId")] Leave leave)
+    public async Task<ActionResult> Edit([Bind(Include = "Id,UserId,LeaveTypeId,Reason,StartDate,EndDate,TotalDays,EmergencyContact,ResponseDate1,ResponseDate2,IsAccepted1,IsAccepted2,LineManager1Id,LineManager2Id,Remarks1,Remarks2,DateCreated,DateModified,UserLeavePolicyId")] Leave leave)
     {
       leave.DateModified = DateTime.UtcNow;
       if (ModelState.IsValid)

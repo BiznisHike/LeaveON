@@ -91,6 +91,10 @@ namespace LeaveON.Models
 
     [Display(Name = "Department")]
     public int DepartmentId { get; set; }
+
+    [Display(Name = "Role")]
+    public string Role { get; set; }
+
   }
 
   public class ResetPasswordViewModel
