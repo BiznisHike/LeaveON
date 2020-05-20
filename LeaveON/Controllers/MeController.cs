@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -14,8 +14,8 @@ using LeaveON.Models;
 
 namespace LeaveON.Controllers
 {
-    //[Authorize]
-    public class MeController : ApiController
+  [Authorize]
+  public class MeController : ApiController
     {
         private ApplicationUserManager _userManager;
 
