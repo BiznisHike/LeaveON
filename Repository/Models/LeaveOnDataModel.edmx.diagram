@@ -5,14 +5,16 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="41b3342e1acf4fda99c28be56ef0d5bf" Name="Diagram1">
-        <EntityTypeShape EntityType="LeaveONModels.AspNetUser" Width="1.5" PointX="5.25" PointY="9.875" />
-        <EntityTypeShape EntityType="LeaveONModels.Country" Width="1.5" PointX="0.75" PointY="6.75" />
-        <EntityTypeShape EntityType="LeaveONModels.Department" Width="1.5" PointX="3" PointY="8.25" />
-        <EntityTypeShape EntityType="LeaveONModels.Leave" Width="1.5" PointX="10.5" PointY="7.75" />
-        <EntityTypeShape EntityType="LeaveONModels.LeaveBalance" Width="1.5" PointX="7.5" PointY="8.875" />
-        <EntityTypeShape EntityType="LeaveONModels.LeaveType" Width="1.5" PointX="3" PointY="5.125" />
-        <EntityTypeShape EntityType="LeaveONModels.UserLeavePolicy" Width="1.5" PointX="3" PointY="0.75" />
-        <EntityTypeShape EntityType="LeaveONModels.UserLeavePolicyDetail" Width="1.5" PointX="5.25" PointY="5.75" />
+        <EntityTypeShape EntityType="LeaveONModels.AspNetRole" Width="1.5" PointX="0.5" PointY="0.5" />
+        <EntityTypeShape EntityType="LeaveONModels.AspNetUser" Width="1.5" PointX="2.875" PointY="0.5" />
+        <AssociationConnector Association="LeaveONModels.AspNetUserRoles" />
+        <EntityTypeShape EntityType="LeaveONModels.Country" Width="1.5" PointX="1.5" PointY="6.125" />
+        <EntityTypeShape EntityType="LeaveONModels.Department" Width="1.5" PointX="3.75" PointY="6" />
+        <EntityTypeShape EntityType="LeaveONModels.Leave" Width="1.5" PointX="11.25" PointY="4" />
+        <EntityTypeShape EntityType="LeaveONModels.LeaveBalance" Width="1.5" PointX="8.25" PointY="5.25" />
+        <EntityTypeShape EntityType="LeaveONModels.LeaveType" Width="1.5" PointX="3.75" PointY="10.125" />
+        <EntityTypeShape EntityType="LeaveONModels.UserLeavePolicy" Width="1.5" PointX="4.75" PointY="0.5" />
+        <EntityTypeShape EntityType="LeaveONModels.UserLeavePolicyDetail" Width="1.5" PointX="6" PointY="7.625" />
         <AssociationConnector Association="LeaveONModels.FK_AspNetUsers_Deparment" />
         <AssociationConnector Association="LeaveONModels.FK_AspNetUsers_UserLeavePolicy" />
         <AssociationConnector Association="LeaveONModels.FK_Leave_AspNetUsers" />

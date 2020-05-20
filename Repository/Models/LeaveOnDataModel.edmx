@@ -5,6 +5,21 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="LeaveONModels.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
         <EntityType Name="AspNetUsers">
           <Key>
             <PropertyRef Name="Id" />
@@ -144,6 +159,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Deparment_Country">
           <End Role="Country" Type="Self.Country" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -269,6 +312,8 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="LeaveONModelsStoreContainer">
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
@@ -284,6 +329,14 @@
           <AssociationSet Name="FK_AspNetUsers_UserLeavePolicy" Association="Self.FK_AspNetUsers_UserLeavePolicy">
             <End Role="UserLeavePolicy" EntitySet="UserLeavePolicy" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
           <AssociationSet Name="FK_Deparment_Country" Association="Self.FK_Deparment_Country">
             <End Role="Country" EntitySet="Country" />
@@ -327,7 +380,12 @@
     <edmx:ConceptualModels>
       <Schema Namespace="LeaveONModels" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="LeaveONEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspNetRoles" EntityType="LeaveONModels.AspNetRole" />
           <EntitySet Name="AspNetUsers" EntityType="LeaveONModels.AspNetUser" />
+          <AssociationSet Name="AspNetUserRoles" Association="LeaveONModels.AspNetUserRoles">
+            <End Role="AspNetRole" EntitySet="AspNetRoles" />
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+          </AssociationSet>
           <EntitySet Name="Countries" EntityType="LeaveONModels.Country" />
           <EntitySet Name="Departments" EntityType="LeaveONModels.Department" />
           <EntitySet Name="Leaves" EntityType="LeaveONModels.Leave" />
@@ -380,6 +438,14 @@
             <End Role="UserLeavePolicyDetail" EntitySet="UserLeavePolicyDetails" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="AspNetRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="LeaveONModels.AspNetUserRoles" FromRole="AspNetRole" ToRole="AspNetUser" />
+        </EntityType>
         <EntityType Name="AspNetUser">
           <Key>
             <PropertyRef Name="Id" />
@@ -402,11 +468,16 @@
           <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="DepartmentId" Type="Int32" Nullable="false" />
           <Property Name="UserLeavePolicyId" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="AspNetRoles" Relationship="LeaveONModels.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
           <NavigationProperty Name="Department" Relationship="LeaveONModels.FK_AspNetUsers_Deparment" FromRole="AspNetUser" ToRole="Department" />
           <NavigationProperty Name="UserLeavePolicy" Relationship="LeaveONModels.FK_AspNetUsers_UserLeavePolicy" FromRole="AspNetUser" ToRole="UserLeavePolicy" />
           <NavigationProperty Name="Leaves" Relationship="LeaveONModels.FK_Leave_AspNetUsers" FromRole="AspNetUser" ToRole="Leave" />
           <NavigationProperty Name="LeaveBalances" Relationship="LeaveONModels.FK_LeaveBalance_AspNetUsers" FromRole="AspNetUser" ToRole="LeaveBalance" />
         </EntityType>
+        <Association Name="AspNetUserRoles">
+          <End Type="LeaveONModels.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+          <End Type="LeaveONModels.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+        </Association>
         <EntityType Name="Country">
           <Key>
             <PropertyRef Name="Id" />
@@ -448,14 +519,14 @@
           <Property Name="ResponseDate2" Type="DateTime" Precision="3" />
           <Property Name="IsAccepted1" Type="Int32" />
           <Property Name="IsAccepted2" Type="Int32" />
+          <Property Name="LineManager1Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="LineManager2Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="Remarks1" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="Remarks2" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="DateCreated" Type="DateTime" Precision="3" />
           <Property Name="DateModified" Type="DateTime" Precision="3" />
           <NavigationProperty Name="AspNetUser" Relationship="LeaveONModels.FK_Leave_AspNetUsers" FromRole="Leave" ToRole="AspNetUser" />
           <NavigationProperty Name="LeaveType" Relationship="LeaveONModels.FK_Leave_LeaveType" FromRole="Leave" ToRole="LeaveType" />
-          <Property Name="LineManager1Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="LineManager2Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="LeaveBalance">
           <Key>
@@ -492,12 +563,12 @@
           <Property Name="FiscalYearStart" Type="DateTime" Precision="3" />
           <Property Name="FiscalYearEnd" Type="DateTime" Precision="3" />
           <Property Name="FiscalYearPeriod" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CountryId" Type="Int32" />
-          <NavigationProperty Name="AspNetUsers" Relationship="LeaveONModels.FK_AspNetUsers_UserLeavePolicy" FromRole="UserLeavePolicy" ToRole="AspNetUser" />
-          <NavigationProperty Name="UserLeavePolicyDetails" Relationship="LeaveONModels.FK_UserLeavePolicyDetail_UserLeavePolicy" FromRole="UserLeavePolicy" ToRole="UserLeavePolicyDetail" />
           <Property Name="DepartmentPolicy" Type="Boolean" />
           <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="DefaultPolicy" Type="Boolean" />
+          <Property Name="CountryId" Type="Int32" />
+          <NavigationProperty Name="AspNetUsers" Relationship="LeaveONModels.FK_AspNetUsers_UserLeavePolicy" FromRole="UserLeavePolicy" ToRole="AspNetUser" />
+          <NavigationProperty Name="UserLeavePolicyDetails" Relationship="LeaveONModels.FK_UserLeavePolicyDetail_UserLeavePolicy" FromRole="UserLeavePolicy" ToRole="UserLeavePolicyDetail" />
         </EntityType>
         <EntityType Name="UserLeavePolicyDetail">
           <Key>
@@ -671,6 +742,14 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="LeaveONModelsStoreContainer" CdmEntityContainer="LeaveONEntities">
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="LeaveONModels.AspNetRole">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="AspNetUsers">
             <EntityTypeMapping TypeName="LeaveONModels.AspNetUser">
               <MappingFragment StoreEntitySet="AspNetUsers">
@@ -695,6 +774,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="LeaveONModels.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetUser">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="AspNetRole">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
           <EntitySetMapping Name="Countries">
             <EntityTypeMapping TypeName="LeaveONModels.Country">
               <MappingFragment StoreEntitySet="Country">
@@ -720,12 +807,12 @@
           <EntitySetMapping Name="Leaves">
             <EntityTypeMapping TypeName="LeaveONModels.Leave">
               <MappingFragment StoreEntitySet="Leave">
-                <ScalarProperty Name="LineManager2Id" ColumnName="LineManager2Id" />
-                <ScalarProperty Name="LineManager1Id" ColumnName="LineManager1Id" />
                 <ScalarProperty Name="DateModified" ColumnName="DateModified" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
                 <ScalarProperty Name="Remarks2" ColumnName="Remarks2" />
                 <ScalarProperty Name="Remarks1" ColumnName="Remarks1" />
+                <ScalarProperty Name="LineManager2Id" ColumnName="LineManager2Id" />
+                <ScalarProperty Name="LineManager1Id" ColumnName="LineManager1Id" />
                 <ScalarProperty Name="IsAccepted2" ColumnName="IsAccepted2" />
                 <ScalarProperty Name="IsAccepted1" ColumnName="IsAccepted1" />
                 <ScalarProperty Name="ResponseDate2" ColumnName="ResponseDate2" />
@@ -765,10 +852,10 @@
           <EntitySetMapping Name="UserLeavePolicies">
             <EntityTypeMapping TypeName="LeaveONModels.UserLeavePolicy">
               <MappingFragment StoreEntitySet="UserLeavePolicy">
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="DefaultPolicy" ColumnName="DefaultPolicy" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="DepartmentPolicy" ColumnName="DepartmentPolicy" />
-                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="FiscalYearPeriod" ColumnName="FiscalYearPeriod" />
                 <ScalarProperty Name="FiscalYearEnd" ColumnName="FiscalYearEnd" />
                 <ScalarProperty Name="FiscalYearStart" ColumnName="FiscalYearStart" />

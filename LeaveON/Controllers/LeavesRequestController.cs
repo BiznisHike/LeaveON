@@ -46,6 +46,16 @@ namespace LeaveON.Controllers
       //ViewBag.UserId = "d0c9d0b1-d0e8-4d56-a410-72e74af3ced8";
       ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes, "Id", "Name");
       ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId");
+
+      foreach (AspNetUser user in db.AspNetUsers)
+      {
+        //foreach (AspNetUserRoles user in db.AspNetUsers)
+        //{
+
+        //}
+      }
+
+
       ViewBag.LineManagers = new SelectList(db.AspNetUsers, "Id", "UserName");
       ViewBag.UserName = "LoggedIn User";
       return View();
@@ -68,6 +78,10 @@ namespace LeaveON.Controllers
 
       ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes, "Id", "Name", leave.LeaveTypeId);
       //ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId", leave.UserLeavePolicyId);
+
+
+      var itmes = db.AspNetUsers.Include(x => x.AspNetRoles.Select(rl => rl.Name)).ToList();
+
       ViewBag.LineManagers = new SelectList(db.AspNetUsers, "Id", "UserName");
       return View(leave);
     }

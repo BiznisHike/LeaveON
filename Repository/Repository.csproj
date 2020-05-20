@@ -51,6 +51,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Models\AspNetRole.cs">
+      <DependentUpon>LeaveOnDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AspNetUser.cs">
       <DependentUpon>LeaveOnDataModel.tt</DependentUpon>
     </Compile>
