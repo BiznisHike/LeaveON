@@ -37,7 +37,7 @@
 
             @Html.DropDownList("Employees", null, htmlAttributes: new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.userLeavePolicy.UserId, "", new { @class = "text-danger" })*@
-
+         
         </div>
         <div class="form-group">
           @Html.LabelFor(model => model.userLeavePolicy.Description, "Description", htmlAttributes: new { @class = " " })
@@ -94,50 +94,59 @@
 
 
         </div>
-
-        <div class="form-group">
-          @Html.LabelFor(model => model.userLeavePolicy.AnnualOffDays, "Annual Off Days", htmlAttributes: new { @class = " " })
-
-          @*@Html.EditorFor(model => model.userLeavePolicy.AnnualOffDays, new { htmlAttributes = new { @class = "form-control" } })*@
-
-          <div class="alert alert-default-light" role="alert">
-            @*<div class="alert-icon">
-
-              </div>*@
-            (1) Please chosse file. This file should contain Annual off days record in three comma separated columns (CSV) <mark>No,Date,Description</mark> format
-            <input type="file" id="FileUpload1" />
-          </div>
-
-          @*       @Html.ValidationMessageFor(model => model.userLeavePolicy.AnnualOffDays, "", new { @class = "text-danger" })*@
-
-          @*<br />*@
-
-          <div class="alert alert-default-light" role="alert">
-            (2) Click to upload file.
-            <input type="button" id="btnUpload" value="Upload file" />
-          </div>
-
-
-          @*<br />*@
-
-        </div>
-        <div id="NewData">
-          @{
-            if (ViewBag.AnnualLeaves != null)
-            {
-              Html.RenderPartial("_DisplayAnnualLeaves");
-            }
-          }
-
-
-
-        </div>
-        <table class="table table-bordered table-hover " id="customFields">
-        </table>
-
-        <a class=" " href="javascript:void(0);" id="addCF">Add  Row For Annual Off Days</a>
-
         <section class="content">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <div class="form-group">
+                    @Html.LabelFor(model => model.userLeavePolicy.AnnualOffDays, "Annual Off Days", htmlAttributes: new { @class = "card-title " })
+
+                    @*@Html.EditorFor(model => model.userLeavePolicy.AnnualOffDays, new { htmlAttributes = new { @class = "form-control" } })*@
+
+
+                    @*<div class="alert-icon">
+
+                      </div>*@
+                    <br /> <br />(1) Please chosse file. This file should contain Annual off days record in three comma separated columns (CSV) <mark>No,Date,Description</mark> format
+                    <br /><br />
+                    <input type="file" id="FileUpload1" />
+
+
+                    @*       @Html.ValidationMessageFor(model => model.userLeavePolicy.AnnualOffDays, "", new { @class = "text-danger" })*@
+
+                    @*<br />*@
+                    <br />
+                    <br />
+                    @*<div class="alert alert-default-light" role="alert">*@
+                    (2) Click to upload file.
+                    <input type="button" id="btnUpload" value="Upload file" />
+                    @*</div>*@
+
+
+                    @*<br />*@
+
+                  </div>
+                  <div id="NewData">
+                    @{
+                      if (ViewBag.AnnualLeaves != null)
+                      {
+                        Html.RenderPartial("_DisplayAnnualLeaves");
+                      }
+                    }
+
+
+
+                  </div>
+                  <table id="customFields" class="table table-bordered table-hover  " role="grid">
+                  </table>
+                  <a class=" btn btn-primary" href="javascript:void(0);" id="AnnualOffDays">Add Row  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
           <div class="row">
             <div class="col-12">
               <div class="card">
@@ -288,7 +297,7 @@
 
                         </table>
                         <input type="button" id="addBtn" value="Add Row" class="btn btn-primary" />
-                        @*<input type="button" id="displayAlert" />*@
+                        <input type="button" id="displayAlert" />
                       </div>
                     </div>
                   </div>
@@ -343,8 +352,6 @@
 
 
 
-
-
         <br />
 
         <div class="form-group">
@@ -371,6 +378,7 @@
 
 
 <script>
+  var addData = 0;
   $(document).ready(function () {
     var idxId = 0;
     //$('#multiSelectOffDays').multiselect({
@@ -379,13 +387,31 @@
 
     //displayAlert
      $("#displayAlert").on("click", function () {
-          $('#allowedLeaves tr').each(function() {
+          $('#customFields tr').each(function() {
             //var customerId = $(this).find(".customerIDCell").html();
             alert($(this).prop('outerHTML'));
             //alert($(this).prop('HTML'));//.prop('outerHTML'));
             //alert('hi');
           });
      });
+
+
+       
+
+           $("#AnnualOffDays").click(function () {
+             alert(addData);
+             //$("#customFields").append('<tr>  <td style = "display:none;" > <input type="hidden" name="UserLeavePolicy.Index" value="' + addData + '" /></td><td><input type="text" class="form-control" name="UserLeavePolicy.Id[' + addData + ']" id="Id' + addData + '" value="" placeholder="No" style="width: 60px;" /></td> <td><input type="text" class="form-control" name="UserLeavePolicy.AnnualOffDays[' + addData + ']" id="LeaveDate' + addData + '" value="" placeholder="Date" /> <td><input type="text" class="form-control" name="UserLeavePolicy.Description[' + addData + ']" id="Description' + addData + '"  value="" placeholder="Description" /></td><td> <a href="javascript:void(0);" class="btn btn-danger AnnualOffDaysRemove">x</a></td></tr>');
+             //<td style = "display:none;" > <input type="hidden" name="UserLeavePolicy.Index" value="' + addData + '" /></td>
+             $("#customFields").append('<tr>  <td><input type="text" class="form-control" name="Id[' + addData + ']" id="Id' + addData + '" value="" placeholder="No" style="width: 60px;" /></td> <td><input type="text" class="form-control" name="AnnualOffDays[' + addData + ']" id="LeaveDate' + addData + '" value="" placeholder="Date" /> <td><input type="text" class="form-control" name="Description[' + addData + ']" id="Description' + addData + '"  value="" placeholder="Description" /></td><td> <a href="javascript:void(0);" class="btn btn-danger AnnualOffDaysRemove">x</a></td></tr>');
+
+             //alert('<tr>  <td style = "display:none;" > <input type="hidden" name="userLeavePolicy.Index" value="' + addData + '" /></td><td><input type="text" class="form-control" name="id[' + addData + ']" id="id' + addData + '" value="" placeholder="No" style="width: 60px;" /></td> <td><input type="text" class="form-control" name="AnnualOffDays[' + addData + ']" id="AnnualOffDays' + addData + '" value="" placeholder="Date" /> <td><input type="text" class="form-control" name="Description[' + addData + ']" id="Description' + addData + '"  value="" placeholder="Description" /></td><td> <a href="javascript:void(0);" class="btn btn-danger AnnualOffDaysRemove">x</a></td></tr>');
+               addData = parseInt(addData) + parseInt(1);
+                $(".AnnualOffDaysRemove").on('click', function () {
+                     $(this).parent().parent().remove();
+                });
+           });
+
+
 
      $("#addBtn").on("click", function () {
         $.get('@Url.Action("AddNewRow")?IndexId=' + idxId , function (data) {
@@ -399,15 +425,10 @@
 
      });
 
-     
-    $("#addCF").click(function(){
-		    $("#customFields").append('<tr valign="top"> <td><input type="text" class="form-control" id="customFieldName" name="customFieldName[]" value="" placeholder="No" /></td><td><input type="text" class="form-control" id="customFieldValue" name="customFieldValue[]" value="" placeholder="Date" /> <td><input type="text" class="form-control" id="customFieldValue" name="customFieldValue[]" value="" placeholder="Description" /></td><td> <a href="javascript:void(0);" class="btn btn-danger remCF">x</a></td></tr>');
-        $(".remCF").on('click',function(){
-			      $(this).parent().parent().remove();
-		    });
-    });
+        
 
-    
+
+
 
     $('#btnUpload').click(function () {
 
@@ -447,6 +468,7 @@
       } else {
         alert("FormData is not supported.");
       }
+
     });
 
     //$('#rdoDepartments').change(function () {
