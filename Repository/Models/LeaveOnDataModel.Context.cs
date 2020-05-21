@@ -27,6 +27,7 @@ namespace Repository.Models
     
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<AnnualOffDay> AnnualOffDays { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<Leave> Leaves { get; set; }

@@ -18,7 +18,7 @@ namespace LeaveON.Controllers
   public class UserLeavePoliciesController : Controller
   {
     private LeaveONEntities db = new LeaveONEntities();
-    
+
     // GET: UserLeavePolicies
     public async Task<ActionResult> Index()
     {
@@ -65,13 +65,22 @@ namespace LeaveON.Controllers
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> Create([Bind(Prefix = "UserLeavePolicy", Include = "Id,UserId,WeeklyOffDays,FiscalYearStart,FiscalYearEnd,FiscalYearPeriod")] UserLeavePolicy userLeavePolicy,
-      [Bind(Prefix = "UserLeavePolicyDetail", Include = "LeaveTypeId,Allowed,Description")] List<UserLeavePolicyDetail> userLeavePolicyDetail, string[] AnnualOffDays, string[] Departments, string[] Employees, string PolicyFor)
+      [Bind(Prefix = "UserLeavePolicyDetail", Include = "LeaveTypeId,Allowed,Description")] List<UserLeavePolicyDetail> userLeavePolicyDetail,
+      [Bind(Prefix = "AnnualOffDay", Include = "OffDay,Description")] List<AnnualOffDay> AnnualOffDays, string[] Departments, string[] Employees, string PolicyFor)
     {
       decimal maxId = db.UserLeavePolicies.DefaultIfEmpty().Max(p => p == null ? 0 : p.Id);
       userLeavePolicy.Id = maxId;
       userLeavePolicy.CountryId = 1;//from which user is Login. but admin who can view all coutries there we have to user a list of country so that he choose a country
       //userLeavePolicy.AnnualOffDays = string.Join(",", AnnualOffDays);
-      userLeavePolicy.DepartmentPolicy = (PolicyFor == "Dep") ? true : false;
+      userLeavePolicy.DepartmentPolicy = (PolicyFor == "1") ? true : false;
+
+      //foreach (AnnualOffDay itm in AnnualOffDays)
+      //{
+      //  itm.UserLeavePolicyId = userLeavePolicy.Id;
+      //}
+
+      userLeavePolicy.AnnualOffDays = AnnualOffDays;
+
       foreach (UserLeavePolicyDetail item in userLeavePolicyDetail.ToList<UserLeavePolicyDetail>())
       {
         if (item.Allowed == null)
@@ -106,8 +115,8 @@ namespace LeaveON.Controllers
           {
             user = db.AspNetUsers.FirstOrDefault(x => x.Id == empId);
             user.UserLeavePolicyId = userLeavePolicy.Id;
-              //user.UserLeavePolicyId = userLeavePolicy.Id;
-            
+            //user.UserLeavePolicyId = userLeavePolicy.Id;
+
           }
         }
         await db.SaveChangesAsync();
@@ -202,15 +211,13 @@ namespace LeaveON.Controllers
         //DaysSelected.Add()
       }
       ViewBag.DaysSelected = DaysSelected;
-      List<AnnualLeaveModel> AnnualOffDaysList = new List<AnnualLeaveModel>();
+      List<AnnualOffDay> AnnualOffDaysList = new List<AnnualOffDay>();
       int cntr = 0;
-      foreach (string day in userLeavePolicy.AnnualOffDays.Split(','))
-      {
-        cntr += 1;
-        AnnualOffDaysList.Add(new AnnualLeaveModel { Id = cntr, LeaveDate = day, Description = "" });
-
-
-      }
+      //foreach (string day in userLeavePolicy.AnnualOffDays.Split(','))
+      //{
+      //  cntr += 1;
+      //  AnnualOffDaysList.Add(new AnnualOffDay { Id = cntr, OffDay = day, Description = "" });
+      //}
 
       ViewBag.AnnualLeaves = AnnualOffDaysList;
 
@@ -231,7 +238,7 @@ namespace LeaveON.Controllers
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> Edit([Bind(Prefix = "UserLeavePolicy", Include = "Id,UserId,WeeklyOffDays,FiscalYearStart,FiscalYearEnd,FiscalYearPeriod")] UserLeavePolicy userLeavePolicy,
-      [Bind(Prefix = "UserLeavePolicyDetail", Include = "LeaveTypeId,Allowed")] List<UserLeavePolicyDetail> userLeavePolicyDetail, string[] AnnualOffDays, string[] DepartmentList, string[] EmployeeList, string PolicyFor)
+      [Bind(Prefix = "UserLeavePolicyDetail", Include = "LeaveTypeId,Allowed")] List<UserLeavePolicyDetail> userLeavePolicyDetail, [Bind(Prefix = "AnnualOffDay", Include = "Id,OffDay,Description")] List<AnnualOffDay> AnnualOffDays, string[] DepartmentList, string[] EmployeeList, string PolicyFor)
     {
 
 
@@ -240,8 +247,8 @@ namespace LeaveON.Controllers
       //await db.SaveChangesAsync();
 
       userLeavePolicy.CountryId = 1;//from which user is Login. but admin who can view all coutries there we have to user a list of country so that he choose a country
-      userLeavePolicy.AnnualOffDays = string.Join(",", AnnualOffDays);
-      userLeavePolicy.DepartmentPolicy = (PolicyFor == "Dep") ? true : false;
+      //userLeavePolicy.AnnualOffDays = string.Join(",", AnnualOffDays);
+      userLeavePolicy.DepartmentPolicy = (PolicyFor == "1") ? true : false;
       foreach (UserLeavePolicyDetail item in userLeavePolicyDetail.ToList<UserLeavePolicyDetail>())
       {
         if (item.Allowed == null)
@@ -253,9 +260,9 @@ namespace LeaveON.Controllers
           item.UserLeavePolicyId = userLeavePolicy.Id;
         }
       }
-      
 
-      
+
+
 
       if (ModelState.IsValid)
       {
@@ -311,7 +318,7 @@ namespace LeaveON.Controllers
         {
           HttpFileCollectionBase postedFiles = Request.Files;
           HttpPostedFileBase postedFile = postedFiles[0];
-          List<AnnualLeaveModel> annualLeaves = new List<AnnualLeaveModel>();
+          List<AnnualOffDay> annualLeaves = new List<AnnualOffDay>();
           string filePath = string.Empty;
           if (postedFile != null)
           {
@@ -335,11 +342,11 @@ namespace LeaveON.Controllers
               cntr += 1;
               if (!string.IsNullOrEmpty(row) && cntr > 1)
               {
-                annualLeaves.Add(new AnnualLeaveModel
+                annualLeaves.Add(new AnnualOffDay
                 {
-                  Id = Convert.ToInt32(row.Split(',')[0]),
-                  LeaveDate = row.Split(',')[1],
-                  Description = row.Split(',')[2]
+                  //Id = Convert.ToInt32(row.Split(',')[0]),
+                  OffDay = DateTime.Parse(row.Split(',')[0]),
+                  Description = row.Split(',')[1]
                 });
               }
             }
@@ -368,9 +375,9 @@ namespace LeaveON.Controllers
           //}
 
           //return Json("File Uploaded Successfully!");
-          ViewBag.AnnualLeaves = annualLeaves.OrderBy(i => i.Id).ToList();
-          //return PartialView("_DisplayAnnualLeaves", annualLeaves);
-          return PartialView("_DisplayAnnualLeaves");
+          //ViewBag.AnnualLeaves = annualLeaves.OrderBy(i => i.Id).ToList();
+          return PartialView("_DisplayAnnualLeaves", annualLeaves);
+          //return PartialView("_DisplayAnnualLeaves");
         }
         catch (Exception ex)
         {

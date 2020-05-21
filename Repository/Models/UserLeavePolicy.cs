@@ -17,13 +17,13 @@ namespace Repository.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public UserLeavePolicy()
         {
+            this.AnnualOffDays = new HashSet<AnnualOffDay>();
             this.AspNetUsers = new HashSet<AspNetUser>();
             this.UserLeavePolicyDetails = new HashSet<UserLeavePolicyDetail>();
         }
     
         public decimal Id { get; set; }
         public string WeeklyOffDays { get; set; }
-        public string AnnualOffDays { get; set; }
         public Nullable<System.DateTime> FiscalYearStart { get; set; }
         public Nullable<System.DateTime> FiscalYearEnd { get; set; }
         public string FiscalYearPeriod { get; set; }
@@ -32,6 +32,8 @@ namespace Repository.Models
         public Nullable<bool> DefaultPolicy { get; set; }
         public Nullable<int> CountryId { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AnnualOffDay> AnnualOffDays { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

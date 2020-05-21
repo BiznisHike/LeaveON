@@ -5,6 +5,15 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="LeaveONModels.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AnnualOffDays">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="decimal" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OffDay" Type="datetime" />
+          <Property Name="Description" Type="nvarchar" MaxLength="300" />
+          <Property Name="UserLeavePolicyId" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -111,7 +120,6 @@
           </Key>
           <Property Name="Id" Type="decimal" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="WeeklyOffDays" Type="nvarchar" MaxLength="50" />
-          <Property Name="AnnualOffDays" Type="nvarchar" MaxLength="1000" />
           <Property Name="FiscalYearStart" Type="datetime" />
           <Property Name="FiscalYearEnd" Type="datetime" />
           <Property Name="FiscalYearPeriod" Type="nvarchar" MaxLength="50" />
@@ -131,6 +139,20 @@
           <Property Name="Description" Type="nvarchar" MaxLength="500" />
           <Property Name="CountryId" Type="int" />
         </EntityType>
+        <Association Name="FK_AnnualOffDays_UserLeavePolicy">
+          <End Role="UserLeavePolicy" Type="Self.UserLeavePolicy" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AnnualOffDays" Type="Self.AnnualOffDays" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserLeavePolicy">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AnnualOffDays">
+              <PropertyRef Name="UserLeavePolicyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_AspNetUsers_Deparment">
           <End Role="Department" Type="Self.Department" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -312,6 +334,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="LeaveONModelsStoreContainer">
+          <EntitySet Name="AnnualOffDays" EntityType="Self.AnnualOffDays" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
@@ -322,6 +345,10 @@
           <EntitySet Name="LeaveType" EntityType="Self.LeaveType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserLeavePolicy" EntityType="Self.UserLeavePolicy" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserLeavePolicyDetail" EntityType="Self.UserLeavePolicyDetail" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AnnualOffDays_UserLeavePolicy" Association="Self.FK_AnnualOffDays_UserLeavePolicy">
+            <End Role="UserLeavePolicy" EntitySet="UserLeavePolicy" />
+            <End Role="AnnualOffDays" EntitySet="AnnualOffDays" />
+          </AssociationSet>
           <AssociationSet Name="FK_AspNetUsers_Deparment" Association="Self.FK_AspNetUsers_Deparment">
             <End Role="Department" EntitySet="Department" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -386,6 +413,7 @@
             <End Role="AspNetRole" EntitySet="AspNetRoles" />
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <EntitySet Name="AnnualOffDays" EntityType="LeaveONModels.AnnualOffDay" />
           <EntitySet Name="Countries" EntityType="LeaveONModels.Country" />
           <EntitySet Name="Departments" EntityType="LeaveONModels.Department" />
           <EntitySet Name="Leaves" EntityType="LeaveONModels.Leave" />
@@ -393,6 +421,10 @@
           <EntitySet Name="LeaveTypes" EntityType="LeaveONModels.LeaveType" />
           <EntitySet Name="UserLeavePolicies" EntityType="LeaveONModels.UserLeavePolicy" />
           <EntitySet Name="UserLeavePolicyDetails" EntityType="LeaveONModels.UserLeavePolicyDetail" />
+          <AssociationSet Name="FK_AnnualOffDays_UserLeavePolicy" Association="LeaveONModels.FK_AnnualOffDays_UserLeavePolicy">
+            <End Role="UserLeavePolicy" EntitySet="UserLeavePolicies" />
+            <End Role="AnnualOffDay" EntitySet="AnnualOffDays" />
+          </AssociationSet>
           <AssociationSet Name="FK_AspNetUsers_Deparment" Association="LeaveONModels.FK_AspNetUsers_Deparment">
             <End Role="Department" EntitySet="Departments" />
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
@@ -478,6 +510,16 @@
           <End Type="LeaveONModels.AspNetRole" Role="AspNetRole" Multiplicity="*" />
           <End Type="LeaveONModels.AspNetUser" Role="AspNetUser" Multiplicity="*" />
         </Association>
+        <EntityType Name="AnnualOffDay">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OffDay" Type="DateTime" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="UserLeavePolicyId" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="UserLeavePolicy" Relationship="LeaveONModels.FK_AnnualOffDays_UserLeavePolicy" FromRole="AnnualOffDay" ToRole="UserLeavePolicy" />
+        </EntityType>
         <EntityType Name="Country">
           <Key>
             <PropertyRef Name="Id" />
@@ -559,7 +601,6 @@
           </Key>
           <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="WeeklyOffDays" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="AnnualOffDays" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="FiscalYearStart" Type="DateTime" Precision="3" />
           <Property Name="FiscalYearEnd" Type="DateTime" Precision="3" />
           <Property Name="FiscalYearPeriod" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -567,6 +608,7 @@
           <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="DefaultPolicy" Type="Boolean" />
           <Property Name="CountryId" Type="Int32" />
+          <NavigationProperty Name="AnnualOffDays" Relationship="LeaveONModels.FK_AnnualOffDays_UserLeavePolicy" FromRole="UserLeavePolicy" ToRole="AnnualOffDay" />
           <NavigationProperty Name="AspNetUsers" Relationship="LeaveONModels.FK_AspNetUsers_UserLeavePolicy" FromRole="UserLeavePolicy" ToRole="AspNetUser" />
           <NavigationProperty Name="UserLeavePolicyDetails" Relationship="LeaveONModels.FK_UserLeavePolicyDetail_UserLeavePolicy" FromRole="UserLeavePolicy" ToRole="UserLeavePolicyDetail" />
         </EntityType>
@@ -584,6 +626,20 @@
           <NavigationProperty Name="LeaveType" Relationship="LeaveONModels.FK_UserLeavePolicyDetail_LeaveType" FromRole="UserLeavePolicyDetail" ToRole="LeaveType" />
           <NavigationProperty Name="UserLeavePolicy" Relationship="LeaveONModels.FK_UserLeavePolicyDetail_UserLeavePolicy" FromRole="UserLeavePolicyDetail" ToRole="UserLeavePolicy" />
         </EntityType>
+        <Association Name="FK_AnnualOffDays_UserLeavePolicy">
+          <End Type="LeaveONModels.UserLeavePolicy" Role="UserLeavePolicy" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="LeaveONModels.AnnualOffDay" Role="AnnualOffDay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserLeavePolicy">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AnnualOffDay">
+              <PropertyRef Name="UserLeavePolicyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_AspNetUsers_Deparment">
           <End Type="LeaveONModels.Department" Role="Department" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -782,6 +838,16 @@
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="AnnualOffDays">
+            <EntityTypeMapping TypeName="LeaveONModels.AnnualOffDay">
+              <MappingFragment StoreEntitySet="AnnualOffDays">
+                <ScalarProperty Name="UserLeavePolicyId" ColumnName="UserLeavePolicyId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="OffDay" ColumnName="OffDay" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Countries">
             <EntityTypeMapping TypeName="LeaveONModels.Country">
               <MappingFragment StoreEntitySet="Country">
@@ -859,7 +925,6 @@
                 <ScalarProperty Name="FiscalYearPeriod" ColumnName="FiscalYearPeriod" />
                 <ScalarProperty Name="FiscalYearEnd" ColumnName="FiscalYearEnd" />
                 <ScalarProperty Name="FiscalYearStart" ColumnName="FiscalYearStart" />
-                <ScalarProperty Name="AnnualOffDays" ColumnName="AnnualOffDays" />
                 <ScalarProperty Name="WeeklyOffDays" ColumnName="WeeklyOffDays" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
