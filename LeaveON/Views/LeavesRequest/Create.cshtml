@@ -110,33 +110,35 @@
 
     </div>
       <div class="form-group">
-      @Html.LabelFor(model => model.LineManager1Id, "Line Manager 1", htmlAttributes: new { @class = " " })
+        @Html.LabelFor(model => model.LineManager1Id, "Line Manager 1", htmlAttributes: new { @class = " " })
 
 
-      @Html.DropDownList("LineManagers", null, htmlAttributes: new { @class = "form-control" })
-      @Html.ValidationMessageFor(model => model.LineManager1Id, "", new { @class = "text-danger" })
+        @*@Html.DropDownList("LineManagers", null, htmlAttributes: new { @class = "form-control" })*@
+        @Html.DropDownList("LineManager1Id", (IEnumerable<SelectListItem>)ViewBag.LineManagers, null, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.LineManager1Id, "", new { @class = "text-danger" })
 
-      @*@Html.EditorFor(model => model.LineManager1Id, new { htmlAttributes = new { @class = "form-control" } })
-      @Html.ValidationMessageFor(model => model.LineManager1Id, "", new { @class = "text-danger" })*@
+        @*@Html.EditorFor(model => model.LineManager1Id, new { htmlAttributes = new { @class = "form-control" } })*@
+    
 
-    </div>
+      </div>
 
       <div class="form-group">
-      @Html.LabelFor(model => model.LineManager2Id, "Line Manager 2", htmlAttributes: new { @class = " " })
+        @Html.LabelFor(model => model.LineManager2Id, "Line Manager 2", htmlAttributes: new { @class = " " })
 
 
-      @Html.DropDownList("LineManagers", null, htmlAttributes: new { @class = "form-control" })
+        @*@Html.DropDownList("LineManagers", null, htmlAttributes: new { @class = "form-control" })*@
+        @Html.DropDownList("LineManager2Id", (IEnumerable<SelectListItem>)ViewBag.LineManagers, null, new { @class = "form-control" })
+        @*@Html.EditorFor(model => model.LineManager2Id, new { htmlAttributes = new { @class = "form-control" } })*@
 
-      @*@Html.EditorFor(model => model.LineManager2Id, new { htmlAttributes = new { @class = "form-control" } })*@
-      @Html.ValidationMessageFor(model => model.LineManager2Id, "", new { @class = "text-danger" })
+        @Html.ValidationMessageFor(model => model.LineManager2Id, "", new { @class = "text-danger" })
 
-    </div>
+      </div>
 
 
 
       <div class="form-group">
       <div class="class=" card-footer">
-      <input type="submit" value="Apply Leave" class="btn btn-primary" />
+      <input type="submit" value="Apply" class="btn btn-primary" />
 
       </div>
     </div>
@@ -225,168 +227,7 @@
 </div>
 
 <!-- right column -->
-<div class="col-md-6">
-  <!-- general form elements disabled -->
-  <div class="card card-warning">
-    <div class="card-header">
-      <h3 class="card-title">General Elements</h3>
-    </div>
-    <!-- /.card-header -->
-    <div class="card-body">
-      <form role="form">
-        <div class="row">
-          <div class="col-sm-6">
-            <!-- text input -->
-            <div class="form-group">
-              <label>Text</label>
-              <input type="text" class="form-control" placeholder="Enter ...">
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <div class="form-group">
-              <label>Text Disabled</label>
-              <input type="text" class="form-control" placeholder="Enter ..." disabled>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-6">
-            <!-- textarea -->
-            <div class="form-group">
-              <label>Textarea</label>
-              <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <div class="form-group">
-              <label>Textarea Disabled</label>
-              <textarea class="form-control" rows="3" placeholder="Enter ..." disabled></textarea>
-            </div>
-          </div>
-        </div>
 
-        <!-- input states -->
-        <div class="form-group">
-          <label class="col-form-label" for="inputSuccess">
-            <i class="fas fa-check"></i> Input with
-            success
-          </label>
-          <input type="text" class="form-control is-valid" id="inputSuccess" placeholder="Enter ...">
-        </div>
-        <div class="form-group">
-          <label class="col-form-label" for="inputWarning">
-            <i class="far fa-bell"></i> Input with
-            warning
-          </label>
-          <input type="text" class="form-control is-warning" id="inputWarning" placeholder="Enter ...">
-        </div>
-        <div class="form-group">
-          <label class="col-form-label" for="inputError">
-            <i class="far fa-times-circle"></i> Input with
-            error
-          </label>
-          <input type="text" class="form-control is-invalid" id="inputError" placeholder="Enter ...">
-        </div>
-
-        <div class="row">
-          <div class="col-sm-6">
-            <!-- checkbox -->
-            <div class="form-group">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox">
-                <label class="form-check-label">Checkbox</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" checked>
-                <label class="form-check-label">Checkbox checked</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" disabled>
-                <label class="form-check-label">Checkbox disabled</label>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <!-- radio -->
-            <div class="form-group">
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="radio1">
-                <label class="form-check-label">Radio</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="radio1" checked>
-                <label class="form-check-label">Radio checked</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" disabled>
-                <label class="form-check-label">Radio disabled</label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-sm-6">
-            <!-- select -->
-            <div class="form-group">
-              <label>Select</label>
-              <select class="form-control">
-                <option>option 1</option>
-                <option>option 2</option>
-                <option>option 3</option>
-                <option>option 4</option>
-                <option>option 5</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <div class="form-group">
-              <label>Select Disabled</label>
-              <select class="form-control" disabled>
-                <option>option 1</option>
-                <option>option 2</option>
-                <option>option 3</option>
-                <option>option 4</option>
-                <option>option 5</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-sm-6">
-            <!-- Select multiple-->
-            <div class="form-group">
-              <label>Select Multiple</label>
-              <select multiple class="form-control">
-                <option>option 1</option>
-                <option>option 2</option>
-                <option>option 3</option>
-                <option>option 4</option>
-                <option>option 5</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <div class="form-group">
-              <label>Select Multiple Disabled</label>
-              <select multiple class="form-control" disabled>
-                <option>option 1</option>
-                <option>option 2</option>
-                <option>option 3</option>
-                <option>option 4</option>
-                <option>option 5</option>
-              </select>
-
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-    <!-- /.card-body -->
-  </div>
-  <!-- /.card -->
-</div>
 <!--/.col (right) -->
  
 
@@ -398,14 +239,63 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
   $(function () {
-    $("#datepickerStart").datepicker({
-      showOtherMonths: true,
-      selectOtherMonths: true,
-      changeMonth: true,
-      changeYear: true,
-      numberOfMonths: 2
-      //showButtonPanel: true
+    $(document).ready(function () {
 
+       //$('#datepickerStart').change(function () {
+       //   alert('s');
+       //});
+
+       // $('#datepickerEnd').change(function () {
+       //   alert('e');
+       // });
+  
+
+        $("#datepickerStart").datepicker({
+          showOtherMonths: true,
+          selectOtherMonths: true,
+          changeMonth: true,
+          changeYear: true,
+          numberOfMonths: 2,
+          dateFormat: 'DD, MM, d, yy',
+          //showButtonPanel: true
+
+          showOn: "both"
+          //buttonImage: "images/calendar.gif",
+          //buttonImageOnly: true,
+          //buttonText: "Select date",
+
+          //minDate: -20,
+          //maxDate: "+1M +10D"
+        });
+
+        $("#datepickerEnd").datepicker({
+          showOtherMonths: true,
+          selectOtherMonths: true,
+          changeMonth: true,
+          changeYear: true,
+          numberOfMonths: 2,
+          dateFormat: 'DD, MM, d, yy',
+          showOn: "both",
+          onSelect: function () {
+               myfunc();
+
+          }
+        });
+   
+
+        function myfunc() {
+          var start = $("#datepickerStart").datepicker("getDate");
+          var end = $("#datepickerEnd").datepicker("getDate");
+          var diff = new Date(end - start);
+
+          var days = diff / 1000 / 60 / 60 / 24 + 1;
+
+          $('#diff').val(days);
+        }
+
+      //showButtonPanel: true
+      
+      
       //showOn: "button",
       //buttonImage: "images/calendar.gif",
       //buttonImageOnly: true,
@@ -414,40 +304,7 @@
       //minDate: -20,
       //maxDate: "+1M +10D"
     });
-    $("#datepickerEnd").datepicker({
-      showOtherMonths: true,
-      selectOtherMonths: true,
-      changeMonth: true,
-      changeYear: true,
-      numberOfMonths: 2,
-      onSelect: function () {
-           myfunc();
 
-      }
-      });
-   
-
-    function myfunc() {
-      var start = $("#datepickerStart").datepicker("getDate");
-      var end = $("#datepickerEnd").datepicker("getDate");
-      var diff = new Date(end - start);
-
-      var days = diff / 1000 / 60 / 60 / 24 + 1;
-
-      $('#diff').val(days);
-    }
-
-      //showButtonPanel: true
-      
-      
-      //showOn: "button",
-      //buttonImage: "images/calendar.gif",
-      //buttonImageOnly: true,
-      //buttonText: "Select date",
-
-      //minDate: -20,
-      //maxDate: "+1M +10D"
-    
   });
 </script>
 

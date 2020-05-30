@@ -25,13 +25,14 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Departments List  @Html.ActionLink("Create New", "Create")</h3>
+          <h3 class="card-title">Departments List  </h3>
 
 
         </div>
 
 
         <div class="card-body">
+          @Html.ActionLink("Create New", "Create")
           <div d="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
             <div class="row">
               <div class="col-sm-12 col-md-6">
@@ -56,9 +57,9 @@
                       <th class="sorting_desc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="DateModified : activate to sort column ascending" aria-sort="descending">
                         @Html.DisplayNameFor(model => model.DateModified)
                       </th>
-                      <th class="sorting_desc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Name : activate to sort column ascending" aria-sort="descending">
+                      @*<th class="sorting_desc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Name : activate to sort column ascending" aria-sort="descending">
                         @Html.DisplayNameFor(model => model.Country.Name)
-                      </th>
+                      </th>*@
                       <th></th>
                     </tr>
                   </thead>
@@ -79,12 +80,12 @@
                         <td>
                           @Html.DisplayFor(modelItem => item.DateModified)
                         </td>
-                        <td>
+                        @*<td>
                           @Html.DisplayFor(modelItem => item.Country.Name)
-                        </td>
+                        </td>*@
                         <td>
                           @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                          @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                          @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |*@
                           @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                         </td>
                       </tr>
@@ -94,7 +95,7 @@
                   </tbody>
                   <tfoot>
                     <tr>
-                      <th>
+                      @*<th>
                         @Html.DisplayNameFor(model => model.Idc)
                       </th>
                       <th>
@@ -109,7 +110,7 @@
                       <th>
                         @Html.DisplayNameFor(model => model.Country.Name)
                       </th>
-                      <th></th>
+                      <th></th>*@
                     </tr>
 
                   </tfoot>

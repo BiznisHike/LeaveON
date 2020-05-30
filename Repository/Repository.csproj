@@ -90,6 +90,7 @@
     <Compile Include="Models\LeaveType.cs">
       <DependentUpon>LeaveOnDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Leave_Metadata.cs" />
     <Compile Include="Models\UserLeavePolicy.cs">
       <DependentUpon>LeaveOnDataModel.tt</DependentUpon>
     </Compile>

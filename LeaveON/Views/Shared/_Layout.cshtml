@@ -232,7 +232,7 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="~/index3.html" class="brand-link">
+      <a href="https://www.intechww.com/" class="brand-link">
         <img src="~/dist/img/AdminLTELogo.png"
              alt="AdminLTE Logo"
              class="brand-image img-circle elevation-3"
@@ -273,7 +273,7 @@
                 <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-tachometer-alt"></i>
                   <p>
-                    Leaves
+                    My Leaves
                     <i class="right fas fa-angle-left"></i>
                   </p>
                 </a>
@@ -281,7 +281,7 @@
                   <li class="nav-item">
                     <a href="/LeavesRequest/Index" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>Leaves History</p>
+                      <p>My Leaves History</p>
                     </a>
                   </li>
                   <li class="nav-item">
@@ -299,7 +299,7 @@
                 <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-tachometer-alt"></i>
                   <p>
-                    Leaves Response
+                    Users Applications
                     <i class="right fas fa-angle-left"></i>
                   </p>
                 </a>
@@ -307,15 +307,15 @@
                   <li class="nav-item">
                     <a href="/LeavesResponse/Index" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>Leaves Response History</p>
+                      <p>Users Applications History</p>
                     </a>
                   </li>
-                  <li class="nav-item">
+                  @*<li class="nav-item">
                     <a href="/LeavesResponse/Create" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Leave Response</p>
                     </a>
-                  </li>
+                  </li>*@
                 </ul>
               </li>
             }
@@ -337,9 +337,9 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="/AspNetUsers/Create" class="nav-link">
+                    <a href="/Account/Register" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>Add User</p>
+                      <p>Register User</p>
                     </a>
                   </li>
                 </ul>
@@ -412,6 +412,12 @@
                     <a href="/LeaveTypes/Index" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Leave Types List</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="/LeaveTypes/Create" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Add Leave Type</p>
                     </a>
                   </li>
                 </ul>
@@ -1011,7 +1017,7 @@
       <div class="float-right d-none d-sm-block">
         <b>Version</b> 3.0.4
       </div>
-      <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
+      <strong>Copyright &copy; @DateTime.Now.Year <a href="https://www.intechww.com/">INTECH</a>.</strong> All rights
       reserved.
     </footer>
 

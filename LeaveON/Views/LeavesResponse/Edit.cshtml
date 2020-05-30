@@ -6,7 +6,7 @@
 }
 
 
- 
+
 
 
 
@@ -15,7 +15,7 @@
   <!-- general form elements -->
   <div class="card card-primary">
     <div class="card-header">
-      <h3 class="card-title">Edit Leave Response</h3>
+      <h3 class="card-title">Leave Response</h3>
     </div>
     <!-- /.card-header -->
     <!-- form start -->
@@ -32,12 +32,16 @@
 
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.Id)
-
+    @*@Html.Hidden("IsLineManager1",ViewBag.IsLineManager1)*@
+    <input name="IsLineManager1" type="hidden" value="@(Convert.ToString(ViewBag.IsLineManager1))" />
     <div class="form-group">
-      @Html.LabelFor(model => model.UserId, "User", htmlAttributes: new { @class = " " })
+      @*@Html.LabelFor(model => model.UserId, "User", htmlAttributes: new { @class = " " })
 
       @Html.EditorFor(model => model.UserId, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
-      @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+      @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })*@
+
+      @Html.Label("User Name")
+      @Html.Editor("UserName", new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.ApplicantName, @readonly = "readonly" } })
 
     </div>
 
@@ -51,8 +55,8 @@
 
     <div class="form-group">
       @Html.LabelFor(model => model.Reason, "Reason", htmlAttributes: new { @class = " " })
-    
-      @Html.TextAreaFor(model => model.Reason , new{@class = "form-control", rows="3", disabled = "disabled" })
+
+      @Html.TextAreaFor(model => model.Reason, new { @class = "form-control", rows = "3", disabled = "disabled" })
       @Html.ValidationMessageFor(model => model.Reason, "", new { @class = "text-danger" })
 
     </div>
@@ -91,82 +95,83 @@
       @Html.ValidationMessageFor(model => model.EmergencyContact, "", new { @class = "text-danger" })
 
     </div>
+    <hr />
+    @if ((bool)ViewBag.IsLineManager1 == true)
+    {
+      <div class="form-group">
+        @Html.LabelFor(model => model.LineManager1Id, "Line Manager 1", htmlAttributes: new { @class = " " })
 
-    <div class="form-group">
-      @Html.LabelFor(model => model.LineManager1Id, "Line Manager 1", htmlAttributes: new { @class = " " })
+        @*@Html.EditorFor(model => model.LineManager1Id, new { htmlAttributes = new { @class = "form-control" } })*@
+        @Html.DropDownList("LineManager1Id", (IEnumerable<SelectListItem>)ViewBag.LineManagers, null, new { @class = "form-control", disabled = "disabled" })
+        @Html.ValidationMessageFor(model => model.LineManager1Id, "", new { @class = "text-danger" })
 
-      @Html.EditorFor(model => model.LineManager1Id, new { htmlAttributes = new { @class = "form-control" } })
-      @Html.ValidationMessageFor(model => model.LineManager1Id, "", new { @class = "text-danger" })
+      </div>
 
-    </div>
+      <div class="form-group">
+        @*@Html.LabelFor(model => model.IsAccepted1, "Status Line Manager 1", htmlAttributes: new { @class = " " })
 
-    <div class="form-group">
-      @Html.LabelFor(model => model.LineManager2Id, "Line Manager 2", htmlAttributes: new { @class = " " })
+        @Html.EditorFor(model => model.IsAccepted1, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.IsAccepted1, "", new { @class = "text-danger" })*@
 
-      @Html.EditorFor(model => model.LineManager2Id, new { htmlAttributes = new { @class = "form-control" } })
-      @Html.ValidationMessageFor(model => model.LineManager2Id, "", new { @class = "text-danger" })
-
-    </div>
-
-
-
-
-    <div class="form-group">
-      @Html.LabelFor(model => model.IsAccepted1, "Status Line Manager 1", htmlAttributes: new { @class = " " })
-
-      @Html.EditorFor(model => model.IsAccepted1, new { htmlAttributes = new { @class = "form-control" } })
-      @Html.ValidationMessageFor(model => model.IsAccepted1, "", new { @class = "text-danger" })
-
-    </div>
-
-    <div class="form-group">
-      @Html.LabelFor(model => model.Remarks1, "Remarks 1", htmlAttributes: new { @class = " " })
-
-      @Html.EditorFor(model => model.Remarks1, new { htmlAttributes = new { @class = "form-control" } })
-      @Html.ValidationMessageFor(model => model.Remarks1, "", new { @class = "text-danger" })
-
-    </div>
+        <input type="radio" name="IsAccepted1" id="rdoAccepted1" value="1" checked="@(ViewBag.AcceptStatus1)"> Approved |
+        <input type="radio" name="IsAccepted1" id="rdoAcceptedWithComments1" value="2" checked="@(ViewBag.AcceptStatus1)"> Approved With Comments |
+        <input type="radio" name="IsAccepted1" id="rdoRejected1" value="0" checked="@(ViewBag.AcceptStatus1)"> Rejected
 
 
+      </div>
+
+      <div class="form-group" id="divRemarks1" style="display: none">
+        @Html.LabelFor(model => model.Remarks1, "Remarks", htmlAttributes: new { @class = " " })
+
+        @Html.EditorFor(model => model.Remarks1, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Remarks1, "", new { @class = "text-danger" })
+
+      </div>
 
 
+    }
+    else
+    {
+      <div class="form-group">
+        @Html.LabelFor(model => model.LineManager2Id, "Line Manager 2", htmlAttributes: new { @class = " " })
+
+        @*@Html.EditorFor(model => model.LineManager2Id, new { htmlAttributes = new { @class = "form-control" } })*@
+        @Html.DropDownList("LineManager2Id", (IEnumerable<SelectListItem>)ViewBag.LineManagers, null, new { @class = "form-control", disabled = "disabled" })
+        @Html.ValidationMessageFor(model => model.LineManager2Id, "", new { @class = "text-danger" })
+
+      </div>
+
+      <div class="form-group">
+
+        @*@Html.LabelFor(model => model.IsAccepted2, "Status Line Manager 2", htmlAttributes: new { @class = " " })
+
+        @Html.EditorFor(model => model.IsAccepted2, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.IsAccepted2, "", new { @class = "text-danger" })*@
+
+        <input type="radio" name="IsAccepted2" id="rdoAccepted2" value="1" checked="@(ViewBag.AcceptStatus2)">Approved
+        <input type="radio" name="IsAccepted2" id="rdoAcceptedWithComments2" value="2" checked="@(ViewBag.AcceptStatus2)">Approved With Comments
+        <input type="radio" name="IsAccepted2" id="rdoRejected2" value="0" checked="@(ViewBag.AcceptStatus2)">Rejected
+
+      </div>
 
 
-    <div class="form-group">
-      @Html.LabelFor(model => model.IsAccepted2, "Status Line Manager 2", htmlAttributes: new { @class = " " })
+      <div class="form-group" id="divRemarks2" style="display: none">
+        @Html.LabelFor(model => model.Remarks2, "Remarks", htmlAttributes: new { @class = " " })
 
-      @Html.EditorFor(model => model.IsAccepted2, new { htmlAttributes = new { @class = "form-control" } })
-      @Html.ValidationMessageFor(model => model.IsAccepted2, "", new { @class = "text-danger" })
+        @Html.EditorFor(model => model.Remarks2, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Remarks2, "", new { @class = "text-danger" })
 
-    </div>
-
-
-
-
-
-    <div class="form-group">
-      @Html.LabelFor(model => model.Remarks2, "Remarks 2", htmlAttributes: new { @class = " " })
-
-      @Html.EditorFor(model => model.Remarks2, new { htmlAttributes = new { @class = "form-control" } })
-      @Html.ValidationMessageFor(model => model.Remarks2, "", new { @class = "text-danger" })
-
-    </div>
-
-
-
-
-
-
-
+      </div>
+    }
     <div class="form-group">
       <div class="class=" card-footer">
-        <input type="submit" value="Save" class="btn btn-primary" />
+        <input type="submit" value="Reply" class="btn btn-primary" />
       </div>
     </div>
     <br />
     @Html.ActionLink("Back to List", "Index")
   </div>
- 
+
     }
   </div>
 
@@ -174,9 +179,33 @@
 
 </div>
 
- 
+<script>
+  $(document).ready(function () {
+    $('input[name="IsAccepted1"]').on('click', function () {
+      //alert('1');
+      if ($(this).val() == '2') {
+      //alert('2');
+            $('#divRemarks1').show();
+        }
+      else {
+        //alert('3');
+            $('#divRemarks1').hide();
+        }
+    });
 
-
+    $('input[name="IsAccepted2"]').on('click', function () {
+      //alert('1');
+      if ($(this).val() == '2') {
+      //alert('2');
+            $('#divRemarks2').show();
+        }
+      else {
+        //alert('3');
+            $('#divRemarks2').hide();
+        }
+    });
+  });
+</script>
 
 @*@section Scripts {
       @Scripts.Render("~/bundles/jqueryval")

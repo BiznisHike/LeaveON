@@ -37,10 +37,13 @@
     @Html.HiddenFor(model => model.Id)
 
     <div class="form-group">
-      @Html.LabelFor(model => model.UserId, "User", htmlAttributes: new { @class = " " })
+      @*@Html.LabelFor(model => model.UserId, "User", htmlAttributes: new { @class = " " })
 
-      @Html.EditorFor(model => model.UserId, new { htmlAttributes = new { @class = "form-control" } })
-      @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+    @Html.EditorFor(model => model.UserId, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })*@
+
+      @Html.Label("User Name")
+      @Html.Editor("UserName", new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.UserName, @readonly = "readonly" } })
 
     </div>
 
@@ -102,7 +105,8 @@
     <div class="form-group">
       @Html.LabelFor(model => model.LineManager1Id, "Line Manager 1", htmlAttributes: new { @class = " " })
 
-      @Html.EditorFor(model => model.LineManager1Id, new { htmlAttributes = new { @class = "form-control" } })
+      @*@Html.EditorFor(model => model.LineManager1Id, new { htmlAttributes = new { @class = "form-control" } })*@
+      @Html.DropDownList("LineManager1Id", (IEnumerable<SelectListItem>)ViewBag.LineManagers, null, new { @class = "form-control" })
       @Html.ValidationMessageFor(model => model.LineManager1Id, "", new { @class = "text-danger" })
 
     </div>
@@ -110,7 +114,8 @@
     <div class="form-group">
       @Html.LabelFor(model => model.LineManager2Id, "Line Manager 2", htmlAttributes: new { @class = " " })
 
-      @Html.EditorFor(model => model.LineManager2Id, new { htmlAttributes = new { @class = "form-control" } })
+      @*@Html.EditorFor(model => model.LineManager2Id, new { htmlAttributes = new { @class = "form-control" } })*@
+      @Html.DropDownList("LineManager2Id", (IEnumerable<SelectListItem>)ViewBag.LineManagers, null, new { @class = "form-control" })
       @Html.ValidationMessageFor(model => model.LineManager2Id, "", new { @class = "text-danger" })
 
     </div>
@@ -144,12 +149,15 @@
 <script>
   $(function () {
     $("#datepickerStart").datepicker({
-      showOtherMonths: true,
-      selectOtherMonths: true,
-      changeMonth: true,
-      changeYear: true,
-      numberOfMonths: 2
-      //showButtonPanel: true
+       showOtherMonths: true,
+          selectOtherMonths: true,
+          changeMonth: true,
+          changeYear: true,
+          numberOfMonths: 2,
+          dateFormat: 'DD, MM, d, yy',
+          //showButtonPanel: true
+
+          showOn: "both"
 
       //showOn: "button",
       //buttonImage: "images/calendar.gif",
@@ -161,12 +169,14 @@
     });
     $("#datepickerEnd").datepicker({
 
-      showOtherMonths: true,
-      selectOtherMonths: true,
-      changeMonth: true,
-      changeYear: true,
-      numberOfMonths: 2,
-      onSelect: function () {
+       showOtherMonths: true,
+          selectOtherMonths: true,
+          changeMonth: true,
+          changeYear: true,
+          numberOfMonths: 2,
+          dateFormat: 'DD, MM, d, yy',
+          showOn: "both",
+          onSelect: function () {
            myfunc();
 
       }

@@ -162,6 +162,8 @@ namespace LeaveON.Controllers
       userLeavePolicyViewModel.userLeavePolicyDetail = userLeavePolicy.UserLeavePolicyDetails.AsQueryable<UserLeavePolicyDetail>();
       userLeavePolicyViewModel.departments = db.Departments.Where(x => x.CountryId == 1).AsQueryable<Department>();//TODO Convert 1 to current user country variable
                                                                                                                    //userLeavePolicyViewModel.departments= depFilterd;
+      userLeavePolicyViewModel.annualOffDays = db.AnnualOffDays.Where(x => x.UserLeavePolicyId== userLeavePolicy.Id).AsQueryable();
+
       IQueryable<AspNetUser> usersFilterd = db.AspNetUsers.Where(x => x.UserLeavePolicyId == id);
 
 
@@ -211,15 +213,16 @@ namespace LeaveON.Controllers
         //DaysSelected.Add()
       }
       ViewBag.DaysSelected = DaysSelected;
-      List<AnnualOffDay> AnnualOffDaysList = new List<AnnualOffDay>();
-      int cntr = 0;
+      //List<AnnualOffDay> AnnualOffDaysList = new List<AnnualOffDay>();
+      //int cntr = 0;
+
       //foreach (string day in userLeavePolicy.AnnualOffDays.Split(','))
       //{
       //  cntr += 1;
       //  AnnualOffDaysList.Add(new AnnualOffDay { Id = cntr, OffDay = day, Description = "" });
       //}
 
-      ViewBag.AnnualLeaves = AnnualOffDaysList;
+      //ViewBag.AnnualLeaves = userLeavePolicy.AnnualOffDays;//AnnualOffDaysList;
 
       if (userLeavePolicy == null)
       {
@@ -240,8 +243,7 @@ namespace LeaveON.Controllers
     public async Task<ActionResult> Edit([Bind(Prefix = "UserLeavePolicy", Include = "Id,UserId,WeeklyOffDays,FiscalYearStart,FiscalYearEnd,FiscalYearPeriod")] UserLeavePolicy userLeavePolicy,
       [Bind(Prefix = "UserLeavePolicyDetail", Include = "LeaveTypeId,Allowed")] List<UserLeavePolicyDetail> userLeavePolicyDetail, [Bind(Prefix = "AnnualOffDay", Include = "Id,OffDay,Description")] List<AnnualOffDay> AnnualOffDays, string[] DepartmentList, string[] EmployeeList, string PolicyFor)
     {
-
-
+      
       //UserLeavePolicy userLeavePolicyOld = await db.UserLeavePolicies.FindAsync(userLeavePolicy.Id);
       //db.UserLeavePolicyDetails.RemoveRange(userLeavePolicyOld.UserLeavePolicyDetails);
       //await db.SaveChangesAsync();

@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Repository.Models;
+using Microsoft.AspNet.Identity;
 
 namespace LeaveON.Controllers
 {
@@ -21,7 +22,11 @@ namespace LeaveON.Controllers
     public async Task<ActionResult> Index()
     {
       //var leaves = db.Leaves.Include(l => l.LeaveType).Include(l => l.UserLeavePolicy);
-      var leaves = db.Leaves;
+      string LoggedInUserId = User.Identity.GetUserId();
+      List<Leave> leaves1 = db.Leaves.Where(x => x.UserId == LoggedInUserId).ToList();
+      IQueryable<Leave> leaves = db.Leaves.Where(x=>x.UserId== LoggedInUserId).AsQueryable<Leave>();
+      int c= leaves1.Count();
+
       return View(await leaves.ToListAsync());
     }
 
@@ -46,31 +51,43 @@ namespace LeaveON.Controllers
       //ViewBag.UserId = "d0c9d0b1-d0e8-4d56-a410-72e74af3ced8";
       ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes, "Id", "Name");
       ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId");
+      List<AspNetUser> Seniors = GetSeniorStaff();
 
-      foreach (AspNetUser user in db.AspNetUsers)
-      {
-        //foreach (AspNetUserRoles user in db.AspNetUsers)
-        //{
-
-        //}
-      }
-
-
-      ViewBag.LineManagers = new SelectList(db.AspNetUsers, "Id", "UserName");
-      ViewBag.UserName = "LoggedIn User";
+      ViewBag.LineManagers = new SelectList(Seniors, "Id", "UserName");
+      ViewBag.UserName = User.Identity.Name;//"LoggedIn User";
       return View();
     }
-
+    public List<AspNetUser> GetSeniorStaff()
+    {
+      List<AspNetUser> Seniors = new List<AspNetUser>();
+      foreach (AspNetUser user in db.AspNetUsers)
+      {
+        foreach (AspNetRole role in user.AspNetRoles)
+        {
+          if (role.Name == "Admin" || role.Name == "Manager")
+          {
+            AspNetUser userFound = Seniors.Find(x => x.Id == user.Id);
+            if (userFound == null)
+            {
+              Seniors.Add(user);
+            }
+          }
+        }
+      }
+      return Seniors;
+    }
     // POST: Leaves/Create
     // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
     // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Create([Bind(Include = "Id,UserId,LeaveTypeId,Reason,StartDate,EndDate,TotalDays,EmergencyContact,LineManager1Id,LineManager2Id")] Leave leave)
+    public async Task<ActionResult> Create([Bind(Include = "Id,UserId,LeaveTypeId,Reason,StartDate,EndDate,TotalDays,EmergencyContact,LineManager1Id,LineManager2Id")] Leave leave, string StartDate)
     {
       leave.DateCreated = DateTime.UtcNow;
       if (ModelState.IsValid)
       {
+
+
         db.Leaves.Add(leave);
         await db.SaveChangesAsync();
         return RedirectToAction("Index");
@@ -98,6 +115,9 @@ namespace LeaveON.Controllers
       {
         return HttpNotFound();
       }
+      List<AspNetUser> Seniors = GetSeniorStaff();
+      ViewBag.LineManagers = new SelectList(Seniors, "Id", "UserName");
+      ViewBag.UserName = User.Identity.Name;//"LoggedIn User";
       ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes, "Id", "Name", leave.LeaveTypeId);
       //ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId", leave.UserLeavePolicyId);
       return View(leave);

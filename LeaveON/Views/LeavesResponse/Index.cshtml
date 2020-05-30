@@ -24,9 +24,9 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Leaves Response List</h3>
-          &nbsp;
-          @Html.ActionLink("Create New", "Create")
+          <h3 class="card-title">Users Applications History</h3>
+          @*&nbsp;*@
+          @*@Html.ActionLink("Create New", "Create")*@
 
         </div>
 
@@ -62,10 +62,12 @@
 
 
                       <th class="sorting_desc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="IsAccepted1: activate to sort column ascending" aria-sort="descending">
-                        @Html.DisplayNameFor(model => model.IsAccepted1)
+                        @*@Html.DisplayNameFor(model => model.IsAccepted1)*@
+                        Line Manager 1
                       </th>
                       <th class="sorting_desc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="IsAccepted2: activate to sort column ascending" aria-sort="descending">
-                        @Html.DisplayNameFor(model => model.IsAccepted2)
+                        @*@Html.DisplayNameFor(model => model.IsAccepted2)*@
+                        Line Manager 2
                       </th>
 
 
@@ -96,18 +98,37 @@
 
                
                   <td>
-                    @Html.DisplayFor(modelItem => item.IsAccepted1)
+                    @*@Html.DisplayFor(modelItem => item.IsAccepted1)*@
+                    @if (item.IsAccepted1 != null && item.IsAccepted1 > 0)
+                    {
+                      <p style="color:green"> Accepted </p>
+                    }
+                    @if (item.IsAccepted1 != null &&  item.IsAccepted1 == 0)
+                    {
+                      <p style="color:red"> Rejected </p>
+                    }
+                    
+
                   </td>
                   <td>
-                    @Html.DisplayFor(modelItem => item.IsAccepted2)
+                    @*@Html.DisplayFor(modelItem => item.IsAccepted2)*@
+                    @if (item.IsAccepted1 != null && item.IsAccepted1 > 0)
+                    {
+                      <p style="color:green"> Accepted </p>
+                    }
+                    @if (item.IsAccepted1 != null && item.IsAccepted1 == 0)
+                    {
+                      <p style="color:red"> Rejected </p>
+                    }
+
                   </td>
                  
                 
 
                   <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    @Html.ActionLink("Reply", "Edit", new { id = item.Id }) @*|*@
+                    @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |*@
+                    @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
                   </td>
                 </tr>
 

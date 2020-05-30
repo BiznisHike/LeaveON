@@ -8,7 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Repository.Models;
-
+using Microsoft.AspNet.Identity;
 namespace LeaveON.Controllers
 {
   //[Authorize]
@@ -21,7 +21,9 @@ namespace LeaveON.Controllers
     public async Task<ActionResult> Index()
     {
       //var leaves = db.Leaves.Include(l => l.LeaveType).Include(l => l.UserLeavePolicy);
-      var leaves = db.Leaves.Include(l => l.LeaveType);
+      //var leaves = db.Leaves.Include(l => l.LeaveType);
+      string LoggedInUserId = User.Identity.GetUserId();
+      var leaves = db.Leaves.Where(x => x.LineManager1Id == LoggedInUserId || x.LineManager2Id == LoggedInUserId);
       return View(await leaves.ToListAsync());
     }
 
@@ -50,7 +52,25 @@ namespace LeaveON.Controllers
       ViewBag.UserName = "LoggedIn User";
       return View();
     }
-
+    public List<AspNetUser> GetSeniorStaff()
+    {
+      List<AspNetUser> Seniors = new List<AspNetUser>();
+      foreach (AspNetUser user in db.AspNetUsers)
+      {
+        foreach (AspNetRole role in user.AspNetRoles)
+        {
+          if (role.Name == "Admin" || role.Name == "Manager")
+          {
+            AspNetUser userFound = Seniors.Find(x => x.Id == user.Id);
+            if (userFound == null)
+            {
+              Seniors.Add(user);
+            }
+          }
+        }
+      }
+      return Seniors;
+    }
     // POST: Leaves/Create
     // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
     // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -84,7 +104,24 @@ namespace LeaveON.Controllers
       {
         return HttpNotFound();
       }
+
+      //ViewBag.LineManager1 = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.LineManager1Id).UserName;
+      //ViewBag.LineManager2 = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.LineManager2Id).UserName;
+      List<AspNetUser> Seniors = GetSeniorStaff();
+      bool IsLineManager1 = false;
+      if (User.Identity.GetUserId() == leave.LineManager1Id)
+      {
+        IsLineManager1 = true;
+      }
+      else
+      {
+        IsLineManager1 = false;
+      }
+      ViewBag.IsLineManager1 = IsLineManager1;
+
+      ViewBag.LineManagers = new SelectList(Seniors, "Id", "UserName");
       ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes, "Id", "Name", leave.LeaveTypeId);
+      ViewBag.ApplicantName = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.UserId).UserName;
       //ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId", leave.UserLeavePolicyId);
       return View(leave);
     }
@@ -94,9 +131,42 @@ namespace LeaveON.Controllers
     // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Edit([Bind(Include = "Id,UserId,LeaveTypeId,Reason,StartDate,EndDate,TotalDays,EmergencyContact,ResponseDate1,ResponseDate2,IsAccepted1,IsAccepted2,LineManager1Id,LineManager2Id,Remarks1,Remarks2,DateCreated,DateModified,UserLeavePolicyId")] Leave leave)
+    public async Task<ActionResult> Edit([Bind(Include = "Id,UserId,LeaveTypeId,Reason,StartDate,EndDate,TotalDays,EmergencyContact,ResponseDate1,ResponseDate2,IsAccepted1,IsAccepted2,LineManager1Id,LineManager2Id,Remarks1,Remarks2,DateCreated,DateModified,UserLeavePolicyId")] Leave leave, string IsLineManager1)
     {
-      leave.DateModified = DateTime.UtcNow;
+      //assign values to variable as we will reassing these values to the object
+
+      Nullable<int> IsAccepted1 = null;
+      Nullable<int> IsAccepted2 = null;
+      string Remarks1 = string.Empty;
+      string Remarks2 = string.Empty;
+      if (IsLineManager1 == "true")
+      {
+        IsAccepted1 = leave.IsAccepted1;
+        Remarks1 = leave.Remarks1;
+      }
+      else
+      {
+        IsAccepted2 = leave.IsAccepted2;
+        Remarks2 = leave.Remarks2;
+      }
+      //--------------------------------------------------
+      Leave leaveOld = db.Leaves.FirstOrDefault(x => x.Id == leave.Id);
+      leave = leaveOld;
+
+      if (IsLineManager1 == "true")
+      {
+        leave.IsAccepted1 = IsAccepted1;
+        leave.Remarks1 = Remarks1;
+        leave.ResponseDate1 = DateTime.UtcNow;
+      }
+      else
+      {
+        leave.IsAccepted2 = IsAccepted2;
+        leave.Remarks2 = Remarks2;
+        leave.ResponseDate2 = DateTime.UtcNow;
+        UpdateLeaveBalance( ref leave);
+      }
+
       if (ModelState.IsValid)
       {
         db.Entry(leave).State = EntityState.Modified;
@@ -107,7 +177,17 @@ namespace LeaveON.Controllers
       //ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId", leave.UserLeavePolicyId);
       return View(leave);
     }
+    public void  UpdateLeaveBalance(ref Leave leave)
+    { 
+      //check there is some weakend
 
+      //check there is some anual leaves/public holidays
+
+      
+      //add sbubtract leave and add or update to leaveBalnce table
+
+    
+    }
     // GET: Leaves/Delete/5
     public async Task<ActionResult> Delete(decimal id)
     {
