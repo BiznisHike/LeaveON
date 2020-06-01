@@ -72,6 +72,7 @@
     <Compile Include="Models\LeaveBalance.cs">
       <DependentUpon>LeaveOnDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\LeaveBalance_Metadata.cs" />
     <Compile Include="Models\LeaveOnDataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -65,7 +65,7 @@ namespace LeaveON.Controllers
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> Create([Bind(Prefix = "UserLeavePolicy", Include = "Id,UserId,WeeklyOffDays,FiscalYearStart,FiscalYearEnd,FiscalYearPeriod")] UserLeavePolicy userLeavePolicy,
-      [Bind(Prefix = "UserLeavePolicyDetail", Include = "LeaveTypeId,Allowed,Description")] List<UserLeavePolicyDetail> userLeavePolicyDetail,
+      [Bind(Prefix = "UserLeavePolicyDetail", Include = "LeaveTypeId,Allowed,Balance")] List<UserLeavePolicyDetail> userLeavePolicyDetail,
       [Bind(Prefix = "AnnualOffDay", Include = "OffDay,Description")] List<AnnualOffDay> AnnualOffDays, string[] Departments, string[] Employees, string PolicyFor)
     {
       decimal maxId = db.UserLeavePolicies.DefaultIfEmpty().Max(p => p == null ? 0 : p.Id);
@@ -195,13 +195,13 @@ namespace LeaveON.Controllers
       List<SelectListItem> WeakSelectList = new List<SelectListItem>()
       {
 
-          new SelectListItem{Text = "Saturday", Value = "1"},
-          new SelectListItem{Text = "Sunday", Value = "2"},
-          new SelectListItem{Text = "Monday", Value = "3"},
-          new SelectListItem{Text = "Tuesday", Value = "4"},
-          new SelectListItem{Text = "Wednesday", Value = "5"},
-          new SelectListItem{Text = "Thursday", Value = "6"},
-          new SelectListItem{Text = "Friday", Value = "7"}
+          new SelectListItem{Text = "Saturday", Value = "6"},
+          new SelectListItem{Text = "Sunday", Value = "0"},
+          new SelectListItem{Text = "Monday", Value = "1"},
+          new SelectListItem{Text = "Tuesday", Value = "2"},
+          new SelectListItem{Text = "Wednesday", Value = "3"},
+          new SelectListItem{Text = "Thursday", Value = "4"},
+          new SelectListItem{Text = "Friday", Value = "5"}
       };
 
       ViewBag.WeeklyOffDays = WeakSelectList;
@@ -241,7 +241,7 @@ namespace LeaveON.Controllers
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> Edit([Bind(Prefix = "UserLeavePolicy", Include = "Id,UserId,WeeklyOffDays,FiscalYearStart,FiscalYearEnd,FiscalYearPeriod")] UserLeavePolicy userLeavePolicy,
-      [Bind(Prefix = "UserLeavePolicyDetail", Include = "LeaveTypeId,Allowed")] List<UserLeavePolicyDetail> userLeavePolicyDetail, [Bind(Prefix = "AnnualOffDay", Include = "Id,OffDay,Description")] List<AnnualOffDay> AnnualOffDays, string[] DepartmentList, string[] EmployeeList, string PolicyFor)
+      [Bind(Prefix = "UserLeavePolicyDetail", Include = "LeaveTypeId,Allowed,Balance")] List<UserLeavePolicyDetail> userLeavePolicyDetail, [Bind(Prefix = "AnnualOffDay", Include = "Id,OffDay,Description")] List<AnnualOffDay> AnnualOffDays, string[] DepartmentList, string[] EmployeeList, string PolicyFor)
     {
       
       //UserLeavePolicy userLeavePolicyOld = await db.UserLeavePolicies.FindAsync(userLeavePolicy.Id);

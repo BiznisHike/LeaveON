@@ -11,16 +11,13 @@ namespace Repository.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Leave
     {
         public decimal Id { get; set; }
         public string UserId { get; set; }
         public int LeaveTypeId { get; set; }
         public string Reason { get; set; }
-
-        [DisplayFormat(DataFormatString = "{0:MM dd yyyy h:mm:ss tt}")]
         public System.DateTime StartDate { get; set; }
         public System.DateTime EndDate { get; set; }
         public Nullable<int> TotalDays { get; set; }

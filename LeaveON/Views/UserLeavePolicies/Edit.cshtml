@@ -182,7 +182,7 @@
                               <th>Leave Type</th>
                               <th>Allowed</th>
                               <th>Taken</th>
-                              <th>Description</th>
+                              <th>Balance</th>
                               <th> </th>
 
                             </tr>
@@ -203,7 +203,7 @@
                                   <td>@Html.DropDownList("UserLeavePolicyDetail[" + sNo + "].LeaveTypeId", new SelectList(ViewBag.LeaveTypes, "Value", "Text", item.LeaveTypeId), null, new { @class = "form-control" })</td>
                                   <td><input name="UserLeavePolicyDetail[@sNo].Allowed" value="@(item.Allowed)" class="form-control" placeholder="Allowed"> </td>
                                   <td><input name="UserLeavePolicyDetail[@sNo].Taken" value=" " class="form-control" placeholder="Taken"> </td>
-                                  <td><input name="UserLeavePolicyDetail[@sNo].Description" value="@(item.Description)" class="form-control" placeholder="Description"> </td>
+                                  <td><input name="UserLeavePolicyDetail[@sNo].Balance" value="@(item.Balance)" class="form-control" placeholder="Balance"> </td>
                                   <td><a href="javascript:void(0);" class=" btn btn-danger removeDetails">x</a></td>
                                 </tr>
                                 sNo += 1;

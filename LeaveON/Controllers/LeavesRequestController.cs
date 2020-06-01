@@ -83,6 +83,7 @@ namespace LeaveON.Controllers
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> Create([Bind(Include = "Id,UserId,LeaveTypeId,Reason,StartDate,EndDate,TotalDays,EmergencyContact,LineManager1Id,LineManager2Id")] Leave leave, string StartDate)
     {
+      leave.UserId = User.Identity.GetUserId();
       leave.DateCreated = DateTime.UtcNow;
       if (ModelState.IsValid)
       {

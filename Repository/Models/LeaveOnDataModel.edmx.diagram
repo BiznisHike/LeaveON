@@ -28,6 +28,7 @@
         <AssociationConnector Association="LeaveONModels.FK_LeaveBalance_LeaveType" />
         <AssociationConnector Association="LeaveONModels.FK_UserLeavePolicyDetail_LeaveType" />
         <AssociationConnector Association="LeaveONModels.FK_UserLeavePolicyDetail_UserLeavePolicy" />
+        <AssociationConnector Association="LeaveONModels.FK_LeaveBalance_UserLeavePolicy" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

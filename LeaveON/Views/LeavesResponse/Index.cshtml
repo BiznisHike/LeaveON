@@ -44,13 +44,17 @@
                   <thead>
                     <tr role="row">
                       <th class="sorting_desc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="StartDate: activate to sort column ascending" aria-sort="descending">
+                        Eamil
+                      </th>
+                      <th class="sorting_desc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="StartDate: activate to sort column ascending" aria-sort="descending">
                         @Html.DisplayNameFor(model => model.StartDate)
                       </th>
                       <th class="sorting_desc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="EndDate: activate to sort column ascending" aria-sort="descending">
                         @Html.DisplayNameFor(model => model.EndDate)
                       </th>
                       <th class="sorting_desc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" aria-sort="descending">
-                        @Html.DisplayNameFor(model => model.LeaveType.Name)
+                        @*@Html.DisplayNameFor(model => model.LeaveType.Name)*@
+                        Leave Type
                       </th>
 
                       <th class="sorting_desc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="TotalDays: activate to sort column ascending" aria-sort="descending">
@@ -79,6 +83,9 @@
                   @foreach (var item in Model)
                   {
                 <tr role="row" class="odd">
+                  <td>
+                    @Html.DisplayFor(modelItem => item.AspNetUser.UserName)
+                  </td>
                   <td>
                     @Html.DisplayFor(modelItem => item.StartDate)
                   </td>
@@ -112,11 +119,11 @@
                   </td>
                   <td>
                     @*@Html.DisplayFor(modelItem => item.IsAccepted2)*@
-                    @if (item.IsAccepted1 != null && item.IsAccepted1 > 0)
+                    @if (item.IsAccepted2 != null && item.IsAccepted2 > 0)
                     {
                       <p style="color:green"> Accepted </p>
                     }
-                    @if (item.IsAccepted1 != null && item.IsAccepted1 == 0)
+                    @if (item.IsAccepted2 != null && item.IsAccepted2 == 0)
                     {
                       <p style="color:red"> Rejected </p>
                     }
@@ -126,7 +133,7 @@
                 
 
                   <td>
-                    @Html.ActionLink("Reply", "Edit", new { id = item.Id }) @*|*@
+                    @Html.ActionLink("Approve", "Edit", new { id = item.Id }) @*|*@
                     @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |*@
                     @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
                   </td>
