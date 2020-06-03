@@ -55,8 +55,12 @@ namespace LeaveON.Controllers
 
       ViewBag.LineManagers = new SelectList(Seniors, "Id", "UserName");
       ViewBag.UserName = User.Identity.Name;//"LoggedIn User";
+      //UserLeavePoliciesController UserLeavePolicies = new UserLeavePoliciesController();//.FileUploadMsgView("some string");
+      //var result= UserLeavePolicies.Edit(7);
+      //ViewBag.UserLeavePolicy= UserLeavePolicies.Edit(7);
       return View();
     }
+    
     public List<AspNetUser> GetSeniorStaff()
     {
       List<AspNetUser> Seniors = new List<AspNetUser>();

@@ -2317,6 +2317,7 @@
     <Content Include="Views\Countries\Index.cshtml" />
     <Content Include="Views\UserLeavePolicies\Edit - Copy.cshtml" />
     <Content Include="Views\UserLeavePolicies\_NewRow.cshtml" />
+    <Content Include="Views\UserLeavePolicies\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

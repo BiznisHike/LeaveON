@@ -143,7 +143,7 @@ namespace LeaveON.Controllers
     //}
 
     // GET: UserLeavePolicies/Edit/5
-    public async Task<ActionResult> Edit(decimal id)
+    public async Task<ActionResult> Edit(decimal id,string Caller)
     {
       if (id == null)
       {
@@ -231,7 +231,20 @@ namespace LeaveON.Controllers
       //ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Hometown", userLeavePolicy.UserId);
       //return View(userLeavePolicy);
 
-      return View(userLeavePolicyViewModel);
+
+
+      //return PartialView("_newRow", IndexId); //for ref only
+
+      if (Caller == "UserLeavePolicy")
+      {
+        return View(userLeavePolicyViewModel); //orginal
+        
+      }
+      else
+      {
+        ViewBag.LockAndHide = "True";
+        return PartialView("_Edit", userLeavePolicyViewModel);
+      }
 
     }
 
