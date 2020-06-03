@@ -257,21 +257,21 @@
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
             with font-awesome or any other icon font library -->
-            @(User.Identity.IsAuthenticated)
+            @*@(User.Identity.IsAuthenticated)
             {
 
             @if (User.IsInRole("Admin") || User.IsInRole("Manager") || User.IsInRole("User"))
-            {
+            {*@
 
               <li class="nav-item">
                 <a href="/LeavesRequest/Create" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="nav-icon fa fa-address-card"></i>
                   <p>Apply Leave</p>
                 </a>
               </li>
               <li class="nav-item has-treeview">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                  <i class="nav-icon fa fa-user fa-fw"></i>
                   <p>
                     My Leaves
                     <i class="right fas fa-angle-left"></i>
@@ -280,24 +280,24 @@
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="/LeavesRequest/Index" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
+                      <i class="far fa fa-history"></i>
                       <p>My Leaves History</p>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a href="/LeavesRequest/Create" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
+                      <i class="far fa fa-address-card"></i>
                       <p>Apply Leave</p>
                     </a>
                   </li>
                 </ul>
               </li>
-            }
+            @*}
             @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
-            {
+            {*@
               <li class="nav-item has-treeview">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                  <i class="nav-icon fa fa-address-book"></i>
                   <p>
                     Users Applications
                     <i class="right fas fa-angle-left"></i>
@@ -306,7 +306,7 @@
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="/LeavesResponse/Index" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
+                      <i class="far far fa fa-history"></i>
                       <p>Users Applications History</p>
                     </a>
                   </li>
@@ -318,12 +318,12 @@
                   </li>*@
                 </ul>
               </li>
-            }
+            @*}
             @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
-            {
+            {*@
               <li class="nav-item has-treeview">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                  <i class="nav-icon fa fa-users"></i>
                   <p>
                     Users
                     <i class="right fas fa-angle-left"></i>
@@ -332,24 +332,24 @@
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="/AspNetUsers/Index" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
+                      <i class="far fa fa-list"></i>
                       <p>Users List</p>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a href="/Account/Register" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
+                      <i class="far fa fa-edit"></i>
                       <p>Register User</p>
                     </a>
                   </li>
                 </ul>
               </li>
-            }
+            @*}
             @if (User.IsInRole("Admin"))
-            {
+            {*@
               <li class="nav-item has-treeview">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                  <i class="nav-icon fa fa-building"></i>
                   <p>
                     Departments
                     <i class="right fas fa-angle-left"></i>
@@ -358,24 +358,24 @@
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="/Departments/Index" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
+                      <i class="far fa fa-list"></i>
                       <p>Departments List</p>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a href="/Departments/Create" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
+                      <i class="far fa fa-edit"></i>
                       <p>Add Department</p>
                     </a>
                   </li>
                 </ul>
               </li>
-            }
+            @*}
             @if (User.IsInRole("Admin"))
-            {
+            {*@
               <li class="nav-item has-treeview">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                  <i class="nav-icon fa fa-flag"></i>
                   <p>
                     Countries
                     <i class="right fas fa-angle-left"></i>
@@ -384,24 +384,24 @@
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="/Countries/Index" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
+                      <i class="far fa fa-list"></i>
                       <p>Countries List</p>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a href="/Countries/Create" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
+                      <i class="far fa fa-edit"></i>
                       <p>Add Country</p>
                     </a>
                   </li>
                 </ul>
               </li>
-            }
+            @*}
             @if (User.IsInRole("Admin"))
-            {
+            {*@
               <li class="nav-item has-treeview">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                  <i class="nav-icon fa fa-folder"></i>
                   <p>
                     Leave Types
                     <i class="right fas fa-angle-left"></i>
@@ -410,24 +410,24 @@
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="/LeaveTypes/Index" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
+                      <i class="far fa fa-list"></i>
                       <p>Leave Types List</p>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a href="/LeaveTypes/Create" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
+                      <i class="far fa fa-edit"></i>
                       <p>Add Leave Type</p>
                     </a>
                   </li>
                 </ul>
               </li>
-            }
+            @*}
             @if (User.IsInRole("Admin"))
-            {
+            {*@
               <li class="nav-item has-treeview">
                 <a href="/UserLeavePolicies/Create" class="nav-link">
-                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                  <i class="nav-icon fa fa-id-badge"></i>
                   <p>
                     User Leave Policies
                     <i class="right fas fa-angle-left"></i>
@@ -436,20 +436,21 @@
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="/UserLeavePolicies/Index" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
+                      <i class="far fa fa-list"></i>
                       <p>User Leave Polices List</p>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a href="/UserLeavePolicies/Create" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
+                      <i class="far fa fa-edit"></i>
                       <p>Add User Leave Policy</p>
                     </a>
                   </li>
                 </ul>
               </li>
-            }
-            }
+            @*}
+            }*@
+
             @*<li class="nav-item has-treeview">
                 <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-tachometer-alt"></i>
