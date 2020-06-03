@@ -35,7 +35,7 @@
         <div class="form-group">
           @Html.LabelFor(model => model.userLeavePolicy.FiscalYearStart, "Fiscal Year Start", htmlAttributes: new { @class = " " })
 
-          @Html.EditorFor(model => model.userLeavePolicy.FiscalYearStart, new { htmlAttributes = new { @class = "form-control", @id = "datepickerStart" } })
+          @Html.EditorFor(model => model.userLeavePolicy.FiscalYearStart, new { htmlAttributes = new { @class = "form-control", @id = "datepickerStart", @readonly = "readonly" } })
           @Html.ValidationMessageFor(model => model.userLeavePolicy.FiscalYearStart, "", new { @class = "text-danger" })
 
         </div>
@@ -43,7 +43,7 @@
         <div class="form-group">
           @Html.LabelFor(model => model.userLeavePolicy.FiscalYearEnd, "Fiscal Year End", htmlAttributes: new { @class = " " })
 
-          @Html.EditorFor(model => model.userLeavePolicy.FiscalYearEnd, new { htmlAttributes = new { @class = "form-control", @id = "datepickerEnd" } })
+          @Html.EditorFor(model => model.userLeavePolicy.FiscalYearEnd, new { htmlAttributes = new { @class = "form-control", @id = "datepickerEnd", @readonly = "readonly" } })
           @Html.ValidationMessageFor(model => model.userLeavePolicy.FiscalYearEnd, "", new { @class = "text-danger" })
 
         </div>
@@ -91,19 +91,20 @@
                             int sNo = 0;
                             foreach (var item in Model.userLeavePolicyDetail)
                             {
+                              Repository.Models.LeaveBalance leaveBalance = Model.userLeavePolicy.LeaveBalances.FirstOrDefault(x => x.LeaveTypeId == item.LeaveTypeId);
                               <tr>
                                 <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="@sNo" /></td>
-                                <td>@Html.DropDownList("UserLeavePolicyDetail[" + sNo + "].LeaveTypeId", new SelectList(ViewBag.LeaveTypes, "Value", "Text", item.LeaveTypeId), null, new { @class = "form-control" })</td>
+                                <td>@Html.DropDownList("UserLeavePolicyDetail[" + sNo + "].LeaveTypeId", new SelectList(ViewBag.LeaveTypes, "Value", "Text", item.LeaveTypeId), null, new { @class = "form-control", style = "width: 145px;" })</td>
                                 <td><input name="UserLeavePolicyDetail[@sNo].Allowed" value="@(item.Allowed)" class="form-control" placeholder="Allowed"> </td>
-                                <td><input name="UserLeavePolicyDetail[@sNo].Taken" value=" " class="form-control" placeholder="Taken"> </td>
-                                <td><input name="UserLeavePolicyDetail[@sNo].Balance" value="@(item.Balance)" class="form-control" placeholder="Balance"> </td>
+                                <td><input name="UserLeavePolicyDetail[@sNo].Taken" value="@(leaveBalance.Taken)" class="form-control" placeholder="Taken"> </td>
+                                <td><input name="UserLeavePolicyDetail[@sNo].Balance" value="@(leaveBalance.Balance)" class="form-control" placeholder="Balance"> </td>
                                 <td class="Xtra"><a href="javascript:void(0);" class=" btn btn-danger remLeaveType">x</a></td>
                               </tr>
                               sNo += 1;
                               //if (sNo == 2) { break; };
                             }
                           }
-
+                                                                                                  
                         </tbody>
                         @*<tfoot>
                             <tr>
@@ -297,7 +298,7 @@
     </div>
 
   }
-  
+
 </div>
 <script>
         var LockAndHide = "@ViewBag.LockAndHide";
@@ -305,7 +306,7 @@
           $('.Xtra').hide();
           //$('.remLeaveType').hide();
           //$('.remAnnOffDay').hide();
-          
+
           //document.getElementById("EditPage").disabled = true;
           //$("#EditPage").children().prop('disabled', true);
           $("#EditPage *").prop('disabled',true);

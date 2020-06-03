@@ -17,8 +17,8 @@ namespace Repository.Models
         public decimal Id { get; set; }
         public string UserId { get; set; }
         public Nullable<int> LeaveTypeId { get; set; }
-        public Nullable<int> Taken { get; set; }
-        public Nullable<int> Balance { get; set; }
+        public Nullable<decimal> Taken { get; set; }
+        public Nullable<decimal> Balance { get; set; }
         public string Description { get; set; }
         public Nullable<decimal> UserLeavePolicyId { get; set; }
     

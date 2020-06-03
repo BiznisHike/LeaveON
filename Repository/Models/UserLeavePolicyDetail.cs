@@ -19,7 +19,6 @@ namespace Repository.Models
         public Nullable<int> LeaveTypeId { get; set; }
         public Nullable<int> Allowed { get; set; }
         public Nullable<int> CountryId { get; set; }
-        public Nullable<decimal> Balance { get; set; }
     
         public virtual Country Country { get; set; }
         public virtual LeaveType LeaveType { get; set; }
