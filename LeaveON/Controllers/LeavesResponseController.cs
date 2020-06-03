@@ -172,6 +172,9 @@ namespace LeaveON.Controllers
           leaveBalance = new LeaveBalance(ref leave);
           leaveBalance.Taken = leave.TotalDays;
           leaveBalance.Balance -= leave.TotalDays;
+          leaveBalance.UserId = leave.UserId;
+          leaveBalance.LeaveTypeId = leave.LeaveTypeId;
+          leaveBalance.UserLeavePolicyId = leave.AspNetUser.UserLeavePolicyId;
           db.LeaveBalances.Add(leaveBalance);
         }
         else

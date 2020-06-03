@@ -89,15 +89,18 @@
                           @if (Model.userLeavePolicyDetail.Count() > 0)
                           {
                             int sNo = 0;
+                            string CurrentLoginUserId = ViewBag.CurrentLoginUserId;
                             foreach (var item in Model.userLeavePolicyDetail)
                             {
-                              Repository.Models.LeaveBalance leaveBalance = Model.userLeavePolicy.LeaveBalances.FirstOrDefault(x => x.LeaveTypeId == item.LeaveTypeId);
+                              Repository.Models.LeaveBalance leaveBalance = Model.userLeavePolicy.LeaveBalances.FirstOrDefault(x => x.LeaveTypeId == item.LeaveTypeId && x.UserId == CurrentLoginUserId);
+                              string Taken = leaveBalance != null ? leaveBalance.Taken.ToString() : "";
+                              string Balance = leaveBalance != null ? leaveBalance.Balance.ToString() : "";
                               <tr>
                                 <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="@sNo" /></td>
                                 <td>@Html.DropDownList("UserLeavePolicyDetail[" + sNo + "].LeaveTypeId", new SelectList(ViewBag.LeaveTypes, "Value", "Text", item.LeaveTypeId), null, new { @class = "form-control", style = "width: 145px;" })</td>
                                 <td><input name="UserLeavePolicyDetail[@sNo].Allowed" value="@(item.Allowed)" class="form-control" placeholder="Allowed"> </td>
-                                <td><input name="UserLeavePolicyDetail[@sNo].Taken" value="@(leaveBalance.Taken)" class="form-control" placeholder="Taken"> </td>
-                                <td><input name="UserLeavePolicyDetail[@sNo].Balance" value="@(leaveBalance.Balance)" class="form-control" placeholder="Balance"> </td>
+                                <td><input name="UserLeavePolicyDetail[@sNo].Taken" value="@(leaveBalance != null ? leaveBalance.Taken.ToString() : "")" class="form-control" placeholder="Taken"> </td>
+                                <td><input name="UserLeavePolicyDetail[@sNo].Balance" value="@(leaveBalance != null ? leaveBalance.Balance.ToString() : "")" class="form-control" placeholder="Balance"> </td>
                                 <td class="Xtra"><a href="javascript:void(0);" class=" btn btn-danger remLeaveType">x</a></td>
                               </tr>
                               sNo += 1;
