@@ -53,7 +53,7 @@
 
             </textarea>*@
 
-          @Html.TextAreaFor(model => model.Reason, new { @class = "form-control", rows = "3", placeholder = "Give Reason ..." })
+          @Html.TextAreaFor(model => model.Reason, new { @class = "form-control", rows = "3", placeholder = "Give Reason ...",required="required" })
 
 
           @Html.ValidationMessageFor(model => model.Reason, "", new { @class = "text-danger" })
@@ -80,7 +80,7 @@
         <div class="form-group">
           @Html.LabelFor(model => model.StartDate, "Start Date", htmlAttributes: new { @class = " " })
 
-          @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", @id = "datepickerStart" } })
+          @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", @id = "datepickerStart",required= "required " } })
           @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
 
         </div>
@@ -88,7 +88,7 @@
         <div class="form-group">
           @Html.LabelFor(model => model.EndDate, "End Date", htmlAttributes: new { @class = " " })
 
-          @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control", @id = "datepickerEnd" } })
+          @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control", @id = "datepickerEnd",required= "required " } })
           @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
 
         </div>
@@ -97,7 +97,7 @@
         <div class="form-group">
           @Html.LabelFor(model => model.TotalDays, "Total Days", htmlAttributes: new { @class = " " })
 
-          @Html.EditorFor(model => model.TotalDays, new { htmlAttributes = new { @class = "form-control", id = "diff" } })
+          @Html.EditorFor(model => model.TotalDays, new { htmlAttributes = new { @class = "form-control", id = "diff",@readonly="readonly" } })
           @Html.ValidationMessageFor(model => model.TotalDays, "", new { @class = "text-danger" })
 
         </div>
@@ -105,7 +105,7 @@
         <div class="form-group">
           @Html.LabelFor(model => model.EmergencyContact, "Emergency Contact", htmlAttributes: new { @class = " " })
 
-          @Html.EditorFor(model => model.EmergencyContact, new { htmlAttributes = new { @class = "form-control" } })
+          @Html.EditorFor(model => model.EmergencyContact, new { htmlAttributes = new { @class = "form-control",required= "required " } })
           @Html.ValidationMessageFor(model => model.EmergencyContact, "", new { @class = "text-danger" })
 
         </div>

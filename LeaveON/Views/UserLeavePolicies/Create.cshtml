@@ -17,7 +17,7 @@
 <!-- left column -->
 <div class="col-md-6">
   <!-- general form elements -->
-  <div class="card card-primary">
+  <div class="card card-warning">
     <div class="card-header">
       <h3 class="card-title">User Leave Policy</h3>
     </div>
@@ -39,25 +39,27 @@
       @Html.ValidationMessageFor(model => model.userLeavePolicy.UserId, "", new { @class = "text-danger" })*@
 
     </div>
-    <div class="form-group">
+    <div class="form-group" >
       @Html.LabelFor(model => model.userLeavePolicy.Description, "Description", htmlAttributes: new { @class = " " })
 
-      @Html.EditorFor(model => model.userLeavePolicy.Description, new { htmlAttributes = new { @class = "form-control" } })
+      @Html.EditorFor(model => model.userLeavePolicy.Description, new { htmlAttributes = new { @class = "form-control" ,required= "required " } })
       @Html.ValidationMessageFor(model => model.userLeavePolicy.Description, "", new { @class = "text-danger" })
 
     </div>
     <div class="form-group">
+
       @Html.LabelFor(model => model.userLeavePolicy.FiscalYearStart, "Fiscal Year Start", htmlAttributes: new { @class = " " })
-
-      @Html.EditorFor(model => model.userLeavePolicy.FiscalYearStart, new { htmlAttributes = new { @class = "form-control", @id = "datepickerStart" } })
-      @Html.ValidationMessageFor(model => model.userLeavePolicy.FiscalYearStart, "", new { @class = "text-danger" })
-
+      
+        @Html.EditorFor(model => model.userLeavePolicy.FiscalYearStart, new { htmlAttributes = new { @class = "form-control", @id = "datepickerStart", required = "required " } })
+       
+        @Html.ValidationMessageFor(model => model.userLeavePolicy.FiscalYearStart, "", new { @class = "text-danger" })
+     
     </div>
 
     <div class="form-group">
       @Html.LabelFor(model => model.userLeavePolicy.FiscalYearEnd, "Fiscal Year End", htmlAttributes: new { @class = " " })
 
-      @Html.EditorFor(model => model.userLeavePolicy.FiscalYearEnd, new { htmlAttributes = new { @class = "form-control", @id = "datepickerEnd" } })
+      @Html.EditorFor(model => model.userLeavePolicy.FiscalYearEnd, new { htmlAttributes = new { @class = "form-control", @id = "datepickerEnd" ,required= "required "  } })
       @Html.ValidationMessageFor(model => model.userLeavePolicy.FiscalYearEnd, "", new { @class = "text-danger" })
 
     </div>
@@ -94,7 +96,7 @@
                           <th>Leave Type</th>
                           <th>Allowed</th>
                           <th>Taken</th>
-                          <th>Description</th>
+                          <th>Balance</th>
                           <th></th>
 
                         </tr>
@@ -330,7 +332,7 @@
 
 
       <div id="divDep">
-        @Html.DropDownList("Departments", null, htmlAttributes: new { @class = "form-control selectpicker", @id = "listDepartments", @multiple = "multiple", data_live_search = "true", data_actions_box = "true", data_done_button = "true" })
+        @Html.DropDownList("Departments", null, htmlAttributes: new { @class = "form-control selectpicker",required= "required ", @id = "listDepartments", @multiple = "multiple", data_live_search = "true", data_actions_box = "true", data_done_button = "true" })
       </div>
 
       <div id="divEmp" style="display: none;">
