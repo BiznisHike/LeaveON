@@ -9,6 +9,8 @@ using System.Web;
 using System.Web.Mvc;
 using Repository.Models;
 using Microsoft.AspNet.Identity;
+using LMS.Models;
+
 namespace LeaveON.Controllers
 {
   [Authorize]
@@ -192,6 +194,20 @@ namespace LeaveON.Controllers
         db.Entry(leave).State = EntityState.Modified;
 
         await db.SaveChangesAsync();
+        if (IsLineManager1 == "True")
+        {
+          AspNetUser admin = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.LineManager1Id);
+          SendEmail.SendEmailUsingLeavON(SendEmail.LeavON_Email, SendEmail.LeavON_Password, admin, leave.AspNetUser , "LeaveRequest");
+        }
+        else
+        {
+          AspNetUser admin = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.LineManager2Id);
+          SendEmail.SendEmailUsingLeavON(SendEmail.LeavON_Email, SendEmail.LeavON_Password, admin, leave.AspNetUser, "LeaveRequest");
+        }
+        
+        //AspNetUser admin2 = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.LineManager2Id);
+        //SendEmail.SendEmailUsingLeavON(SendEmail.LeavON_Email, SendEmail.LeavON_Password, leave.AspNetUser, admin2, "LeaveRequest");
+
         return RedirectToAction("Index");
       }
       ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes, "Id", "Name", leave.LeaveTypeId);

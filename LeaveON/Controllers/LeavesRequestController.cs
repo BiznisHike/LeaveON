@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using Repository.Models;
 using Microsoft.AspNet.Identity;
+using LMS.Models;
 
 namespace LeaveON.Controllers
 {
@@ -95,6 +96,10 @@ namespace LeaveON.Controllers
 
         db.Leaves.Add(leave);
         await db.SaveChangesAsync();
+        AspNetUser admin1 = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.LineManager1Id);
+        SendEmail.SendEmailUsingLeavON(SendEmail.LeavON_Email, SendEmail.LeavON_Password, leave.AspNetUser, admin1, "LeaveRequest");
+        AspNetUser admin2 = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.LineManager2Id);
+        SendEmail.SendEmailUsingLeavON(SendEmail.LeavON_Email, SendEmail.LeavON_Password, leave.AspNetUser, admin2, "LeaveRequest");
         return RedirectToAction("Index");
       }
 
