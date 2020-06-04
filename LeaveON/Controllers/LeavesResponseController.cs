@@ -11,7 +11,7 @@ using Repository.Models;
 using Microsoft.AspNet.Identity;
 namespace LeaveON.Controllers
 {
-  //[Authorize]
+  [Authorize]
   [Authorize(Roles = "Admin,Manager")]
   public class LeavesResponseController : Controller
   {

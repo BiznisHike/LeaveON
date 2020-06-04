@@ -12,8 +12,8 @@ using Microsoft.AspNet.Identity;
 
 namespace LeaveON.Controllers
 {
-  //[Authorize]
-  //[Authorize(Roles = "Admin,Manager,User")]
+  [Authorize]
+  [Authorize(Roles = "Admin,Manager,User")]
   public class LeavesRequestController : Controller
   {
     private LeaveONEntities db = new LeaveONEntities();
