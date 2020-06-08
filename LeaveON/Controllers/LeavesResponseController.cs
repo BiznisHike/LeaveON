@@ -13,7 +13,7 @@ using LMS.Models;
 
 namespace LeaveON.Controllers
 {
-  //[Authorize]
+  [Authorize]
   [Authorize(Roles = "Admin,Manager")]
   public class LeavesResponseController : Controller
   {
@@ -57,9 +57,9 @@ namespace LeaveON.Controllers
     public List<AspNetUser> GetSeniorStaff()
     {
       List<AspNetUser> Seniors = new List<AspNetUser>();
-      foreach (AspNetUser user in db.AspNetUsers)
+      foreach (AspNetUser user in db.AspNetUsers.ToList<AspNetUser>())
       {
-        foreach (AspNetRole role in user.AspNetRoles)
+        foreach (AspNetRole role in user.AspNetRoles.ToList<AspNetRole>())
         {
           if (role.Name == "Admin" || role.Name == "Manager")
           {

@@ -11,7 +11,7 @@ using Repository.Models;
 
 namespace LeaveON.Controllers
 {
-  //[Authorize]
+  [Authorize]
   [Authorize(Roles = "Admin,Manager")]
   public class AspNetUsersController : Controller
     {

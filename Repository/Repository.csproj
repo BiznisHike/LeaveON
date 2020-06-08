@@ -60,6 +60,7 @@
     <Compile Include="Models\AspNetUser.cs">
       <DependentUpon>LeaveOnDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AspNetUser_Metadata.cs" />
     <Compile Include="Models\Country.cs">
       <DependentUpon>LeaveOnDataModel.tt</DependentUpon>
     </Compile>
