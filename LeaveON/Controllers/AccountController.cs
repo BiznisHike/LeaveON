@@ -150,7 +150,7 @@ namespace LeaveON.Controllers
     //
     // GET: /Account/Register
     //[AllowAnonymous]
-    [Authorize(Roles ="Admin,Manager")]
+    [Authorize(Roles = "Admin,Manager")]
     public ActionResult Register()
     {
       ViewBag.Departments = db.Departments;

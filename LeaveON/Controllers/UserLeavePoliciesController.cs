@@ -15,7 +15,7 @@ using Microsoft.AspNet.Identity;
 namespace LeaveON.Controllers
 {
   //[Authorize]
-  //[Authorize(Roles = "Admin")]
+  [Authorize(Roles = "Admin")]
   public class UserLeavePoliciesController : Controller
   {
     private LeaveONEntities db = new LeaveONEntities();

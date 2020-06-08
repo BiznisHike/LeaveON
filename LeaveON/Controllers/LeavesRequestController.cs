@@ -14,7 +14,7 @@ using LMS.Models;
 namespace LeaveON.Controllers
 {
   //[Authorize]
-  //[Authorize(Roles = "Admin,Manager,User")]
+  [Authorize(Roles = "Admin,Manager,User")]
   public class LeavesRequestController : Controller
   {
     private LeaveONEntities db = new LeaveONEntities();
