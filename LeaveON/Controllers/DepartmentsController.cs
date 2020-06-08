@@ -11,8 +11,8 @@ using Repository.Models;
 
 namespace LeaveON.Controllers
 {
-  [Authorize]
-  //[Authorize(Roles = "Admin")]
+  
+  [Authorize(Roles = "Admin")]
   public class DepartmentsController : Controller
   {
     private LeaveONEntities db = new LeaveONEntities();

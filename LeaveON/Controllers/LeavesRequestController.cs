@@ -13,7 +13,7 @@ using LMS.Models;
 
 namespace LeaveON.Controllers
 {
-  //[Authorize]
+  
   [Authorize(Roles = "Admin,Manager,User")]
   public class LeavesRequestController : Controller
   {

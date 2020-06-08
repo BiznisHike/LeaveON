@@ -11,7 +11,7 @@ using Repository.Models;
 
 namespace LeaveON.Controllers
 {
-  [Authorize]
+  
   [Authorize(Roles = "Admin")]
   public class UserLeavePolicyDetailsController : Controller
     {
