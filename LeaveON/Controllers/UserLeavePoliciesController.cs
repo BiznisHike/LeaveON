@@ -144,6 +144,7 @@ namespace LeaveON.Controllers
     //}
 
     // GET: UserLeavePolicies/Edit/5
+    [Authorize(Roles = "Admin,Manager,User")]
     public async Task<ActionResult> Edit(decimal id,string Caller)
     {
       if (id == null)
