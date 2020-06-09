@@ -54,12 +54,15 @@
     <Compile Include="Models\AnnualOffDay.cs">
       <DependentUpon>LeaveOnDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AspNetCountry_Metadata.cs" />
+    <Compile Include="Models\AspNetDepartment_Metadata.cs" />
     <Compile Include="Models\AspNetRole.cs">
       <DependentUpon>LeaveOnDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUser.cs">
       <DependentUpon>LeaveOnDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AspNetUserLeavePolicy_Metadata.cs" />
     <Compile Include="Models\AspNetUser_Metadata.cs" />
     <Compile Include="Models\Country.cs">
       <DependentUpon>LeaveOnDataModel.tt</DependentUpon>
