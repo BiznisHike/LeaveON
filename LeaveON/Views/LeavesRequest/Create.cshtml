@@ -80,7 +80,7 @@
         <div class="form-group">
           @Html.LabelFor(model => model.StartDate, "Start Date", htmlAttributes: new { @class = " " })
 
-          @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", @id = "datepickerStart",required= "required " } })
+          @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", @id = "datepickerStart",required= "required ",@readonly="readonly" } })
           @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
 
         </div>
@@ -88,7 +88,7 @@
         <div class="form-group">
           @Html.LabelFor(model => model.EndDate, "End Date", htmlAttributes: new { @class = " " })
 
-          @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control", @id = "datepickerEnd",required= "required " } })
+          @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control", @id = "datepickerEnd",required= "required ",@readonly="readonly" } })
           @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
 
         </div>
