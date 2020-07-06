@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeaveON", "LeaveON\LeaveON.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{E65CBC04-25CA-456C-AC4E-B22009B0773E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeManagement", "TimeManagement\TimeManagement.csproj", "{F3FD3054-E9EF-444B-A326-609AD3FC38FF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{E65CBC04-25CA-456C-AC4E-B22009B0773E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E65CBC04-25CA-456C-AC4E-B22009B0773E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E65CBC04-25CA-456C-AC4E-B22009B0773E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3FD3054-E9EF-444B-A326-609AD3FC38FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3FD3054-E9EF-444B-A326-609AD3FC38FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3FD3054-E9EF-444B-A326-609AD3FC38FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3FD3054-E9EF-444B-A326-609AD3FC38FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

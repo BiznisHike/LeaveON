@@ -15,12 +15,13 @@ using Microsoft.AspNet.Identity;
 namespace LeaveON.Controllers
 {
   
-  [Authorize(Roles = "Admin")]
+  
   public class UserLeavePoliciesController : Controller
   {
     private LeaveONEntities db = new LeaveONEntities();
 
     // GET: UserLeavePolicies
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult> Index()
     {
       //var userLeavePolicies = db.UserLeavePolicies.Include(u => u.AspNetUser);
@@ -29,6 +30,7 @@ namespace LeaveON.Controllers
     }
 
     // GET: UserLeavePolicies/Details/5
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult> Details(decimal id)
     {
       if (id == null)
@@ -42,6 +44,7 @@ namespace LeaveON.Controllers
       }
       return View(userLeavePolicy);
     }
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public ActionResult AddNewRow(string IndexId)
     {
@@ -49,6 +52,7 @@ namespace LeaveON.Controllers
       return PartialView("_newRow", IndexId);
     }
     // GET: UserLeavePolicies/Create
+    [Authorize(Roles = "Admin")]
     public ActionResult Create()
     {
       ViewBag.Employees = new SelectList(db.AspNetUsers, "Id", "UserName");
@@ -63,6 +67,7 @@ namespace LeaveON.Controllers
     // POST: UserLeavePolicies/Create
     // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
     // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> Create([Bind(Prefix = "UserLeavePolicy", Include = "Id,UserId,WeeklyOffDays,FiscalYearStart,FiscalYearEnd,FiscalYearPeriod")] UserLeavePolicy userLeavePolicy,
@@ -169,10 +174,10 @@ namespace LeaveON.Controllers
       IQueryable<AspNetUser> usersFilterd = db.AspNetUsers.Where(x => x.UserLeavePolicyId == id);
 
 
-      foreach (AspNetUser usr in usersFilterd)
-      {
-        //depFilterd = db.Departments.Where(x => x.Id == usr.DepartmentId).Distinct<Department>().ToList<Department>();
-      }
+      //foreach (AspNetUser usr in usersFilterd)
+      //{
+      //  //depFilterd = db.Departments.Where(x => x.Id == usr.DepartmentId).Distinct<Department>().ToList<Department>();
+      //}
       //List<int> SelectedDeps = new List<int>(new int[] { 1,2 });
       List<string> SelectedDeps = new List<string>();
       List<string> SelectedEmps = new List<string>();
@@ -253,6 +258,7 @@ namespace LeaveON.Controllers
     // POST: UserLeavePolicies/Edit/5
     // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
     // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> Edit([Bind(Prefix = "UserLeavePolicy", Include = "Id,UserId,WeeklyOffDays,FiscalYearStart,FiscalYearEnd,FiscalYearPeriod")] UserLeavePolicy userLeavePolicy,
@@ -290,26 +296,60 @@ namespace LeaveON.Controllers
         {
           int[] DepartmentsList = Array.ConvertAll(DepartmentList, int.Parse);
           Department dep;
+          //ToDo: country filter in this loop
           foreach (int itm in DepartmentsList)
           {
             dep = db.Departments.FirstOrDefault(x => x.Id == itm);
-            foreach (AspNetUser user in dep.AspNetUsers)
+            foreach (AspNetUser aspNetUser in dep.AspNetUsers)
             {
-              user.UserLeavePolicyId = userLeavePolicy.Id;
+              //user.UserLeavePolicyId = userLeavePolicy.Id;
+
+              string userId = EmployeeList.FirstOrDefault(x => x == aspNetUser.Id).ToString();
+
+              if (string.IsNullOrEmpty(userId))
+              {
+                aspNetUser.UserLeavePolicyId = null;
+              }
+              else
+              {
+                aspNetUser.UserLeavePolicyId = userLeavePolicy.Id;
+              }
+              db.AspNetUsers.Attach(aspNetUser);
+              db.Entry(aspNetUser).Property(x => x.UserLeavePolicyId).IsModified = true;
+
+
             }
           }
         }
         else
         {
-          AspNetUser user;
-          foreach (string empId in EmployeeList)
+          //AspNetUser user;
+          //foreach (string empId in EmployeeList)
+          //{
+          //  user = db.AspNetUsers.FirstOrDefault(x => x.Id == empId);
+          //  user.UserLeavePolicyId = userLeavePolicy.Id;
+          //}
+          //ToDo: country filter in this loop
+          foreach (AspNetUser aspNetUser in db.AspNetUsers.ToList<AspNetUser>())
           {
-            user = db.AspNetUsers.FirstOrDefault(x => x.Id == empId);
-            user.UserLeavePolicyId = userLeavePolicy.Id;
-            //user.UserLeavePolicyId = userLeavePolicy.Id;
 
+            string userId = EmployeeList.FirstOrDefault(x => x == aspNetUser.Id);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+              aspNetUser.UserLeavePolicyId = null;
+            }
+            else
+            {
+              aspNetUser.UserLeavePolicyId = userLeavePolicy.Id;
+            }
+            db.AspNetUsers.Attach(aspNetUser);
+            db.Entry(aspNetUser).Property(x => x.UserLeavePolicyId).IsModified = true;
           }
+
         }
+
+
 
         IQueryable<UserLeavePolicyDetail> oldLPD = db.UserLeavePolicyDetails.AsQueryable().Where(x => x.UserLeavePolicyId == userLeavePolicy.Id);
 
@@ -325,7 +365,7 @@ namespace LeaveON.Controllers
       //ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Hometown", userLeavePolicy.UserId);
       return View(userLeavePolicy);
     }
-
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public ActionResult UploadFiles()
     {
@@ -408,6 +448,7 @@ namespace LeaveON.Controllers
     }
 
     // GET: UserLeavePolicies/Delete/5
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult> Delete(decimal id)
     {
       if (id == null)

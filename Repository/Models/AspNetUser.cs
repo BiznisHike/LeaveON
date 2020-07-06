@@ -40,6 +40,7 @@ namespace Repository.Models
         public string Remarks { get; set; }
         public int DepartmentId { get; set; }
         public Nullable<decimal> UserLeavePolicyId { get; set; }
+        public Nullable<int> BioStarEmpNum { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetRole> AspNetRoles { get; set; }

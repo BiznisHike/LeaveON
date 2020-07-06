@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E65CBC04-25CA-456C-AC4E-B22009B0773E}</ProjectGuid>
+    <ProjectGuid>{F3FD3054-E9EF-444B-A326-609AD3FC38FF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Repository</RootNamespace>
-    <AssemblyName>Repository</AssemblyName>
+    <RootNamespace>TimeManagement</RootNamespace>
+    <AssemblyName>TimeManagement</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -50,83 +50,53 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\AnnualOffDay.cs">
-      <DependentUpon>LeaveOnDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AspNetCountry_Metadata.cs" />
-    <Compile Include="Models\AspNetDepartment_Metadata.cs" />
-    <Compile Include="Models\AspNetRole.cs">
-      <DependentUpon>LeaveOnDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AspNetUser.cs">
-      <DependentUpon>LeaveOnDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AspNetUserLeavePolicy_Metadata.cs" />
-    <Compile Include="Models\AspNetUser_Metadata.cs" />
-    <Compile Include="Models\Country.cs">
-      <DependentUpon>LeaveOnDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Department.cs">
-      <DependentUpon>LeaveOnDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Leave.cs">
-      <DependentUpon>LeaveOnDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\LeaveBalance.cs">
-      <DependentUpon>LeaveOnDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\LeaveBalance_Metadata.cs" />
-    <Compile Include="Models\LeaveOnDataModel.Context.cs">
+    <Compile Include="Models\TimeManagementDataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>LeaveOnDataModel.Context.tt</DependentUpon>
+      <DependentUpon>TimeManagementDataModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\LeaveOnDataModel.cs">
+    <Compile Include="Models\TimeManagementDataModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>LeaveOnDataModel.tt</DependentUpon>
+      <DependentUpon>TimeManagementDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\LeaveOnDataModel.Designer.cs">
+    <Compile Include="Models\TimeManagementDataModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>LeaveOnDataModel.edmx</DependentUpon>
+      <DependentUpon>TimeManagementDataModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\LeaveType.cs">
-      <DependentUpon>LeaveOnDataModel.tt</DependentUpon>
+    <Compile Include="Models\UD_TB_AccessTime_Data.cs">
+      <DependentUpon>TimeManagementDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Leave_Metadata.cs" />
-    <Compile Include="Models\UserLeavePolicy.cs">
-      <DependentUpon>LeaveOnDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\UserLeavePolicyDetail.cs">
-      <DependentUpon>LeaveOnDataModel.tt</DependentUpon>
+    <Compile Include="Models\UD_TB_AD_USER.cs">
+      <DependentUpon>TimeManagementDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <EntityDeploy Include="Models\LeaveOnDataModel.edmx">
+    <EntityDeploy Include="Models\TimeManagementDataModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>LeaveOnDataModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>TimeManagementDataModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <None Include="Models\LeaveOnDataModel.edmx.diagram">
-      <DependentUpon>LeaveOnDataModel.edmx</DependentUpon>
+    <None Include="Models\TimeManagementDataModel.edmx.diagram">
+      <DependentUpon>TimeManagementDataModel.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Models\LeaveOnDataModel.Context.tt">
+    <Content Include="Models\TimeManagementDataModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>LeaveOnDataModel.Context.cs</LastGenOutput>
-      <DependentUpon>LeaveOnDataModel.edmx</DependentUpon>
+      <LastGenOutput>TimeManagementDataModel.Context.cs</LastGenOutput>
+      <DependentUpon>TimeManagementDataModel.edmx</DependentUpon>
     </Content>
-    <Content Include="Models\LeaveOnDataModel.tt">
+    <Content Include="Models\TimeManagementDataModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>LeaveOnDataModel.edmx</DependentUpon>
-      <LastGenOutput>LeaveOnDataModel.cs</LastGenOutput>
+      <DependentUpon>TimeManagementDataModel.edmx</DependentUpon>
+      <LastGenOutput>TimeManagementDataModel.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

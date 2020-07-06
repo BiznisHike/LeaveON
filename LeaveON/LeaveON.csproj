@@ -217,6 +217,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\AccessTimeDataController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AspNetUsersController.cs" />
     <Compile Include="Controllers\CountriesController.cs" />
@@ -228,7 +229,6 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MeController.cs" />
     <Compile Include="Controllers\UserLeavePoliciesController.cs" />
-    <Compile Include="Controllers\UserLeavePolicyDetailsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -247,6 +247,10 @@
     <Compile Include="Migrations\202004160929307_Added DepartmnetId.cs" />
     <Compile Include="Migrations\202004160929307_Added DepartmnetId.Designer.cs">
       <DependentUpon>202004160929307_Added DepartmnetId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006281012155_BioStarEmpNum.cs" />
+    <Compile Include="Migrations\202006281012155_BioStarEmpNum.Designer.cs">
+      <DependentUpon>202006281012155_BioStarEmpNum.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -2276,11 +2280,6 @@
     <Content Include="Views\UserLeavePolicies\Details.cshtml" />
     <Content Include="Views\UserLeavePolicies\Edit.cshtml" />
     <Content Include="Views\UserLeavePolicies\Index.cshtml" />
-    <Content Include="Views\UserLeavePolicyDetails\Create.cshtml" />
-    <Content Include="Views\UserLeavePolicyDetails\Delete.cshtml" />
-    <Content Include="Views\UserLeavePolicyDetails\Details.cshtml" />
-    <Content Include="Views\UserLeavePolicyDetails\Edit.cshtml" />
-    <Content Include="Views\UserLeavePolicyDetails\Index.cshtml" />
     <Content Include="Views\LeavesRequest\Create.cshtml" />
     <Content Include="Views\LeavesRequest\Delete.cshtml" />
     <Content Include="Views\LeavesRequest\Details.cshtml" />
@@ -2319,6 +2318,14 @@
     <Content Include="Views\UserLeavePolicies\Edit - Copy.cshtml" />
     <Content Include="Views\UserLeavePolicies\_NewRow.cshtml" />
     <Content Include="Views\UserLeavePolicies\_Edit.cshtml" />
+    <Content Include="Views\AccessTimeData\Create.cshtml" />
+    <Content Include="Views\AccessTimeData\Delete.cshtml" />
+    <Content Include="Views\AccessTimeData\Details.cshtml" />
+    <Content Include="Views\AccessTimeData\Edit.cshtml" />
+    <Content Include="Views\AccessTimeData\PersonalData.cshtml" />
+    <Content Include="Views\AccessTimeData\_DepartmentData.cshtml" />
+    <Content Include="Views\AccessTimeData\DepartmentData.cshtml" />
+    <Content Include="Views\AccessTimeData\_PersonalData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2366,11 +2373,18 @@
     <EmbeddedResource Include="Migrations\202004160929307_Added DepartmnetId.resx">
       <DependentUpon>202004160929307_Added DepartmnetId.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006281012155_BioStarEmpNum.resx">
+      <DependentUpon>202006281012155_BioStarEmpNum.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Repository\Repository.csproj">
       <Project>{e65cbc04-25ca-456c-ac4e-b22009b0773e}</Project>
       <Name>Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TimeManagement\TimeManagement.csproj">
+      <Project>{f3fd3054-e9ef-444b-a326-609ad3fc38ff}</Project>
+      <Name>TimeManagement</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
