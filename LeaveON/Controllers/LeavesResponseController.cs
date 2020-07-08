@@ -80,7 +80,7 @@ namespace LeaveON.Controllers
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> Create([Bind(Include = "Id,UserId,LeaveTypeId,Reason,StartDate,EndDate,TotalDays,EmergencyContact,LineManager1Id,LineManager2Id")] Leave leave)
     {
-      leave.DateCreated = DateTime.UtcNow;
+      leave.DateCreated = DateTime.Now;
       if (ModelState.IsValid)
       {
         db.Leaves.Add(leave);
@@ -159,13 +159,13 @@ namespace LeaveON.Controllers
       {
         leave.IsAccepted1 = IsAccepted1;
         leave.Remarks1 = Remarks1;
-        leave.ResponseDate1 = DateTime.UtcNow;
+        leave.ResponseDate1 = DateTime.Now;
       }
       else
       {
         leave.IsAccepted2 = IsAccepted2;
         leave.Remarks2 = Remarks2;
-        leave.ResponseDate2 = DateTime.UtcNow;
+        leave.ResponseDate2 = DateTime.Now;
         LeaveBalance leaveBalance = CalculateLeaveBalance(ref leave);
 
         if (leaveBalance == null)

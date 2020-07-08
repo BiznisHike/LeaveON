@@ -8,11 +8,11 @@ using System.Web;
 
 namespace LMS.Models
 {
-    public static class SendEmail
-    {
+  public static class SendEmail
+  {
 
     public const string LeavON_Email = "leaveon.nuces@gmail.com";
-    public const string LeavON_Password = "Paki1234*";
+    public const string LeavON_Password = "Pakistan12345678*";
     /// <summary>
     /// Function will send email.
     /// </summary>
@@ -25,122 +25,122 @@ namespace LMS.Models
     /// It is meant to add in further detail for anyone who might read this  
     /// code in the future </remarks>
     public static void SendEmailUsingLeavON(string LeavON_Email, string LeavON_Password, AspNetUser sender, AspNetUser receiver, String MessageType)
+    {
+
+      MailMessage mail = new MailMessage();
+
+      SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
+      smtpServer.UseDefaultCredentials = false;
+
+      smtpServer.Credentials = new System.Net.NetworkCredential(LeavON_Email, LeavON_Password);
+      //smtpServer.Host = "smtp.gmail.com"; not neccesry now. as mention above
+      smtpServer.Port = 587; //465;//587; // Gmail works on this port
+      smtpServer.EnableSsl = true;
+
+      try
+      {
+
+        mail.From = new MailAddress(LeavON_Email);
+        //mail.From = new MailAddress(sender.Email);
+        mail.To.Add(new MailAddress(receiver.Email));
+
+
+        switch (MessageType)
         {
+          case "LeaveRequest":
+            mail.Subject = sender.UserName + " posted a Leave request";
+            mail.Body = "Dear , " + receiver.UserName +
+                Environment.NewLine + "I have sent you a leave request. kindly login to LeaveON account " + "http://localhost:29972/LeaveAccept/Index" + " for detail." +
+                Environment.NewLine +
+                Environment.NewLine + "Best Regards " +
+                Environment.NewLine +
+                sender.UserName +  //string.Format(body, model.FromName, model.FromEmail, model.Message);
+                Environment.NewLine + "This is system generated email, don't reply it";
 
-            MailMessage mail = new MailMessage();
+            break;
+          case "LeaveAccept":
 
-            SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
-            //smtpServer.UseDefaultCredentials = false;
-
-            smtpServer.Credentials = new System.Net.NetworkCredential(LeavON_Email, LeavON_Password);
-            //smtpServer.Host = "smtp.gmail.com"; not neccesry now. as mention above
-            smtpServer.Port = 587; // Gmail works on this port
-            smtpServer.EnableSsl = true;
-
-            try
-            {
-
-                mail.From = new MailAddress(LeavON_Email);
-                //mail.From = new MailAddress(sender.Email);
-                mail.To.Add(new MailAddress(receiver.Email));
-                
-
-                switch (MessageType)
-                {
-                    case "LeaveRequest":
-                        mail.Subject = sender.UserName + " posted a Leave request";
-                        mail.Body = "Dear , " + receiver.UserName +
-                            Environment.NewLine + "I have sent you a leave request. kindly login to LeaveON account " + "http://localhost:29972/LeaveAccept/Index" + " for detail." + 
-                            Environment.NewLine +
-                            Environment.NewLine + "Best Regards " + 
-                            Environment.NewLine +
-                            sender.UserName +  //string.Format(body, model.FromName, model.FromEmail, model.Message);
-                            Environment.NewLine + "This is system generated email, don't reply it";
-
-                        break;
-                    case "LeaveAccept":
-                        
-                        mail.Subject = sender.UserName  +  " posted a Leave response";
-                        mail.Body = "Dear " + receiver.UserName + "," +
-                            Environment.NewLine + "I just sent you feed back of your leave request. kindly login to LeaveON account  " + "http://localhost:29972/LeaveRequest/Index" + " for detail." +
-                            Environment.NewLine +
-                            Environment.NewLine + "Best Regards " +
-                            Environment.NewLine +
-                            sender.UserName +  //string.Format(body, model.FromName, model.FromEmail, model.Message);
-                            Environment.NewLine + "This is system generated email, don't reply it";
-
-                        
-                        
-                        break;
-
-                    default:
-                        //return quitely
-                        break;
-
-                }
+            mail.Subject = sender.UserName + " posted a Leave response";
+            mail.Body = "Dear " + receiver.UserName + "," +
+                Environment.NewLine + "I just sent you feed back of your leave request. kindly login to LeaveON account  " + "http://localhost:29972/LeaveRequest/Index" + " for detail." +
+                Environment.NewLine +
+                Environment.NewLine + "Best Regards " +
+                Environment.NewLine +
+                sender.UserName +  //string.Format(body, model.FromName, model.FromEmail, model.Message);
+                Environment.NewLine + "This is system generated email, don't reply it";
 
 
 
-                
+            break;
 
+          default:
+            //return quitely
+            break;
 
-                smtpServer.Send(mail);
-            }
-            catch (Exception ex)
-            {
-
-                switch (ex.HResult)
-                {
-                    case -2146233088://sender email is wrong
-                        //return quitely                  
-                        break;
-                    default:
-                        //return quitely
-                        break;
-
-                }
-            }
         }
-        public static void SendLeaveRequestEmail(string senderEmail, string senderPassword, AspNetUser receiver)
+
+
+
+
+
+
+        smtpServer.Send(mail);
+      }
+      catch (Exception ex)
+      {
+
+        switch (ex.HResult)
         {
+          case -2146233088://sender email is wrong
+                           //return quitely                  
+            break;
+          default:
+            //return quitely
+            break;
 
-            MailMessage mail = new MailMessage();
-
-            SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
-            //smtpServer.UseDefaultCredentials = false;
-            smtpServer.Credentials = new System.Net.NetworkCredential(senderEmail, senderPassword);
-            //smtpServer.Host = "smtp.gmail.com"; not neccesry now. as mention above
-            smtpServer.Port = 587; // Gmail works on this port
-            smtpServer.EnableSsl = true;
-
-            try
-            {
-
-                mail.From = new MailAddress(senderEmail);
-                mail.To.Add(new MailAddress(receiver.Email));
-                mail.Subject = "Email for Leave approval";
-                mail.Body = "Dear Sir, " + receiver.UserName + Environment.NewLine + "I have sent you a leave request. kindly login to LeaveON account " + "http://localhost:29972/LeaveAccept/Index" + " for detial." + Environment.NewLine + "best regards " + Environment.NewLine + senderEmail;  //string.Format(body, model.FromName, model.FromEmail, model.Message);
-
-
-                smtpServer.Send(mail);
-            }
-            catch (Exception ex)
-            {
-
-                switch (ex.HResult)
-                {
-                    case -2146233088://sender email is wrong
-                        //return quitely                  
-                        break;
-                    default:
-                        //return quitely
-                        break;
-
-                }
-            }
-        }//SendLeaveRequestEmail
-
+        }
+      }
     }
+    public static void SendLeaveRequestEmail(string senderEmail, string senderPassword, AspNetUser receiver)
+    {
+
+      MailMessage mail = new MailMessage();
+
+      SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
+      //smtpServer.UseDefaultCredentials = false;
+      smtpServer.Credentials = new System.Net.NetworkCredential(senderEmail, senderPassword);
+      //smtpServer.Host = "smtp.gmail.com"; not neccesry now. as mention above
+      smtpServer.Port = 587; // Gmail works on this port
+      smtpServer.EnableSsl = true;
+
+      try
+      {
+
+        mail.From = new MailAddress(senderEmail);
+        mail.To.Add(new MailAddress(receiver.Email));
+        mail.Subject = "Email for Leave approval";
+        mail.Body = "Dear Sir, " + receiver.UserName + Environment.NewLine + "I have sent you a leave request. kindly login to LeaveON account " + "http://localhost:29972/LeaveAccept/Index" + " for detial." + Environment.NewLine + "best regards " + Environment.NewLine + senderEmail;  //string.Format(body, model.FromName, model.FromEmail, model.Message);
+
+
+        smtpServer.Send(mail);
+      }
+      catch (Exception ex)
+      {
+
+        switch (ex.HResult)
+        {
+          case -2146233088://sender email is wrong
+                           //return quitely                  
+            break;
+          default:
+            //return quitely
+            break;
+
+        }
+      }
+    }//SendLeaveRequestEmail
+
+  }
 }
 
 //HOD 

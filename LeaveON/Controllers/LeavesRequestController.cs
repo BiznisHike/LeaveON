@@ -20,6 +20,7 @@ namespace LeaveON.Controllers
     private LeaveONEntities db = new LeaveONEntities();
 
     // GET: Leaves
+    //public async Task<ActionResult> Index(string country)
     public async Task<ActionResult> Index()
     {
       //var leaves = db.Leaves.Include(l => l.LeaveType).Include(l => l.UserLeavePolicy);
@@ -89,7 +90,8 @@ namespace LeaveON.Controllers
     public async Task<ActionResult> Create([Bind(Include = "Id,UserId,LeaveTypeId,Reason,StartDate,EndDate,TotalDays,EmergencyContact,LineManager1Id,LineManager2Id")] Leave leave, string StartDate)
     {
       leave.UserId = User.Identity.GetUserId();
-      leave.DateCreated = DateTime.UtcNow;
+      leave.AspNetUser = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.UserId);
+      leave.DateCreated = DateTime.Now;
       if (ModelState.IsValid)
       {
 
@@ -140,7 +142,7 @@ namespace LeaveON.Controllers
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> Edit([Bind(Include = "Id,UserId,LeaveTypeId,Reason,StartDate,EndDate,TotalDays,EmergencyContact,ResponseDate1,ResponseDate2,IsAccepted1,IsAccepted2,LineManager1Id,LineManager2Id,Remarks1,Remarks2,DateCreated,DateModified,UserLeavePolicyId")] Leave leave)
     {
-      leave.DateModified = DateTime.UtcNow;
+      leave.DateModified = DateTime.Now;
       if (ModelState.IsValid)
       {
         db.Entry(leave).State = EntityState.Modified;

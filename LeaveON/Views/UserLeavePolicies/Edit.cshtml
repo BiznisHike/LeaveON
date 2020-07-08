@@ -29,7 +29,7 @@
 
   <script>
             $(document).ready(function () {
-              var idxId = 0;
+              var idxId = 50;
           
 
               $("#addBtn").on("click", function () {
@@ -44,14 +44,15 @@
 
               });
 
-              var counter = 0;
+              var counter = 50;
 
 
               $("#AnnualOffDays").click(function () {
 
-		               $("#customFields").append('<tr valign="top">  <td style="display:none;"><input type="hidden" name="userLeavePolicy.Index" value="['+counter+']" /></td><td><input type="text" class="form-control" id="customFieldValue" name="AnnualOffDays['+counter+']" value="" placeholder="Date" /> <td><input type="text" class="form-control" id="customFieldValue" name="Description['+counter+']" value="" placeholder="Description" /></td><td> <a href="javascript:void(0);" class="btn btn-danger AnnualOffDaysRemove">x</a></td></tr>');
+                $("#customFields").append('<tr valign="top">  <td style="display:none;"><input type="hidden" name="AnnualOffDay.Index" value="' + counter + '" /></td><td><input type="text" class="form-control" id="OffDay' + counter + '" name="AnnualOffDay[' + counter + '].OffDay" value="" placeholder="Date" /> <td><input type="text" class="form-control" id="Description' + counter + '" name="AnnualOffDay[' + counter + '].Description" value="" placeholder="Description" /></td><td> <a href="javascript:void(0);" class="btn btn-danger AnnualOffDaysRemove">x</a></td></tr>');
 
-                 counter ++;
+
+                counter++;
 
                 $(".AnnualOffDaysRemove").on('click', function () {
                   $(this).parent().parent().remove();

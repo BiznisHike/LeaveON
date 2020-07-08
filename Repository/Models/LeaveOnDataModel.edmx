@@ -51,6 +51,7 @@
           <Property Name="Remarks" Type="nvarchar(max)" />
           <Property Name="DepartmentId" Type="int" Nullable="false" />
           <Property Name="UserLeavePolicyId" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="BioStarEmpNum" Type="int" />
         </EntityType>
         <EntityType Name="Country">
           <Key>
@@ -523,6 +524,7 @@
           <NavigationProperty Name="UserLeavePolicy" Relationship="LeaveONModels.FK_AspNetUsers_UserLeavePolicy" FromRole="AspNetUser" ToRole="UserLeavePolicy" />
           <NavigationProperty Name="Leaves" Relationship="LeaveONModels.FK_Leave_AspNetUsers" FromRole="AspNetUser" ToRole="Leave" />
           <NavigationProperty Name="LeaveBalances" Relationship="LeaveONModels.FK_LeaveBalance_AspNetUsers" FromRole="AspNetUser" ToRole="LeaveBalance" />
+          <Property Name="BioStarEmpNum" Type="Int32" />
         </EntityType>
         <Association Name="AspNetUserRoles">
           <End Type="LeaveONModels.AspNetRole" Role="AspNetRole" Multiplicity="*" />
@@ -841,6 +843,7 @@
           <EntitySetMapping Name="AspNetUsers">
             <EntityTypeMapping TypeName="LeaveONModels.AspNetUser">
               <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="BioStarEmpNum" ColumnName="BioStarEmpNum" />
                 <ScalarProperty Name="UserLeavePolicyId" ColumnName="UserLeavePolicyId" />
                 <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />

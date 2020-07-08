@@ -51,7 +51,7 @@ namespace LeaveON.Controllers
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> Create([Bind(Include = "Id,Name,DateCreated,DateModified")] Country country)
     {
-      country.DateCreated = DateTime.UtcNow;
+      country.DateCreated = DateTime.Now;
       if (ModelState.IsValid)
       {
         db.Countries.Add(country);
@@ -84,7 +84,7 @@ namespace LeaveON.Controllers
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> Edit([Bind(Include = "Id,Name,DateCreated,DateModified")] Country country)
     {
-      country.DateModified = DateTime.UtcNow;
+      country.DateModified = DateTime.Now;
       if (ModelState.IsValid)
       {
         db.Entry(country).State = EntityState.Modified;

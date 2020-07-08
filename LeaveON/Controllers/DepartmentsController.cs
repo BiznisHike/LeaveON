@@ -53,7 +53,7 @@ namespace LeaveON.Controllers
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> Create([Bind(Include = "Id,Idc,Name,CountryId,DateCreated,DateModified")] Department department)
     {
-      department.DateCreated = DateTime.UtcNow;
+      department.DateCreated = DateTime.Now;
       if (ModelState.IsValid)
       {
         db.Departments.Add(department);
@@ -89,7 +89,7 @@ namespace LeaveON.Controllers
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> Edit([Bind(Include = "Id,Idc,Name,CountryId,DateCreated,DateModified")] Department department)
     {
-      department.DateModified = DateTime.UtcNow;
+      department.DateModified = DateTime.Now;
       if (ModelState.IsValid)
       {
         db.Entry(department).State = EntityState.Modified;
