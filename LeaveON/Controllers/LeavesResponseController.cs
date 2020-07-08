@@ -166,26 +166,6 @@ namespace LeaveON.Controllers
         leave.IsAccepted2 = IsAccepted2;
         leave.Remarks2 = Remarks2;
         leave.ResponseDate2 = DateTime.Now;
-        LeaveBalance leaveBalance = CalculateLeaveBalance(ref leave);
-
-        if (leaveBalance == null)
-        {
-          //new
-          leaveBalance = new LeaveBalance(ref leave);
-          leaveBalance.Taken = leave.TotalDays;
-          leaveBalance.Balance -= leave.TotalDays;
-          leaveBalance.UserId = leave.UserId;
-          leaveBalance.LeaveTypeId = leave.LeaveTypeId;
-          leaveBalance.UserLeavePolicyId = leave.AspNetUser.UserLeavePolicyId;
-          db.LeaveBalances.Add(leaveBalance);
-        }
-        else
-        {
-          //old
-          leaveBalance.Taken += leave.TotalDays;
-          leaveBalance.Balance -= leave.TotalDays;
-          db.Entry(leaveBalance).State = EntityState.Modified;
-        }
 
       }
 
@@ -197,12 +177,12 @@ namespace LeaveON.Controllers
         if (IsLineManager1 == "True")
         {
           AspNetUser admin = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.LineManager1Id);
-          SendEmail.SendEmailUsingLeavON(SendEmail.LeavON_Email, SendEmail.LeavON_Password, admin, leave.AspNetUser , "LeaveRequest");
+          SendEmail.SendEmailUsingLeavON(SendEmail.LeavON_Email, SendEmail.LeavON_Password, admin, leave.AspNetUser , "LeaveResponse");
         }
         else
         {
           AspNetUser admin = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.LineManager2Id);
-          SendEmail.SendEmailUsingLeavON(SendEmail.LeavON_Email, SendEmail.LeavON_Password, admin, leave.AspNetUser, "LeaveRequest");
+          SendEmail.SendEmailUsingLeavON(SendEmail.LeavON_Email, SendEmail.LeavON_Password, admin, leave.AspNetUser, "LeaveResponse");
         }
         
         //AspNetUser admin2 = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.LineManager2Id);
@@ -214,58 +194,7 @@ namespace LeaveON.Controllers
       //ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId", leave.UserLeavePolicyId);
       return View(leave);
     }
-    public LeaveBalance CalculateLeaveBalance(ref Leave leave)
-    {
-      //check there is some weakend
-
-
-      //check there is some anual leaves/public holidays
-
-
-      //add sbubtract leave and add or update to leaveBalnce table
-
-
-      List<int> weeklyOffDays = leave.AspNetUser.UserLeavePolicy.WeeklyOffDays.Split(',').Select(int.Parse).ToList();
-      List<AnnualOffDay> AnnualOffDays = leave.AspNetUser.UserLeavePolicy.AnnualOffDays.ToList<AnnualOffDay>();
-
-      double TotalOffDays = (leave.EndDate - leave.StartDate).TotalDays + 1;
-      double NaturalOffDays = 0;
-      bool found = false;
-      for (DateTime DateIdx = leave.StartDate; DateIdx <= leave.EndDate; DateIdx = DateIdx.AddDays(1))
-      {
-
-        foreach (int d in weeklyOffDays)
-        {
-          if (d == (int)DateIdx.DayOfWeek)
-          {
-            //weekend off days
-            NaturalOffDays += 1;
-            found = true;
-            break;
-          }
-        }
-        //this condition is due to: example: if national holiday comes on sunday. then count it one day of. if this statement is not here it will conunt two days. which is wrong
-        if (found == true) { found = false; continue; }
-
-        for (int i = 0; i < AnnualOffDays.Count; i++)
-        {
-          if (DateIdx.Date.CompareTo(AnnualOffDays[i].OffDay) == 0)
-          {
-            //annual off days
-            NaturalOffDays += 1;
-            break;
-          }
-        }
-      }
-      leave.TotalDays = (int)(TotalOffDays - NaturalOffDays);
-      string UserId = leave.UserId;
-      int LeaveTypeId = leave.LeaveTypeId;
-      //List<int> weeklyOffDays = leave.AspNetUser.UserLeavePolicy.WeeklyOffDays.Split(',').Select(int.Parse).ToList();
-      
-        LeaveBalance lb = leave.AspNetUser.LeaveBalances.FirstOrDefault(x => x.UserId == UserId && x.LeaveTypeId == LeaveTypeId);
-        return lb;
-      
-    }
+    
 
     public static int CalculateLeaveDays(DateTime startDate, DateTime endDate, List<DateTime> excludeDates)
     {

@@ -82,6 +82,58 @@ namespace LeaveON.Controllers
       }
       return Seniors;
     }
+    public LeaveBalance CalculateLeaveBalance(ref Leave leave)
+    {
+      //check there is some weakend
+
+
+      //check there is some anual leaves/public holidays
+
+
+      //add sbubtract leave and add or update to leaveBalnce table
+
+
+      List<int> weeklyOffDays = leave.AspNetUser.UserLeavePolicy.WeeklyOffDays.Split(',').Select(int.Parse).ToList();
+      List<AnnualOffDay> AnnualOffDays = leave.AspNetUser.UserLeavePolicy.AnnualOffDays.ToList<AnnualOffDay>();
+
+      double TotalOffDays = (leave.EndDate - leave.StartDate).TotalDays + 1;
+      double NaturalOffDays = 0;
+      bool found = false;
+      for (DateTime DateIdx = leave.StartDate; DateIdx <= leave.EndDate; DateIdx = DateIdx.AddDays(1))
+      {
+
+        foreach (int d in weeklyOffDays)
+        {
+          if (d == (int)DateIdx.DayOfWeek)
+          {
+            //weekend off days
+            NaturalOffDays += 1;
+            found = true;
+            break;
+          }
+        }
+        //this condition is due to: example: if national holiday comes on sunday. then count it one day of. if this statement is not here it will conunt two days. which is wrong
+        if (found == true) { found = false; continue; }
+
+        for (int i = 0; i < AnnualOffDays.Count; i++)
+        {
+          if (DateIdx.Date.CompareTo(AnnualOffDays[i].OffDay) == 0)
+          {
+            //annual off days
+            NaturalOffDays += 1;
+            break;
+          }
+        }
+      }
+      leave.TotalDays = (int)(TotalOffDays - NaturalOffDays);
+      string UserId = leave.UserId;
+      int LeaveTypeId = leave.LeaveTypeId;
+      //List<int> weeklyOffDays = leave.AspNetUser.UserLeavePolicy.WeeklyOffDays.Split(',').Select(int.Parse).ToList();
+
+      LeaveBalance lb = leave.AspNetUser.LeaveBalances.FirstOrDefault(x => x.UserId == UserId && x.LeaveTypeId == LeaveTypeId);
+      return lb;
+
+    }
     // POST: Leaves/Create
     // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
     // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -95,8 +147,29 @@ namespace LeaveON.Controllers
       if (ModelState.IsValid)
       {
 
-
         db.Leaves.Add(leave);
+        ///////////////
+        LeaveBalance leaveBalance = CalculateLeaveBalance(ref leave);
+
+        if (leaveBalance == null)
+        {
+          //new
+          leaveBalance = new LeaveBalance(ref leave);
+          leaveBalance.Taken = leave.TotalDays;
+          leaveBalance.Balance -= leave.TotalDays;
+          leaveBalance.UserId = leave.UserId;
+          leaveBalance.LeaveTypeId = leave.LeaveTypeId;
+          leaveBalance.UserLeavePolicyId = leave.AspNetUser.UserLeavePolicyId;
+          db.LeaveBalances.Add(leaveBalance);
+        }
+        else
+        {
+          //old
+          leaveBalance.Taken += leave.TotalDays;
+          leaveBalance.Balance -= leave.TotalDays;
+          db.Entry(leaveBalance).State = EntityState.Modified;
+        }
+        ///////////////
         await db.SaveChangesAsync();
         AspNetUser admin1 = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.LineManager1Id);
         SendEmail.SendEmailUsingLeavON(SendEmail.LeavON_Email, SendEmail.LeavON_Password, leave.AspNetUser, admin1, "LeaveRequest");
@@ -142,10 +215,34 @@ namespace LeaveON.Controllers
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> Edit([Bind(Include = "Id,UserId,LeaveTypeId,Reason,StartDate,EndDate,TotalDays,EmergencyContact,ResponseDate1,ResponseDate2,IsAccepted1,IsAccepted2,LineManager1Id,LineManager2Id,Remarks1,Remarks2,DateCreated,DateModified,UserLeavePolicyId")] Leave leave)
     {
+      leave.UserId = User.Identity.GetUserId();
+      leave.AspNetUser = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.UserId);
       leave.DateModified = DateTime.Now;
       if (ModelState.IsValid)
       {
         db.Entry(leave).State = EntityState.Modified;
+        ///////////////
+        LeaveBalance leaveBalance = CalculateLeaveBalance(ref leave);
+
+        if (leaveBalance == null)
+        {
+          //new
+          leaveBalance = new LeaveBalance(ref leave);
+          leaveBalance.Taken = leave.TotalDays;
+          leaveBalance.Balance -= leave.TotalDays;
+          leaveBalance.UserId = leave.UserId;
+          leaveBalance.LeaveTypeId = leave.LeaveTypeId;
+          leaveBalance.UserLeavePolicyId = leave.AspNetUser.UserLeavePolicyId;
+          db.LeaveBalances.Add(leaveBalance);
+        }
+        else
+        {
+          //old
+          leaveBalance.Taken += leave.TotalDays;
+          leaveBalance.Balance -= leave.TotalDays;
+          db.Entry(leaveBalance).State = EntityState.Modified;
+        }
+        ///////////////
         await db.SaveChangesAsync();
         return RedirectToAction("Index");
       }

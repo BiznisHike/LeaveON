@@ -46,6 +46,9 @@
                   <thead>
                     <tr role="row">
                       <th class="sorting_desc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="StartDate: activate to sort column ascending" aria-sort="descending">
+                        Request Date
+                      </th>
+                      <th class="sorting_desc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="StartDate: activate to sort column ascending" aria-sort="descending">
                         @Html.DisplayNameFor(model => model.StartDate)
                       </th>
                       <th class="sorting_desc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="EndDate: activate to sort column ascending" aria-sort="descending">
@@ -81,6 +84,9 @@
                   @foreach (var item in Model)
                   {
                     <tr role="row" class="odd">
+                      <td>
+                        @Html.DisplayFor(modelItem => item.DateCreated)
+                      </td>
                       <td>
                         @Html.DisplayFor(modelItem => item.StartDate)
                       </td>

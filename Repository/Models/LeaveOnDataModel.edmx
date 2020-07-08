@@ -34,6 +34,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="BioStarEmpNum" Type="int" />
           <Property Name="Hometown" Type="nvarchar(max)" />
           <Property Name="Email" Type="nvarchar" MaxLength="256" />
           <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
@@ -51,7 +52,6 @@
           <Property Name="Remarks" Type="nvarchar(max)" />
           <Property Name="DepartmentId" Type="int" Nullable="false" />
           <Property Name="UserLeavePolicyId" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="BioStarEmpNum" Type="int" />
         </EntityType>
         <EntityType Name="Country">
           <Key>

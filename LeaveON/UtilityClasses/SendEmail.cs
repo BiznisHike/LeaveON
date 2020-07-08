@@ -19,7 +19,7 @@ namespace LMS.Models
     /// <param name="senderEmail">sender email</param>
     /// <param name="senderPassword">sender password</param>
     /// <param name="receiver">receiver as LMS.Models.Employee Type is required</param>
-    /// <param name="MessageType">"LeaveRequest" or "LeaveAccept"</param>
+    /// <param name="MessageType">"LeaveRequest" or "LeaveResponse"</param>
     /// <returns>return type is void</returns>
     /// <remarks>Text put here will not display in a Visual Studio summary box.  
     /// It is meant to add in further detail for anyone who might read this  
@@ -50,7 +50,7 @@ namespace LMS.Models
           case "LeaveRequest":
             mail.Subject = sender.UserName + " posted a Leave request";
             mail.Body = "Dear , " + receiver.UserName +
-                Environment.NewLine + "I have sent you a leave request. kindly login to LeaveON account " + "http://localhost:29972/LeaveAccept/Index" + " for detail." +
+                Environment.NewLine + "I have sent you a leave request. kindly login to LeaveON account " + "https://localhost:44380/LeavesResponse/Index" + " for detail." +
                 Environment.NewLine +
                 Environment.NewLine + "Best Regards " +
                 Environment.NewLine +
@@ -58,11 +58,11 @@ namespace LMS.Models
                 Environment.NewLine + "This is system generated email, don't reply it";
 
             break;
-          case "LeaveAccept":
+          case "LeaveResponse":
 
             mail.Subject = sender.UserName + " posted a Leave response";
             mail.Body = "Dear " + receiver.UserName + "," +
-                Environment.NewLine + "I just sent you feed back of your leave request. kindly login to LeaveON account  " + "http://localhost:29972/LeaveRequest/Index" + " for detail." +
+                Environment.NewLine + "I have just sent you feed back regarding your leave request. kindly login to LeaveON account  " + "https://localhost:44380/LeavesRequest/Index" + " for detail." +
                 Environment.NewLine +
                 Environment.NewLine + "Best Regards " +
                 Environment.NewLine +
@@ -119,7 +119,7 @@ namespace LMS.Models
         mail.From = new MailAddress(senderEmail);
         mail.To.Add(new MailAddress(receiver.Email));
         mail.Subject = "Email for Leave approval";
-        mail.Body = "Dear Sir, " + receiver.UserName + Environment.NewLine + "I have sent you a leave request. kindly login to LeaveON account " + "http://localhost:29972/LeaveAccept/Index" + " for detial." + Environment.NewLine + "best regards " + Environment.NewLine + senderEmail;  //string.Format(body, model.FromName, model.FromEmail, model.Message);
+        mail.Body = "Dear Sir, " + receiver.UserName + Environment.NewLine + "I have sent you a leave request. kindly login to LeaveON account " + "http://localhost:44380/LeavesResponse/Index" + " for detial." + Environment.NewLine + "best regards " + Environment.NewLine + senderEmail;  //string.Format(body, model.FromName, model.FromEmail, model.Message);
 
 
         smtpServer.Send(mail);
