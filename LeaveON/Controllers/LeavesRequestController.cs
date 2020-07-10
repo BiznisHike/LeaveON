@@ -23,6 +23,7 @@ namespace LeaveON.Controllers
     //public async Task<ActionResult> Index(string country)
     public async Task<ActionResult> Index()
     {
+      
       //var leaves = db.Leaves.Include(l => l.LeaveType).Include(l => l.UserLeavePolicy);
       string LoggedInUserId = User.Identity.GetUserId();
       List<Leave> leaves1 = db.Leaves.Where(x => x.UserId == LoggedInUserId).ToList();

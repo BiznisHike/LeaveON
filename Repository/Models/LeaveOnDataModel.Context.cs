@@ -35,5 +35,6 @@ namespace Repository.Models
         public virtual DbSet<LeaveType> LeaveTypes { get; set; }
         public virtual DbSet<UserLeavePolicy> UserLeavePolicies { get; set; }
         public virtual DbSet<UserLeavePolicyDetail> UserLeavePolicyDetails { get; set; }
+        public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
     }
 }

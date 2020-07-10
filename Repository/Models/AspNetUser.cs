@@ -20,6 +20,7 @@ namespace Repository.Models
             this.AspNetRoles = new HashSet<AspNetRole>();
             this.Leaves = new HashSet<Leave>();
             this.LeaveBalances = new HashSet<LeaveBalance>();
+            this.AspNetUserClaims = new HashSet<AspNetUserClaim>();
         }
     
         public string Id { get; set; }
@@ -50,5 +51,7 @@ namespace Repository.Models
         public virtual ICollection<Leave> Leaves { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LeaveBalance> LeaveBalances { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }
     }
 }

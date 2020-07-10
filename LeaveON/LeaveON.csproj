@@ -219,6 +219,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccessTimeDataController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AspNetUserClaimsController.cs" />
     <Compile Include="Controllers\AspNetUsersController.cs" />
     <Compile Include="Controllers\CountriesController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
@@ -255,6 +256,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AnnualLeaveModel.cs" />
+    <Compile Include="Models\RightsViewModel.cs" />
     <Compile Include="Models\UserLeavePolicyViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -2326,6 +2328,11 @@
     <Content Include="Views\AccessTimeData\_DepartmentData.cshtml" />
     <Content Include="Views\AccessTimeData\DepartmentData.cshtml" />
     <Content Include="Views\AccessTimeData\_PersonalData.cshtml" />
+    <Content Include="Views\AspNetUserClaims\Create.cshtml" />
+    <Content Include="Views\AspNetUserClaims\Delete.cshtml" />
+    <Content Include="Views\AspNetUserClaims\Details.cshtml" />
+    <Content Include="Views\AspNetUserClaims\Edit.cshtml" />
+    <Content Include="Views\AspNetUserClaims\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
