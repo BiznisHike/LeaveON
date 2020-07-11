@@ -35,6 +35,7 @@ namespace LeaveON.Controllers
 
       IQueryable<UD_TB_AccessTime_Data> topRows = dbBioStar.UD_TB_AccessTime_Data.Where(x => x.EmployeeNumber == bioStarEmpNum && ((x.Date_IN.Value.Month == reqDate.Month && x.Date_IN.Value.Year == reqDate.Year) ||
                                                                                  x.Date_OUT.Value.Month == reqDate.Month && x.Date_OUT.Value.Year == reqDate.Year)).AsQueryable<UD_TB_AccessTime_Data>();
+      List<UD_TB_AccessTime_Data> LsttopRows = topRows.ToList<UD_TB_AccessTime_Data>();
       //return View(await db.UD_TB_AccessTime_Data.ToListAsync());
       if (string.IsNullOrEmpty(ReqMonthYear))
       {
@@ -98,13 +99,13 @@ namespace LeaveON.Controllers
         List<AspNetUser> users = dbLeaveOn.AspNetUsers.Where(x => x.DepartmentId == intDepartmentId).ToList<AspNetUser>();
 
         List<int> userIds = users.Select(x => x.BioStarEmpNum.Value).ToList<int>();
-        foreach (AspNetUser user in users)
-        {
+        //foreach (AspNetUser user in users)
+        //{
 
           depData = dbBioStar.UD_TB_AccessTime_Data.Where(x => userIds.Contains(x.EmployeeNumber.Value) && ((x.Date_IN.Value.Month == reqDate.Month && x.Date_IN.Value.Year == reqDate.Year) ||
                                                                                      x.Date_OUT.Value.Month == reqDate.Month && x.Date_OUT.Value.Year == reqDate.Year)).AsQueryable<UD_TB_AccessTime_Data>();
 
-        }
+        //}
       }
       //return View(await db.UD_TB_AccessTime_Data.ToListAsync());
       if (string.IsNullOrEmpty(ReqMonthYear))
