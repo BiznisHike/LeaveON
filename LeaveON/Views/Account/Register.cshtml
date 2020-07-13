@@ -52,7 +52,7 @@
         </div>
       </div>
       <div class="input-group mb-3">
-        @*@Html.DropDownList("DepartmentId", new SelectList(ViewBag.Departments, "Id", "Name"), new { @class = "form-control", placeholder = "Department" })*@
+
         @Html.DropDownList("Role", new SelectListItem[]{
           new SelectListItem() {Text = "Admin", Value="Admin"},
           new SelectListItem() {Text = "Manager", Value="Manager"},
@@ -65,17 +65,47 @@
         </div>
       </div>
 
-
       <div class="input-group mb-3">
-        @Html.DropDownList("DepartmentId", new SelectList(ViewBag.Departments, "Id", "Name"), new { @class = "form-control", placeholder = "Department" })
+        @*@Html.DropDownListFor(m => m.StateModel, new SelectList(Model.StateModel, "Id", "StateName"), new { @id = "ddlstate", @style = "width:200px;", @onchange = "javascript:GetCity(this.value);" })*@
+        @Html.DropDownList("CountryId", new SelectList(ViewBag.Countries, "Id", "Name"), new { @class = "form-control", @id = "CountryId", placeholder = "Country", @onchange = "javascript:GetDepartments(this.value);" })
         <div class="input-group-append">
           <div class="input-group-text">
 
           </div>
         </div>
       </div>
+
+      <div class="input-group mb-3">
+        @*@Html.DropDownList("DepartmentId", new SelectList(ViewBag.Departments, "Id", "Name"), new { @class = "form-control", placeholder = "Department" })*@
+        @*@Html.DropDownList("DepartmentId", null , new { @class = "form-control" ,@id = "DepartmentId" , placeholder = "Department" })*@
+        <select id="DepartmentId" name="DepartmentId" class="form-control" placeholder="Department"></select>
+
+        <div class="input-group-append">
+          <div class="input-group-text">
+
+          </div>
+        </div>
+      </div>
+      <div class="input-group mb-3">
+        @*@Html.DropDownListFor(m => m.StateModel, new SelectList(Model.StateModel, "Id", "StateName"), new { @id = "ddlstate", @style = "width:200px;", @onchange = "javascript:GetCity(this.value);" })*@
+        @Html.DropDownList("LeavePolicyId", new SelectList(ViewBag.LeavePolicies, "Id", "Description"), new { @class = "form-control", @id = "LeavePolicyId", placeholder = "Leave Policy"})
+        <div class="input-group-append">
+          <div class="input-group-text">
+
+          </div>
+        </div>
+      </div>
+
+      <div class="input-group mb-3">
+        @Html.TextBoxFor(m => m.BioStarEmpNum, new { @class = "form-control", placeholder = "ITMS Id" })
+        <div class="input-group-append">
+          <div class="input-group-text">
+            @*<span class="fa fa-home"></span>*@
+          </div>
+        </div>
+      </div>
       <div class="col-4">
-        <button type="submit" class="btn btn-primary btn-block" style = "width: 180px; margin-left:auto;margin-right:auto;display:block;margin-top:auto;margin-bottom:0%"> Register</button>
+        <button type="submit" class="btn btn-primary btn-block" style="width: 180px; margin-left:auto;margin-right:auto;display:block;margin-top:auto;margin-bottom:0%"> Register</button>
       </div>
     </form>
 
@@ -89,6 +119,31 @@
   </div><!-- /.card -->
 </div>
 
+<script language="javascript" type="text/javascript">
+  function GetDepartments(_CountryId) {
+    var procemessage = "<option value='0'> Please wait...</option>";
+    $("#DepartmentId").html(procemessage).show();
+    var url = "/Account/GetDepartmentByCountryId/";
+    //alert(_CountryId)
+    $.ajax({
+      url: url,
+      data: { CountryId: _CountryId },
+      cache: false,
+      type: "POST",
+      success: function (data) {
+        var markup = "<option value='0'>Select Department</option>";
+        for (var x = 0; x < data.length; x++) {
+          markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+        }
+        $("#DepartmentId").html(markup).show();
+      },
+      error: function (reponse) {
+        alert("error : " + reponse);
+      }
+    });
+
+  }
+</script>
 
 <!-- /.register-box -->
 <!-- jQuery -->

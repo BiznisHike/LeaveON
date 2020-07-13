@@ -14,8 +14,8 @@ using Microsoft.AspNet.Identity;
 
 namespace LeaveON.Controllers
 {
-  
-  
+
+
   public class UserLeavePoliciesController : Controller
   {
     private LeaveONEntities db = new LeaveONEntities();
@@ -70,11 +70,12 @@ namespace LeaveON.Controllers
     [Authorize(Roles = "Admin")]
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Create([Bind(Prefix = "UserLeavePolicy", Include = "Id,UserId,WeeklyOffDays,FiscalYearStart,FiscalYearEnd,FiscalYearPeriod")] UserLeavePolicy userLeavePolicy,
+    public async Task<ActionResult> Create([Bind(Prefix = "UserLeavePolicy", Include = "Id,UserId,Description,WeeklyOffDays,FiscalYearStart,FiscalYearEnd,FiscalYearPeriod")] UserLeavePolicy userLeavePolicy,
       [Bind(Prefix = "UserLeavePolicyDetail", Include = "LeaveTypeId,Allowed")] List<UserLeavePolicyDetail> userLeavePolicyDetail,
       [Bind(Prefix = "AnnualOffDay", Include = "OffDay,Description")] List<AnnualOffDay> AnnualOffDays, string[] Departments, string[] Employees, string PolicyFor)
     {
       decimal maxId = db.UserLeavePolicies.DefaultIfEmpty().Max(p => p == null ? 0 : p.Id);
+      userLeavePolicy.WeeklyOffDays = "6,0";
       userLeavePolicy.Id = maxId;
       userLeavePolicy.CountryId = 1;//from which user is Login. but admin who can view all coutries there we have to user a list of country so that he choose a country
       //userLeavePolicy.AnnualOffDays = string.Join(",", AnnualOffDays);
@@ -150,7 +151,7 @@ namespace LeaveON.Controllers
 
     // GET: UserLeavePolicies/Edit/5
     [Authorize(Roles = "Admin,Manager,User")]
-    public async Task<ActionResult> Edit(decimal id,string Caller)
+    public async Task<ActionResult> Edit(decimal id, string Caller)
     {
       if (id == null)
       {
@@ -169,7 +170,7 @@ namespace LeaveON.Controllers
       userLeavePolicyViewModel.userLeavePolicyDetail = userLeavePolicy.UserLeavePolicyDetails.AsQueryable<UserLeavePolicyDetail>();
       userLeavePolicyViewModel.departments = db.Departments.Where(x => x.CountryId == 1).AsQueryable<Department>();//TODO Convert 1 to current user country variable
                                                                                                                    //userLeavePolicyViewModel.departments= depFilterd;
-      userLeavePolicyViewModel.annualOffDays = db.AnnualOffDays.Where(x => x.UserLeavePolicyId== userLeavePolicy.Id).AsQueryable();
+      userLeavePolicyViewModel.annualOffDays = db.AnnualOffDays.Where(x => x.UserLeavePolicyId == userLeavePolicy.Id).AsQueryable();
 
       IQueryable<AspNetUser> usersFilterd = db.AspNetUsers.Where(x => x.UserLeavePolicyId == id);
 
@@ -245,7 +246,7 @@ namespace LeaveON.Controllers
       if (Caller == "UserLeavePolicy")
       {
         return View(userLeavePolicyViewModel); //orginal
-        
+
       }
       else
       {
@@ -261,14 +262,14 @@ namespace LeaveON.Controllers
     [Authorize(Roles = "Admin")]
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Edit([Bind(Prefix = "UserLeavePolicy", Include = "Id,UserId,WeeklyOffDays,FiscalYearStart,FiscalYearEnd,FiscalYearPeriod")] UserLeavePolicy userLeavePolicy,
+    public async Task<ActionResult> Edit([Bind(Prefix = "UserLeavePolicy", Include = "Id,UserId,Description,WeeklyOffDays,FiscalYearStart,FiscalYearEnd,FiscalYearPeriod")] UserLeavePolicy userLeavePolicy,
       [Bind(Prefix = "UserLeavePolicyDetail", Include = "LeaveTypeId,Allowed")] List<UserLeavePolicyDetail> userLeavePolicyDetail, [Bind(Prefix = "AnnualOffDay", Include = "Id,OffDay,Description")] List<AnnualOffDay> AnnualOffDays, string[] DepartmentList, string[] EmployeeList, string PolicyFor)
     {
-      
+
       //UserLeavePolicy userLeavePolicyOld = await db.UserLeavePolicies.FindAsync(userLeavePolicy.Id);
       //db.UserLeavePolicyDetails.RemoveRange(userLeavePolicyOld.UserLeavePolicyDetails);
       //await db.SaveChangesAsync();
-
+      userLeavePolicy.WeeklyOffDays = "6,0";
       userLeavePolicy.CountryId = 1;//from which user is Login. but admin who can view all coutries there we have to user a list of country so that he choose a country
       //userLeavePolicy.AnnualOffDays = string.Join(",", AnnualOffDays);
       userLeavePolicy.DepartmentPolicy = (PolicyFor == "1") ? true : false;
@@ -304,7 +305,7 @@ namespace LeaveON.Controllers
             {
               //user.UserLeavePolicyId = userLeavePolicy.Id;
 
-              string userId = EmployeeList.FirstOrDefault(x => x == aspNetUser.Id).ToString();
+              string userId = EmployeeList.FirstOrDefault(x => x == aspNetUser.Id);
 
               if (string.IsNullOrEmpty(userId))
               {

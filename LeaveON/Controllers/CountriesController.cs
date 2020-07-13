@@ -23,21 +23,7 @@ namespace LeaveON.Controllers
       return View(await db.Countries.ToListAsync());
     }
 
-    // GET: Countries/Details/5
-    public async Task<ActionResult> Details(int? id)
-    {
-      if (id == null)
-      {
-        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-      }
-      Country country = await db.Countries.FindAsync(id);
-      if (country == null)
-      {
-        return HttpNotFound();
-      }
-      return View(country);
-    }
-
+    
     // GET: Countries/Create
     public ActionResult Create()
     {

@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using LeaveON.Models;
 using Repository.Models;
+using System.Collections.Generic;
 
 namespace LeaveON.Controllers
 {
@@ -52,6 +53,98 @@ namespace LeaveON.Controllers
         _userManager = value;
       }
     }
+
+    public ActionResult Index()
+    {
+      ViewBag.Employees = new SelectList(db.AspNetUsers.OrderBy(x => x.UserName), "Id", "UserName");
+      //ViewBag.LeaveTypes = new SelectList(db.LeaveTypes, "Id", "Name");
+      ViewBag.Roles = new SelectList(db.AspNetRoles.OrderBy(x => x.Name), "Id", "Name");
+      //var aspNetUserClaims = db.AspNetUserClaims.Include(a => a.AspNetUser);
+
+      List<UserRoleModel> usersAndRoles = new List<UserRoleModel>(); // Adding this model just to have it in a nice list.
+      //var users = db.AspNetUsers;
+
+      foreach (AspNetUser user in db.AspNetUsers)
+      {
+        foreach (AspNetRole role in user.AspNetRoles)
+        {
+          usersAndRoles.Add(new UserRoleModel
+          {
+            UserId = user.Id,
+            UserName = user.UserName,
+            RoleId = role.Id,
+            RoleName = role.Name
+          });
+        }
+      }
+      //var userRoles= usersAndRoles.AsQueryable<UserRoleModel>();
+      //return View(await userRoles.ToListAsync().ConfigureAwait(false));
+      return View(usersAndRoles);
+    }
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<ActionResult> Index([Bind(Include = "UserId,UserName,RoleId,RoleName")] UserRoleModel userRoleModel)
+    {
+      if (ModelState.IsValid)
+      {
+
+        userRoleModel.RoleName = db.AspNetRoles.FirstOrDefault(x => x.Id == userRoleModel.RoleId).Name;
+        switch (userRoleModel.RoleName)
+        {
+          case "Admin":
+            await UserManager.AddToRoleAsync(userRoleModel.UserId, "Admin");
+            //await UserManager.AddToRoleAsync(userRoleModel.UserId, "Manager");
+            await UserManager.AddToRoleAsync(userRoleModel.UserId, "User");
+            break;
+          case "Manager":
+            await UserManager.AddToRoleAsync(userRoleModel.UserId, "Manager");
+            //await UserManager.AddToRoleAsync(userRoleModel.UserId, "User");
+            break;
+          case "User":
+            await UserManager.AddToRoleAsync(userRoleModel.UserId, "User");
+            break;
+        }
+
+      }
+
+      //ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Hometown", userRoleModel.UserId);
+      //return View(userRoleModel);
+      return RedirectToAction("Index");
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    //public async Task<ActionResult> DeleteRight([Bind(Include = "Id,UserId,ClaimType,ClaimValue")] AspNetUserClaim aspNetUserClaim)
+    public async Task<ActionResult> DeleteRole(string UserIdRoleId)
+    {
+      string UserId = UserIdRoleId.Split(',').First();
+      string RoleId = UserIdRoleId.Split(',').Last();
+
+      string RoleName = db.AspNetRoles.FirstOrDefault(x => x.Id == RoleId).Name;
+      switch (RoleName)
+      {
+        case "Admin":
+          await UserManager.RemoveFromRoleAsync(UserId, "Admin");
+          await UserManager.RemoveFromRoleAsync(UserId, "Manager");
+          await UserManager.RemoveFromRoleAsync(UserId, "User");
+          break;
+        case "Manager":
+          await UserManager.RemoveFromRoleAsync(UserId, "Manager");
+          await UserManager.RemoveFromRoleAsync(UserId, "User");
+          break;
+        case "User":
+          await UserManager.RemoveFromRoleAsync(UserId, "User");
+          break;
+      }
+
+      //AspNetUserClaim aspNetUserClaim = await db.AspNetUserClaims.FindAsync(UserIdRoleId);
+      //db.AspNetUserClaims.Remove(aspNetUserClaim);
+      //await db.SaveChangesAsync();
+      return RedirectToAction("Index");
+
+    }
+
+
 
     // The Authorize Action is the end point which gets called when you access any
     // protected Web API. If the user is not logged in then they will be redirected to 
@@ -153,7 +246,8 @@ namespace LeaveON.Controllers
     [Authorize(Roles = "Admin,Manager")]
     public ActionResult Register()
     {
-      ViewBag.Departments = db.Departments;
+      ViewBag.Countries = db.Countries;
+      ViewBag.LeavePolicies = db.UserLeavePolicies;
       return View();
     }
 
@@ -167,7 +261,7 @@ namespace LeaveON.Controllers
     {
       if (ModelState.IsValid)
       {
-        var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Hometown = model.Hometown, DepartmentId = model.DepartmentId };
+        var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Hometown = model.Hometown, DepartmentId = model.DepartmentId, BioStarEmpNum = model.BioStarEmpNum, UserLeavePolicyId=model.UserLeavePolicyId };
         var result = await UserManager.CreateAsync(user, model.Password);
         if (result.Succeeded)
         {
@@ -188,9 +282,9 @@ namespace LeaveON.Controllers
               break;
           }
 
-          
 
-          await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+          //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
           // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
           // Send an email with this link
@@ -207,7 +301,14 @@ namespace LeaveON.Controllers
       ViewBag.Departments = db.Departments;
       return View(model);
     }
+    [HttpPost]
+    public ActionResult GetDepartmentByCountryId(int CountryId)
+    {
 
+      List<Department> Departments = db.Departments.Where(x => x.CountryId == CountryId).ToList<Department>(); //GetAllDepartment().Where(m => m.StateId == stateid).ToList();
+      SelectList LstDepartments = new SelectList(Departments, "Id", "Name", 0);
+      return Json(LstDepartments);
+    }
     //
     // GET: /Account/ConfirmEmail
     [AllowAnonymous]

@@ -95,6 +95,12 @@ namespace LeaveON.Models
     [Display(Name = "Role")]
     public string Role { get; set; }
 
+    [Display(Name = "ITMS Id")]
+    public int BioStarEmpNum { get; set; }
+
+    [Display(Name = "Leave Policy")]
+    public int UserLeavePolicyId { get; set; }
+
   }
 
   public class ResetPasswordViewModel
