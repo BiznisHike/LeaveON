@@ -20,7 +20,7 @@ namespace Repository.Models
         public string Reason { get; set; }
         public System.DateTime StartDate { get; set; }
         public System.DateTime EndDate { get; set; }
-        public Nullable<int> TotalDays { get; set; }
+        public Nullable<decimal> TotalDays { get; set; }
         public string EmergencyContact { get; set; }
         public Nullable<System.DateTime> ResponseDate1 { get; set; }
         public Nullable<System.DateTime> ResponseDate2 { get; set; }

@@ -12,7 +12,7 @@
           <Property Name="Id" Type="decimal" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OffDay" Type="datetime" />
           <Property Name="Description" Type="nvarchar" MaxLength="300" />
-          <Property Name="UserLeavePolicyId" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="UserLeavePolicyId" Type="int" />
         </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
@@ -60,7 +60,7 @@
           <Property Name="DateModified" Type="datetime" />
           <Property Name="Remarks" Type="nvarchar(max)" />
           <Property Name="DepartmentId" Type="int" Nullable="false" />
-          <Property Name="UserLeavePolicyId" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="UserLeavePolicyId" Type="int" />
         </EntityType>
         <EntityType Name="Country">
           <Key>
@@ -115,7 +115,7 @@
           <Property Name="Taken" Type="decimal" Precision="6" Scale="1" />
           <Property Name="Balance" Type="decimal" Precision="6" Scale="1" />
           <Property Name="Description" Type="nvarchar" MaxLength="100" />
-          <Property Name="UserLeavePolicyId" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="UserLeavePolicyId" Type="int" />
         </EntityType>
         <EntityType Name="LeaveType">
           <Key>
@@ -129,7 +129,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="decimal" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="WeeklyOffDays" Type="nvarchar" MaxLength="50" />
           <Property Name="FiscalYearStart" Type="datetime" />
           <Property Name="FiscalYearEnd" Type="datetime" />
@@ -144,7 +144,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="decimal" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserLeavePolicyId" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="UserLeavePolicyId" Type="int" />
           <Property Name="LeaveTypeId" Type="int" />
           <Property Name="Allowed" Type="int" />
           <Property Name="CountryId" Type="int" />
@@ -450,13 +450,10 @@
     <edmx:ConceptualModels>
       <Schema Namespace="LeaveONModels" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="LeaveONEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="AspNetRoles" EntityType="LeaveONModels.AspNetRole" />
-          <EntitySet Name="AspNetUsers" EntityType="LeaveONModels.AspNetUser" />
-          <AssociationSet Name="AspNetUserRoles" Association="LeaveONModels.AspNetUserRoles">
-            <End Role="AspNetRole" EntitySet="AspNetRoles" />
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-          </AssociationSet>
           <EntitySet Name="AnnualOffDays" EntityType="LeaveONModels.AnnualOffDay" />
+          <EntitySet Name="AspNetRoles" EntityType="LeaveONModels.AspNetRole" />
+          <EntitySet Name="AspNetUserClaims" EntityType="LeaveONModels.AspNetUserClaim" />
+          <EntitySet Name="AspNetUsers" EntityType="LeaveONModels.AspNetUser" />
           <EntitySet Name="Countries" EntityType="LeaveONModels.Country" />
           <EntitySet Name="Departments" EntityType="LeaveONModels.Department" />
           <EntitySet Name="Leaves" EntityType="LeaveONModels.Leave" />
@@ -467,6 +464,10 @@
           <AssociationSet Name="FK_AnnualOffDays_UserLeavePolicy" Association="LeaveONModels.FK_AnnualOffDays_UserLeavePolicy">
             <End Role="UserLeavePolicy" EntitySet="UserLeavePolicies" />
             <End Role="AnnualOffDay" EntitySet="AnnualOffDays" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="LeaveONModels.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
           </AssociationSet>
           <AssociationSet Name="FK_AspNetUsers_Deparment" Association="LeaveONModels.FK_AspNetUsers_Deparment">
             <End Role="Department" EntitySet="Departments" />
@@ -504,6 +505,10 @@
             <End Role="LeaveType" EntitySet="LeaveTypes" />
             <End Role="LeaveBalance" EntitySet="LeaveBalances" />
           </AssociationSet>
+          <AssociationSet Name="FK_LeaveBalance_UserLeavePolicy" Association="LeaveONModels.FK_LeaveBalance_UserLeavePolicy">
+            <End Role="UserLeavePolicy" EntitySet="UserLeavePolicies" />
+            <End Role="LeaveBalance" EntitySet="LeaveBalances" />
+          </AssociationSet>
           <AssociationSet Name="FK_UserLeavePolicyDetail_LeaveType" Association="LeaveONModels.FK_UserLeavePolicyDetail_LeaveType">
             <End Role="LeaveType" EntitySet="LeaveTypes" />
             <End Role="UserLeavePolicyDetail" EntitySet="UserLeavePolicyDetails" />
@@ -512,16 +517,21 @@
             <End Role="UserLeavePolicy" EntitySet="UserLeavePolicies" />
             <End Role="UserLeavePolicyDetail" EntitySet="UserLeavePolicyDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK_LeaveBalance_UserLeavePolicy" Association="LeaveONModels.FK_LeaveBalance_UserLeavePolicy">
-            <End Role="UserLeavePolicy" EntitySet="UserLeavePolicies" />
-            <End Role="LeaveBalance" EntitySet="LeaveBalances" />
-          </AssociationSet>
-          <EntitySet Name="AspNetUserClaims" EntityType="LeaveONModels.AspNetUserClaim" />
-          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="LeaveONModels.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <AssociationSet Name="AspNetUserRoles" Association="LeaveONModels.AspNetUserRoles">
+            <End Role="AspNetRole" EntitySet="AspNetRoles" />
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="AnnualOffDay">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OffDay" Type="DateTime" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="UserLeavePolicyId" Type="Int32" />
+          <NavigationProperty Name="UserLeavePolicy" Relationship="LeaveONModels.FK_AnnualOffDays_UserLeavePolicy" FromRole="AnnualOffDay" ToRole="UserLeavePolicy" />
+        </EntityType>
         <EntityType Name="AspNetRole">
           <Key>
             <PropertyRef Name="Id" />
@@ -530,11 +540,22 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AspNetUsers" Relationship="LeaveONModels.AspNetUserRoles" FromRole="AspNetRole" ToRole="AspNetUser" />
         </EntityType>
+        <EntityType Name="AspNetUserClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="LeaveONModels.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaim" ToRole="AspNetUser" />
+        </EntityType>
         <EntityType Name="AspNetUser">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="BioStarEmpNum" Type="Int32" />
           <Property Name="Hometown" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
@@ -551,28 +572,13 @@
           <Property Name="DateModified" Type="DateTime" Precision="3" />
           <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="DepartmentId" Type="Int32" Nullable="false" />
-          <Property Name="UserLeavePolicyId" Type="Decimal" Precision="18" Scale="0" />
-          <NavigationProperty Name="AspNetRoles" Relationship="LeaveONModels.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
+          <Property Name="UserLeavePolicyId" Type="Int32" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="LeaveONModels.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
           <NavigationProperty Name="Department" Relationship="LeaveONModels.FK_AspNetUsers_Deparment" FromRole="AspNetUser" ToRole="Department" />
           <NavigationProperty Name="UserLeavePolicy" Relationship="LeaveONModels.FK_AspNetUsers_UserLeavePolicy" FromRole="AspNetUser" ToRole="UserLeavePolicy" />
           <NavigationProperty Name="Leaves" Relationship="LeaveONModels.FK_Leave_AspNetUsers" FromRole="AspNetUser" ToRole="Leave" />
           <NavigationProperty Name="LeaveBalances" Relationship="LeaveONModels.FK_LeaveBalance_AspNetUsers" FromRole="AspNetUser" ToRole="LeaveBalance" />
-          <Property Name="BioStarEmpNum" Type="Int32" />
-          <NavigationProperty Name="AspNetUserClaims" Relationship="LeaveONModels.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
-        </EntityType>
-        <Association Name="AspNetUserRoles">
-          <End Type="LeaveONModels.AspNetRole" Role="AspNetRole" Multiplicity="*" />
-          <End Type="LeaveONModels.AspNetUser" Role="AspNetUser" Multiplicity="*" />
-        </Association>
-        <EntityType Name="AnnualOffDay">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OffDay" Type="DateTime" Precision="3" />
-          <Property Name="Description" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="UserLeavePolicyId" Type="Decimal" Precision="18" Scale="0" />
-          <NavigationProperty Name="UserLeavePolicy" Relationship="LeaveONModels.FK_AnnualOffDays_UserLeavePolicy" FromRole="AnnualOffDay" ToRole="UserLeavePolicy" />
+          <NavigationProperty Name="AspNetRoles" Relationship="LeaveONModels.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
         </EntityType>
         <EntityType Name="Country">
           <Key>
@@ -609,7 +615,7 @@
           <Property Name="Reason" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="TotalDays" Type="Int32" />
+          <Property Name="TotalDays" Type="Decimal" Precision="6" Scale="1" />
           <Property Name="EmergencyContact" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="ResponseDate1" Type="DateTime" Precision="3" />
           <Property Name="ResponseDate2" Type="DateTime" Precision="3" />
@@ -634,9 +640,9 @@
           <Property Name="Taken" Type="Decimal" Precision="6" Scale="1" />
           <Property Name="Balance" Type="Decimal" Precision="6" Scale="1" />
           <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UserLeavePolicyId" Type="Int32" />
           <NavigationProperty Name="AspNetUser" Relationship="LeaveONModels.FK_LeaveBalance_AspNetUsers" FromRole="LeaveBalance" ToRole="AspNetUser" />
           <NavigationProperty Name="LeaveType" Relationship="LeaveONModels.FK_LeaveBalance_LeaveType" FromRole="LeaveBalance" ToRole="LeaveType" />
-          <Property Name="UserLeavePolicyId" Type="Decimal" Precision="18" Scale="0" />
           <NavigationProperty Name="UserLeavePolicy" Relationship="LeaveONModels.FK_LeaveBalance_UserLeavePolicy" FromRole="LeaveBalance" ToRole="UserLeavePolicy" />
         </EntityType>
         <EntityType Name="LeaveType">
@@ -655,7 +661,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="WeeklyOffDays" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="FiscalYearStart" Type="DateTime" Precision="3" />
           <Property Name="FiscalYearEnd" Type="DateTime" Precision="3" />
@@ -666,15 +672,15 @@
           <Property Name="CountryId" Type="Int32" />
           <NavigationProperty Name="AnnualOffDays" Relationship="LeaveONModels.FK_AnnualOffDays_UserLeavePolicy" FromRole="UserLeavePolicy" ToRole="AnnualOffDay" />
           <NavigationProperty Name="AspNetUsers" Relationship="LeaveONModels.FK_AspNetUsers_UserLeavePolicy" FromRole="UserLeavePolicy" ToRole="AspNetUser" />
-          <NavigationProperty Name="UserLeavePolicyDetails" Relationship="LeaveONModels.FK_UserLeavePolicyDetail_UserLeavePolicy" FromRole="UserLeavePolicy" ToRole="UserLeavePolicyDetail" />
           <NavigationProperty Name="LeaveBalances" Relationship="LeaveONModels.FK_LeaveBalance_UserLeavePolicy" FromRole="UserLeavePolicy" ToRole="LeaveBalance" />
+          <NavigationProperty Name="UserLeavePolicyDetails" Relationship="LeaveONModels.FK_UserLeavePolicyDetail_UserLeavePolicy" FromRole="UserLeavePolicy" ToRole="UserLeavePolicyDetail" />
         </EntityType>
         <EntityType Name="UserLeavePolicyDetail">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserLeavePolicyId" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="UserLeavePolicyId" Type="Int32" />
           <Property Name="LeaveTypeId" Type="Int32" />
           <Property Name="Allowed" Type="Int32" />
           <Property Name="CountryId" Type="Int32" />
@@ -696,6 +702,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Type="LeaveONModels.AspNetUser" Role="AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="LeaveONModels.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaim">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_AspNetUsers_Deparment">
           <End Type="LeaveONModels.Department" Role="Department" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -711,9 +731,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AspNetUsers_UserLeavePolicy">
-          <End Type="LeaveONModels.UserLeavePolicy" Role="UserLeavePolicy" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Type="LeaveONModels.UserLeavePolicy" Role="UserLeavePolicy" Multiplicity="0..1" />
           <End Type="LeaveONModels.AspNetUser" Role="AspNetUser" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserLeavePolicy">
@@ -820,6 +838,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_LeaveBalance_UserLeavePolicy">
+          <End Type="LeaveONModels.UserLeavePolicy" Role="UserLeavePolicy" Multiplicity="0..1" />
+          <End Type="LeaveONModels.LeaveBalance" Role="LeaveBalance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserLeavePolicy">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LeaveBalance">
+              <PropertyRef Name="UserLeavePolicyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UserLeavePolicyDetail_LeaveType">
           <End Type="LeaveONModels.LeaveType" Role="LeaveType" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -848,41 +878,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_LeaveBalance_UserLeavePolicy">
-          <End Type="LeaveONModels.UserLeavePolicy" Role="UserLeavePolicy" Multiplicity="0..1" />
-          <End Type="LeaveONModels.LeaveBalance" Role="LeaveBalance" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserLeavePolicy">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="LeaveBalance">
-              <PropertyRef Name="UserLeavePolicyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="AspNetUserClaim">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUser" Relationship="LeaveONModels.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaim" ToRole="AspNetUser" />
-        </EntityType>
-        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-          <End Type="LeaveONModels.AspNetUser" Role="AspNetUser" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="LeaveONModels.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserClaim">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
+        <Association Name="AspNetUserRoles">
+          <End Type="LeaveONModels.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+          <End Type="LeaveONModels.AspNetUser" Role="AspNetUser" Multiplicity="*" />
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -890,6 +888,16 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="LeaveONModelsStoreContainer" CdmEntityContainer="LeaveONEntities">
+          <EntitySetMapping Name="AnnualOffDays">
+            <EntityTypeMapping TypeName="LeaveONModels.AnnualOffDay">
+              <MappingFragment StoreEntitySet="AnnualOffDays">
+                <ScalarProperty Name="UserLeavePolicyId" ColumnName="UserLeavePolicyId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="OffDay" ColumnName="OffDay" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="AspNetRoles">
             <EntityTypeMapping TypeName="LeaveONModels.AspNetRole">
               <MappingFragment StoreEntitySet="AspNetRoles">
@@ -898,10 +906,19 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="LeaveONModels.AspNetUserClaim">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="AspNetUsers">
             <EntityTypeMapping TypeName="LeaveONModels.AspNetUser">
               <MappingFragment StoreEntitySet="AspNetUsers">
-                <ScalarProperty Name="BioStarEmpNum" ColumnName="BioStarEmpNum" />
                 <ScalarProperty Name="UserLeavePolicyId" ColumnName="UserLeavePolicyId" />
                 <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
@@ -919,24 +936,7 @@
                 <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Hometown" ColumnName="Hometown" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <AssociationSetMapping Name="AspNetUserRoles" TypeName="LeaveONModels.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
-            <EndProperty Name="AspNetUser">
-              <ScalarProperty Name="Id" ColumnName="UserId" />
-            </EndProperty>
-            <EndProperty Name="AspNetRole">
-              <ScalarProperty Name="Id" ColumnName="RoleId" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <EntitySetMapping Name="AnnualOffDays">
-            <EntityTypeMapping TypeName="LeaveONModels.AnnualOffDay">
-              <MappingFragment StoreEntitySet="AnnualOffDays">
-                <ScalarProperty Name="UserLeavePolicyId" ColumnName="UserLeavePolicyId" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="OffDay" ColumnName="OffDay" />
+                <ScalarProperty Name="BioStarEmpNum" ColumnName="BioStarEmpNum" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1035,16 +1035,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUserClaims">
-            <EntityTypeMapping TypeName="LeaveONModels.AspNetUserClaim">
-              <MappingFragment StoreEntitySet="AspNetUserClaims">
-                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
-                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="LeaveONModels.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetUser">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="AspNetRole">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

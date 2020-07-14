@@ -22,7 +22,7 @@ namespace Repository.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         System.DateTime EndDate { get; set; }
         [DisplayName("Total Days")]
-        Nullable<int> TotalDays { get; set; }
+        Nullable<decimal> TotalDays { get; set; }
 
         [DisplayName("Line Manager 1")]
         string LineManager1Id { get; set; }

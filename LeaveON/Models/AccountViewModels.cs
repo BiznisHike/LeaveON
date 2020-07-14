@@ -102,6 +102,31 @@ namespace LeaveON.Models
     public int UserLeavePolicyId { get; set; }
 
   }
+  public class UpdateUserViewModel
+  {
+    [Required]
+    [EmailAddress]
+    [Display(Name = "Email")]
+    public string Email { get; set; }
+
+    
+    [Display(Name = "Hometown")]
+    public string Hometown { get; set; }
+
+
+    [Display(Name = "Department")]
+    public int DepartmentId { get; set; }
+
+    [Display(Name = "Role")]
+    public string Role { get; set; }
+
+    [Display(Name = "ITMS Id")]
+    public int BioStarEmpNum { get; set; }
+
+    [Display(Name = "Leave Policy")]
+    public int UserLeavePolicyId { get; set; }
+
+  }
 
   public class ResetPasswordViewModel
   {

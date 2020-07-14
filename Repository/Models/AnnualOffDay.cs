@@ -17,7 +17,7 @@ namespace Repository.Models
         public decimal Id { get; set; }
         public Nullable<System.DateTime> OffDay { get; set; }
         public string Description { get; set; }
-        public Nullable<decimal> UserLeavePolicyId { get; set; }
+        public Nullable<int> UserLeavePolicyId { get; set; }
     
         public virtual UserLeavePolicy UserLeavePolicy { get; set; }
     }

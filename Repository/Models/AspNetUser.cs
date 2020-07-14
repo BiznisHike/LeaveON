@@ -17,13 +17,14 @@ namespace Repository.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public AspNetUser()
         {
-            this.AspNetRoles = new HashSet<AspNetRole>();
+            this.AspNetUserClaims = new HashSet<AspNetUserClaim>();
             this.Leaves = new HashSet<Leave>();
             this.LeaveBalances = new HashSet<LeaveBalance>();
-            this.AspNetUserClaims = new HashSet<AspNetUserClaim>();
+            this.AspNetRoles = new HashSet<AspNetRole>();
         }
     
         public string Id { get; set; }
+        public Nullable<int> BioStarEmpNum { get; set; }
         public string Hometown { get; set; }
         public string Email { get; set; }
         public bool EmailConfirmed { get; set; }
@@ -40,11 +41,10 @@ namespace Repository.Models
         public Nullable<System.DateTime> DateModified { get; set; }
         public string Remarks { get; set; }
         public int DepartmentId { get; set; }
-        public Nullable<decimal> UserLeavePolicyId { get; set; }
-        public Nullable<int> BioStarEmpNum { get; set; }
+        public Nullable<int> UserLeavePolicyId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
+        public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual Department Department { get; set; }
         public virtual UserLeavePolicy UserLeavePolicy { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -52,6 +52,6 @@ namespace Repository.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LeaveBalance> LeaveBalances { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }
+        public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
     }
 }

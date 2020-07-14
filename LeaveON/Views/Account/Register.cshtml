@@ -66,8 +66,9 @@
       </div>
 
       <div class="input-group mb-3">
-        @*@Html.DropDownListFor(m => m.StateModel, new SelectList(Model.StateModel, "Id", "StateName"), new { @id = "ddlstate", @style = "width:200px;", @onchange = "javascript:GetCity(this.value);" })*@
-        @Html.DropDownList("CountryId", new SelectList(ViewBag.Countries, "Id", "Name"), new { @class = "form-control", @id = "CountryId", placeholder = "Country", @onchange = "javascript:GetDepartments(this.value);" })
+        @* when problem solved change GetDepartments1 to GetDepartments *@
+        @Html.DropDownList("CountryId", new SelectList(ViewBag.Countries, "Id", "Name"), new { @class = "form-control", @id = "CountryId", placeholder = "Country", @onchange = "javascript:GetDepartments1(this.value);" })
+        
         <div class="input-group-append">
           <div class="input-group-text">
 
@@ -76,9 +77,9 @@
       </div>
 
       <div class="input-group mb-3">
-        @*@Html.DropDownList("DepartmentId", new SelectList(ViewBag.Departments, "Id", "Name"), new { @class = "form-control", placeholder = "Department" })*@
-        @*@Html.DropDownList("DepartmentId", null , new { @class = "form-control" ,@id = "DepartmentId" , placeholder = "Department" })*@
-        <select id="DepartmentId" name="DepartmentId" class="form-control" placeholder="Department"></select>
+        @Html.DropDownList("DepartmentId", new SelectList(ViewBag.Departments, "Id", "Name"), new { @class = "form-control", placeholder = "Department" })
+        @*onchange country... department list is populating using ajax in view. but has little problem. so sending departements data from view. when done comment above code line and use below code line;*@
+        @*<select id="DepartmentId" name="DepartmentId" class="form-control" placeholder="Department"></select>*@
 
         <div class="input-group-append">
           <div class="input-group-text">
@@ -88,7 +89,7 @@
       </div>
       <div class="input-group mb-3">
         @*@Html.DropDownListFor(m => m.StateModel, new SelectList(Model.StateModel, "Id", "StateName"), new { @id = "ddlstate", @style = "width:200px;", @onchange = "javascript:GetCity(this.value);" })*@
-        @Html.DropDownList("LeavePolicyId", new SelectList(ViewBag.LeavePolicies, "Id", "Description"), new { @class = "form-control", @id = "LeavePolicyId", placeholder = "Leave Policy"})
+        @Html.DropDownList("UserLeavePolicyId", new SelectList(ViewBag.LeavePolicies, "Id", "Description"), new { @class = "form-control", @id = "UserLeavePolicyId", placeholder = "Leave Policy"})
         <div class="input-group-append">
           <div class="input-group-text">
 

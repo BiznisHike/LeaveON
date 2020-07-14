@@ -247,6 +247,8 @@ namespace LeaveON.Controllers
     public ActionResult Register()
     {
       ViewBag.Countries = db.Countries;
+      //onchange country... department list is populating using ajax in view. but has little problem. so sending departements data from view. when done comment ViewBag.Departments = db.Departments;
+      ViewBag.Departments = db.Departments;
       ViewBag.LeavePolicies = db.UserLeavePolicies;
       return View();
     }
@@ -301,6 +303,60 @@ namespace LeaveON.Controllers
       ViewBag.Departments = db.Departments;
       return View(model);
     }
+    [HttpPost]
+    //[AllowAnonymous]
+    [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Admin,Manager")]
+    public async Task<ActionResult> UpdateUser(UpdateUserViewModel model)
+    {
+      if (ModelState.IsValid)
+      {
+        var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Hometown = model.Hometown, DepartmentId = model.DepartmentId, BioStarEmpNum = model.BioStarEmpNum, UserLeavePolicyId = model.UserLeavePolicyId };
+        //var result = await UserManager.CreateAsync(user, model.Password);
+        var result = await UserManager.UpdateAsync(user);
+        if (result.Succeeded)
+        {
+          await UserManager.RemoveFromRoleAsync(user.Id, "Admin");
+          await UserManager.RemoveFromRoleAsync(user.Id, "Manager");
+          await UserManager.RemoveFromRoleAsync(user.Id, "User");
+
+
+          switch (model.Role)
+          {
+            case "Admin":
+              await UserManager.AddToRoleAsync(user.Id, "Admin");
+              await UserManager.AddToRoleAsync(user.Id, "Manager");
+              await UserManager.AddToRoleAsync(user.Id, "User");
+              break;
+            case "Manager":
+              await UserManager.AddToRoleAsync(user.Id, "Manager");
+              await UserManager.AddToRoleAsync(user.Id, "User");
+              break;
+            case "User":
+              await UserManager.AddToRoleAsync(user.Id, "User");
+              break;
+          }
+
+
+
+          //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+          // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+          // Send an email with this link
+          // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+          // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+          // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+          return RedirectToAction("Index", "LeavesRequest");
+        }
+        AddErrors(result);
+      }
+
+      // If we got this far, something failed, redisplay form
+      ViewBag.Departments = db.Departments;
+      return View(model);
+    }
+
     [HttpPost]
     public ActionResult GetDepartmentByCountryId(int CountryId)
     {

@@ -20,7 +20,7 @@ namespace Repository.Models
         public Nullable<decimal> Taken { get; set; }
         public Nullable<decimal> Balance { get; set; }
         public string Description { get; set; }
-        public Nullable<decimal> UserLeavePolicyId { get; set; }
+        public Nullable<int> UserLeavePolicyId { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual LeaveType LeaveType { get; set; }

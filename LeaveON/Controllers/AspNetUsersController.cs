@@ -76,6 +76,7 @@ namespace LeaveON.Controllers
       {
         return HttpNotFound();
       }
+      //ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes, "Id", "Name", leave.LeaveTypeId);
       ViewBag.DepartmentId = new SelectList(db.Departments, "Id", "Name", aspNetUser.DepartmentId);
       return View(aspNetUser);
     }

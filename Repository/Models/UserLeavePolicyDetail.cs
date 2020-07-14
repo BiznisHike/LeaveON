@@ -15,7 +15,7 @@ namespace Repository.Models
     public partial class UserLeavePolicyDetail
     {
         public decimal Id { get; set; }
-        public Nullable<decimal> UserLeavePolicyId { get; set; }
+        public Nullable<int> UserLeavePolicyId { get; set; }
         public Nullable<int> LeaveTypeId { get; set; }
         public Nullable<int> Allowed { get; set; }
         public Nullable<int> CountryId { get; set; }
