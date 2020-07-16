@@ -168,7 +168,7 @@ namespace LeaveON.Controllers
 
       userLeavePolicyViewModel.userLeavePolicy = userLeavePolicy;
       userLeavePolicyViewModel.userLeavePolicyDetail = userLeavePolicy.UserLeavePolicyDetails.AsQueryable<UserLeavePolicyDetail>();
-      userLeavePolicyViewModel.departments = db.Departments.Where(x => x.CountryId == 1).AsQueryable<Department>();//TODO Convert 1 to current user country variable
+      userLeavePolicyViewModel.departments = db.Departments;//.Where(x => x.CountryId == 1).AsQueryable<Department>();//TODO Convert 1 to current user country variable
                                                                                                                    //userLeavePolicyViewModel.departments= depFilterd;
       userLeavePolicyViewModel.annualOffDays = db.AnnualOffDays.Where(x => x.UserLeavePolicyId == userLeavePolicy.Id).AsQueryable();
 
@@ -263,7 +263,7 @@ namespace LeaveON.Controllers
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> Edit([Bind(Prefix = "UserLeavePolicy", Include = "Id,UserId,Description,WeeklyOffDays,FiscalYearStart,FiscalYearEnd,FiscalYearPeriod")] UserLeavePolicy userLeavePolicy,
-      [Bind(Prefix = "UserLeavePolicyDetail", Include = "LeaveTypeId,Allowed")] List<UserLeavePolicyDetail> userLeavePolicyDetail, [Bind(Prefix = "AnnualOffDay", Include = "Id,OffDay,Description")] List<AnnualOffDay> AnnualOffDays, string[] DepartmentList, string[] EmployeeList, string PolicyFor)
+      [Bind(Prefix = "UserLeavePolicyDetail", Include = "LeaveTypeId,Allowed")] List<UserLeavePolicyDetail> userLeavePolicyDetail, [Bind(Prefix = "AnnualOffDay", Include = "Id,OffDay,Description")] List<AnnualOffDay> AnnualOffDays, List<int> DepartmentList, List<string> EmployeeList, string PolicyFor)
     {
 
       //UserLeavePolicy userLeavePolicyOld = await db.UserLeavePolicies.FindAsync(userLeavePolicy.Id);
@@ -290,47 +290,40 @@ namespace LeaveON.Controllers
 
       if (ModelState.IsValid)
       {
-
-        //db.UserLeavePolicies.Add(userLeavePolicy);
-
         if (PolicyFor == "1")//department
         {
-          int[] DepartmentsList = Array.ConvertAll(DepartmentList, int.Parse);
           Department dep;
-          //ToDo: country filter in this loop
-          foreach (int itm in DepartmentsList)
+          EmployeeList = new List<string>();
+          foreach (int itm in DepartmentList)
           {
             dep = db.Departments.FirstOrDefault(x => x.Id == itm);
             foreach (AspNetUser aspNetUser in dep.AspNetUsers)
             {
-              //user.UserLeavePolicyId = userLeavePolicy.Id;
-
-              string userId = EmployeeList.FirstOrDefault(x => x == aspNetUser.Id);
-
-              if (string.IsNullOrEmpty(userId))
-              {
-                aspNetUser.UserLeavePolicyId = null;
-              }
-              else
-              {
-                aspNetUser.UserLeavePolicyId = userLeavePolicy.Id;
-              }
-              db.AspNetUsers.Attach(aspNetUser);
-              db.Entry(aspNetUser).Property(x => x.UserLeavePolicyId).IsModified = true;
-
-
+              EmployeeList.Add(aspNetUser.Id);
             }
           }
+
+          foreach (AspNetUser aspNetUser in db.AspNetUsers.ToList<AspNetUser>())
+          {
+
+            string userId = EmployeeList.FirstOrDefault(x => x == aspNetUser.Id);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+              aspNetUser.UserLeavePolicyId = null;
+            }
+            else
+            {
+              aspNetUser.UserLeavePolicyId = userLeavePolicy.Id;
+            }
+            db.AspNetUsers.Attach(aspNetUser);
+            db.Entry(aspNetUser).Property(x => x.UserLeavePolicyId).IsModified = true;
+          }
+
         }
         else
         {
-          //AspNetUser user;
-          //foreach (string empId in EmployeeList)
-          //{
-          //  user = db.AspNetUsers.FirstOrDefault(x => x.Id == empId);
-          //  user.UserLeavePolicyId = userLeavePolicy.Id;
-          //}
-          //ToDo: country filter in this loop
+          
           foreach (AspNetUser aspNetUser in db.AspNetUsers.ToList<AspNetUser>())
           {
 

@@ -258,6 +258,10 @@
     <Compile Include="Migrations\202007130915425_UserLeavePolicyId.Designer.cs">
       <DependentUpon>202007130915425_UserLeavePolicyId.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202007151117549_Init.cs" />
+    <Compile Include="Migrations\202007151117549_Init.Designer.cs">
+      <DependentUpon>202007151117549_Init.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AnnualLeaveModel.cs" />
@@ -2381,6 +2385,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202007130915425_UserLeavePolicyId.resx">
       <DependentUpon>202007130915425_UserLeavePolicyId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007151117549_Init.resx">
+      <DependentUpon>202007151117549_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
