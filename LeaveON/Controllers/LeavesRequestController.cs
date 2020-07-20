@@ -53,6 +53,10 @@ namespace LeaveON.Controllers
     {
       //ViewBag.UserId = "d0c9d0b1-d0e8-4d56-a410-72e74af3ced8";
       ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes, "Id", "Name");
+      string userId = User.Identity.GetUserId();
+       //int policyId= (int) db.AspNetUsers.FirstOrDefault(x => x.Id == userId).UserLeavePolicyId;
+      // db.UserLeavePolicyDetails.Where(x => x.UserLeavePolicyId == policyId);
+      //ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes.Where(x=>x.UserLeavePolicyDetails.Where(y=>y.UserLeavePolicyId== policyId)), "Id", "Name");
       ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId");
       List<AspNetUser> Seniors = GetSeniorStaff();
 
@@ -214,8 +218,9 @@ namespace LeaveON.Controllers
     // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Edit([Bind(Include = "Id,UserId,LeaveTypeId,Reason,StartDate,EndDate,TotalDays,EmergencyContact,ResponseDate1,ResponseDate2,IsAccepted1,IsAccepted2,LineManager1Id,LineManager2Id,Remarks1,Remarks2,DateCreated,DateModified,UserLeavePolicyId")] Leave leave)
+    public async Task<ActionResult> Edit([Bind(Include = "Id,UserId,LeaveTypeId,Reason,StartDate,EndDate,TotalDays,EmergencyContact,ResponseDate1,ResponseDate2,IsAccepted1,IsAccepted2,LineManager1Id,LineManager2Id,Remarks1,Remarks2,DateCreated,DateModified,UserLeavePolicyId")] Leave leave,decimal LastLeaveDaysCount)
     {
+      
       leave.UserId = User.Identity.GetUserId();
       leave.AspNetUser = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.UserId);
       leave.DateModified = DateTime.Now;
@@ -238,6 +243,11 @@ namespace LeaveON.Controllers
         }
         else
         {
+          //first reseting Balance to its correct state
+          leaveBalance.Balance = leaveBalance.Balance + LastLeaveDaysCount;//leave.TotalDays;
+          decimal Allowed = (decimal)leaveBalance.UserLeavePolicy.UserLeavePolicyDetails.FirstOrDefault(x => x.UserLeavePolicyId == leave.AspNetUser.UserLeavePolicyId && x.LeaveTypeId == leave.LeaveTypeId).Allowed;
+          leaveBalance.Taken = Allowed- leaveBalance.Balance;
+          /////////////
           //old
           leaveBalance.Taken += leave.TotalDays;
           leaveBalance.Balance -= leave.TotalDays;

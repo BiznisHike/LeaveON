@@ -63,8 +63,8 @@ namespace LeaveON.Controllers
 
       List<UserRoleModel> usersAndRoles = new List<UserRoleModel>(); // Adding this model just to have it in a nice list.
       //var users = db.AspNetUsers;
-
-      foreach (AspNetUser user in db.AspNetUsers)
+      List<AspNetUser> AspNetUsers = db.AspNetUsers.ToList<AspNetUser>();
+      foreach (AspNetUser user in AspNetUsers)//db.AspNetUsers)
       {
         foreach (AspNetRole role in user.AspNetRoles)
         {

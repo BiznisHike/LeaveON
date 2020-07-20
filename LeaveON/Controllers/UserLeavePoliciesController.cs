@@ -92,7 +92,8 @@ namespace LeaveON.Controllers
       {
         if (item.Allowed == null)
         {
-          userLeavePolicyDetail.Remove(item);
+          //userLeavePolicyDetail.Remove(item);
+          item.Allowed = 0;
         }
       }
       userLeavePolicy.UserLeavePolicyDetails = userLeavePolicyDetail;
@@ -153,6 +154,9 @@ namespace LeaveON.Controllers
     [Authorize(Roles = "Admin,Manager,User")]
     public async Task<ActionResult> Edit(decimal id, string Caller)
     {
+      string userId = User.Identity.GetUserId();
+      id =(decimal)db.AspNetUsers.FirstOrDefault(x => x.Id == userId).UserLeavePolicyId;
+      
       if (id == null)
       {
         return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
