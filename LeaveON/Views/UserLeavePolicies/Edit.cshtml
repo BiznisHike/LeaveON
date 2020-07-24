@@ -49,7 +49,7 @@
 
               $("#AnnualOffDays").click(function () {
 
-                $("#customFields").append('<tr valign="top">  <td style="display:none;"><input type="hidden" name="AnnualOffDay.Index" value="' + counter + '" /></td><td><input type="text" class="form-control" id="OffDay' + counter + '" name="AnnualOffDay[' + counter + '].OffDay" value="" placeholder="Date" /> <td><input type="text" class="form-control" id="Description' + counter + '" name="AnnualOffDay[' + counter + '].Description" value="" placeholder="Description" /></td><td> <a href="javascript:void(0);" class="btn btn-danger AnnualOffDaysRemove">x</a></td></tr>');
+                $("#customFields").append('<tr valign="top">  <td style="display:none;"><input type="hidden" name="AnnualOffDay.Index" value="' + counter + '" /></td><td><input type="text" class="form-control datepicker" id="OffDay' + counter + '" name="AnnualOffDay[' + counter + '].OffDay" value="" placeholder="Date" /> <td><input type="text" class="form-control" id="Description' + counter + '" name="AnnualOffDay[' + counter + '].Description" value="" placeholder="Description" /></td><td> <a href="javascript:void(0);" class="btn btn-danger AnnualOffDaysRemove">x</a></td></tr>');
 
 
                 counter++;
@@ -59,6 +59,9 @@
 
 
                 });
+                  $(function() {
+                       $( ".datepicker" ).datepicker({ dateFormat: "dd-mm-yy" });
+                   });
 
                });
 

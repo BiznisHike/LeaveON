@@ -396,7 +396,7 @@
       //alert(addData);
       //$("#customFields").append('<tr>  <td style = "display:none;" > <input type="hidden" name="UserLeavePolicy.Index" value="' + addData + '" /></td><td><input type="text" class="form-control" name="UserLeavePolicy.Id[' + addData + ']" id="Id' + addData + '" value="" placeholder="No" style="width: 60px;" /></td> <td><input type="text" class="form-control" name="UserLeavePolicy.AnnualOffDays[' + addData + ']" id="LeaveDate' + addData + '" value="" placeholder="Date" /> <td><input type="text" class="form-control" name="UserLeavePolicy.Description[' + addData + ']" id="Description' + addData + '"  value="" placeholder="Description" /></td><td> <a href="javascript:void(0);" class="btn btn-danger AnnualOffDaysRemove">x</a></td></tr>');
       //<td style = "display:none;" > <input type="hidden" name="UserLeavePolicy.Index" value="' + addData + '" /></td>
-      $("#customFields").append('<tr> <td style="display:none;"><input type="hidden" name="AnnualOffDay.Index" value="' + addData + '" /></td> <td><input type="text" class="form-control" name="AnnualOffDay[' + addData + '].OffDay" id="LeaveDate' + addData + '" value="" placeholder="Date" /> <td><input type="text" class="form-control" name="AnnualOffDay[' + addData + '].Description" id="Description' + addData + '"  value="" placeholder="Description" /></td><td> <a href="javascript:void(0);" class="btn btn-danger remAnnOffDay">x</a></td></tr>');
+      $("#customFields").append('<tr> <td style="display:none;"><input type="hidden" name="AnnualOffDay.Index" value="' + addData + '" /></td> <td><input type="text" class="form-control datepicker" name="AnnualOffDay[' + addData + '].OffDay" id="LeaveDate' + addData + '" value="" placeholder="Date" /> <td><input type="text" class="form-control" name="AnnualOffDay[' + addData + '].Description" id="Description' + addData + '"  value="" placeholder="Description" /></td><td> <a href="javascript:void(0);" class="btn btn-danger remAnnOffDay">x</a></td></tr>');
 
       //alert('<tr>  <td style = "display:none;" > <input type="hidden" name="userLeavePolicy.Index" value="' + addData + '" /></td><td><input type="text" class="form-control" name="id[' + addData + ']" id="id' + addData + '" value="" placeholder="No" style="width: 60px;" /></td> <td><input type="text" class="form-control" name="AnnualOffDays[' + addData + ']" id="AnnualOffDays' + addData + '" value="" placeholder="Date" /> <td><input type="text" class="form-control" name="Description[' + addData + ']" id="Description' + addData + '"  value="" placeholder="Description" /></td><td> <a href="javascript:void(0);" class="btn btn-danger AnnualOffDaysRemove">x</a></td></tr>');
       //addData = parseInt(addData) + parseInt(1);
@@ -405,6 +405,10 @@
       $(".remAnnOffDay").on('click', function () {
           $(this).parent().parent().remove();
       });
+
+        $(function() {
+          $( ".datepicker" ).datepicker({ dateFormat: "dd-mm-yy" });
+      }); 
 
     });
 
@@ -510,6 +514,8 @@
 
 
   });
+
+
 
   $(function () {
     $("#datepickerStart").datepicker({
