@@ -275,7 +275,6 @@
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="UtilityClasses\SendEmail.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -2296,7 +2295,7 @@
     <Content Include="Views\LeavesRequest\Create.cshtml" />
     <Content Include="Views\LeavesRequest\Delete.cshtml" />
     <Content Include="Views\LeavesRequest\Edit.cshtml" />
-    <Content Include="Views\LeavesRequest\Index.cshtml" />
+    <Content Include="Views\LeavesRequest\QuotaRequestHistory.cshtml" />
     <Content Include="Views\LeaveTypes\Create.cshtml" />
     <Content Include="Views\LeaveTypes\Delete.cshtml" />
     <Content Include="Views\LeaveTypes\Edit.cshtml" />
@@ -2333,6 +2332,15 @@
     <Content Include="Views\UserRoles\Edit.cshtml" />
     <Content Include="Views\UserRoles\Index.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\AccessTimeData\WhoIsIn.cshtml" />
+    <Content Include="Views\AccessTimeData\_WhoIsIn.cshtml" />
+    <Content Include="Views\AccessTimeData\_UserData.cshtml" />
+    <Content Include="Views\AccessTimeData\UserData.cshtml" />
+    <Content Include="Views\LeavesRequest\CreateCompensatoryQuotaRequest.cshtml" />
+    <Content Include="Views\LeavesRequest\EditCompensatoryQuotaRequest.cshtml" />
+    <Content Include="Views\LeavesRequest\Index.cshtml" />
+    <Content Include="Views\LeavesResponse\QuotaResponseHistory.cshtml" />
+    <Content Include="Views\LeavesResponse\EditCompensatoryQuotaResponse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2391,6 +2399,14 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Constants\Constants.csproj">
+      <Project>{3a03c4ca-8a13-4e4f-9c4f-7da8cc997973}</Project>
+      <Name>Constants</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mail\Mail.csproj">
+      <Project>{f5a301c8-04f1-4c1f-a417-0e5a31a832e9}</Project>
+      <Name>Mail</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Repository\Repository.csproj">
       <Project>{e65cbc04-25ca-456c-ac4e-b22009b0773e}</Project>
       <Name>Repository</Name>

@@ -264,7 +264,7 @@
               <li class="nav-item">
                 <a href="/LeavesRequest/Create" class="nav-link">
                   <i class="nav-icon fa fa-address-card"></i>
-                  <p>Apply Leave</p>
+                  <p>New Leave Request</p>
                 </a>
               </li>
               <li class="nav-item has-treeview">
@@ -279,13 +279,25 @@
                   <li class="nav-item">
                     <a href="/LeavesRequest/Index" class="nav-link">
                       &nbsp; &nbsp; <i class="far fa fa-history"></i>
-                      <p>My Leaves History</p>
+                      <p>My Leave Requests History</p>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a href="/LeavesRequest/Create" class="nav-link">
                       &nbsp; &nbsp; <i class="far fa fa-address-card"></i>
-                      <p>Apply Leave</p>
+                      <p>New Leave Request</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="/LeavesRequest/QuotaRequestHistory" class="nav-link">
+                      &nbsp; &nbsp; <i class="far fa fa-history"></i>
+                                    <p>My Quota Requests History</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="/LeavesRequest/CreateCompensatoryquotaRequest" class="nav-link">
+                      &nbsp; &nbsp; <i class="far fa fa-address-card"></i>
+                      <p>New Quota Request</p>
                     </a>
                   </li>
                 </ul>
@@ -298,7 +310,7 @@
                 <a href="#" class="nav-link">
                   <i class="nav-icon fa fa-address-book"></i>
                   <p>
-                    Users Applications
+                    Leave Approvals
                     <i class="right fas fa-angle-left"></i>
                   </p>
                 </a>
@@ -306,15 +318,21 @@
                   <li class="nav-item">
                     <a href="/LeavesResponse/Index" class="nav-link">
                       &nbsp; &nbsp;<i class="far far fa fa-history"></i>
-                      <p>Users Applications History</p>
+                      <p>Leave Approval Requests</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="/LeavesResponse/QuotaResponseHistory" class="nav-link">
+                      &nbsp; &nbsp;<i class="far far fa fa-history"></i>
+                      <p>Quota Approval Requests</p>
                     </a>
                   </li>
                   @*<li class="nav-item">
-            <a href="/LeavesResponse/Create" class="nav-link">
-              <i class="far fa-circle nav-icon"></i>
-              <p>Leave Response</p>
-            </a>
-          </li>*@
+      <a href="/LeavesResponse/Create" class="nav-link">
+        <i class="far fa-circle nav-icon"></i>
+        <p>Leave Response</p>
+      </a>
+    </li>*@
                 </ul>
               </li>
             }
@@ -472,6 +490,18 @@
                 </li>
                 @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
                 {
+                  <li class="nav-item">
+                    <a href="/AccessTimeData/UserData" class="nav-link">
+                      &nbsp; &nbsp;  <i class="far fa fa-history"></i>
+                      <p>User Data</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="/AccessTimeData/WhoIsIn" class="nav-link">
+                      &nbsp; &nbsp;  <i class="far fa fa-history"></i>
+                      <p>Who Is In</p>
+                    </a>
+                  </li>
                   <li class="nav-item">
                     <a href="/AspNetUserClaims/Index" class="nav-link">
                       &nbsp; &nbsp;  <i class="far fa fa-history"></i>

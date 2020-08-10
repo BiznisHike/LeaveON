@@ -1,8 +1,8 @@
 @model Repository.Models.Leave
 
 @{
-  ViewBag.Title = "Create";
-  Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <!-- left column -->
@@ -10,7 +10,7 @@
   <!-- general form elements -->
   <div class="card card-primary">
     <div class="card-header">
-      <h3 class="card-title">Apply Leave</h3>
+      <h3 class="card-title">Create Compensatory Leave Quota Request</h3>
     </div>
     <!-- /.card-header -->
     <!-- form start -->
@@ -19,7 +19,7 @@
 
 
     <div class="card-body">
-      @using (Html.BeginForm(null, null, FormMethod.Post, new { name = "Create", id = "Create" }))
+      @using (Html.BeginForm(null, null, FormMethod.Post, new { name = "CompQuota", id = "CompQuota" }))
       {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -41,7 +41,9 @@
         <div class="form-group">
           @Html.LabelFor(model => model.LeaveTypeId, "Leave Type", htmlAttributes: new { @class = "" })
 
-          @Html.DropDownList("LeaveTypeId", null, htmlAttributes: new { @class = "form-control" })
+          @Html.DropDownList("LeaveTypeId", null, htmlAttributes: new { @class = "form-control", @disabled = "disabled" })
+          @* send disabled dropdown value to controller *@
+          @Html.Hidden("CompensatoryLeaveTypeId", (int)ViewBag.CompensatoryLeaveTypeId)
           @Html.ValidationMessageFor(model => model.LeaveTypeId, "", new { @class = "text-danger" })
 
         </div>
@@ -53,7 +55,7 @@
 
             </textarea>*@
 
-          @Html.TextAreaFor(model => model.Reason, new { @class = "form-control", rows = "3", placeholder = "Give Reason ...",required="required" })
+          @Html.TextAreaFor(model => model.Reason, new { @class = "form-control", rows = "3", placeholder = "Give Reason ...", required = "required" })
 
 
           @Html.ValidationMessageFor(model => model.Reason, "", new { @class = "text-danger" })
@@ -80,7 +82,7 @@
         <div class="form-group">
           @Html.LabelFor(model => model.StartDate, "Start Date", htmlAttributes: new { @class = " " })
 
-          @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", @id = "datepickerStart",required= "required ",@readonly="readonly" } })
+          @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", @id = "datepickerStart", required = "required ", @readonly = "readonly" } })
           @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
 
         </div>
@@ -88,7 +90,7 @@
         <div class="form-group">
           @Html.LabelFor(model => model.EndDate, "End Date", htmlAttributes: new { @class = " " })
 
-          @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control", @id = "datepickerEnd",required= "required ",@readonly="readonly" } })
+          @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control", @id = "datepickerEnd", required = "required ", @readonly = "readonly" } })
           @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
 
         </div>
@@ -97,15 +99,15 @@
         <div class="form-group">
           @Html.LabelFor(model => model.TotalDays, "Total Days", htmlAttributes: new { @class = " " })
 
-          @Html.EditorFor(model => model.TotalDays, new { htmlAttributes = new { @class = "form-control", id = "diff",@readonly="readonly" } })
+          @Html.EditorFor(model => model.TotalDays, new { htmlAttributes = new { @class = "form-control", id = "diff", @readonly = "readonly" } })
           @Html.ValidationMessageFor(model => model.TotalDays, "", new { @class = "text-danger" })
 
         </div>
 
         <div class="form-group">
-          @Html.LabelFor(model => model.EmergencyContact, "Emergency Contact", htmlAttributes: new { @class = " " })
+          @Html.LabelFor(model => model.EmergencyContact, "Project", htmlAttributes: new { @class = " " })
 
-          @Html.EditorFor(model => model.EmergencyContact, new { htmlAttributes = new { @class = "form-control",required= "required " } })
+          @Html.EditorFor(model => model.EmergencyContact, new { htmlAttributes = new { @class = "form-control", required = "required " } })
           @Html.ValidationMessageFor(model => model.EmergencyContact, "", new { @class = "text-danger" })
 
         </div>
@@ -131,6 +133,7 @@
           @*@Html.EditorFor(model => model.LineManager2Id, new { htmlAttributes = new { @class = "form-control" } })*@
 
           @Html.ValidationMessageFor(model => model.LineManager2Id, "", new { @class = "text-danger" })
+          @Html.ValidationMessageFor(model => model.LineManager2Id, "", new { @class = "text-danger" })
 
         </div>
 
@@ -138,7 +141,7 @@
 
         <div class="form-group">
           <div class="class=" card-footer">
-            <input type="submit" value="Apply" class="btn btn-primary" style = "width: 180px; margin-left:auto;margin-right:auto;display:block;margin-top:auto;margin-bottom:0%" />
+            <input type="submit" value="Apply" class="btn btn-primary" id="btnApply" style = "width: 180px; margin-left:auto;margin-right:auto;display:block;margin-top:auto;margin-bottom:0%" />
 
           </div>
         </div>
@@ -228,13 +231,13 @@
 
 <!-- right column -->
 @{
-  //Html.RenderPartial("Edit1");
-  //Html.RenderAction("Edit","UserLeavePolicies",new { id = 7});
-  //Html.RenderPartial("Edit", Repository.Models., new { id = 7 });
-  //Html.Action("Edit", "UserLeavePolicies", new { id = 7 });
+    //Html.RenderPartial("Edit1");
+    //Html.RenderAction("Edit","UserLeavePolicies",new { id = 7});
+    //Html.RenderPartial("Edit", Repository.Models., new { id = 7 });
+    //Html.Action("Edit", "UserLeavePolicies", new { id = 7 });
 
-  //Html.Partial("../UserLeavePolicies/Edit",)
-  //Html.RenderPartial("_Edit", ViewBag.UserLeavePolicy);
+    //Html.Partial("../UserLeavePolicies/Edit",)
+    //Html.RenderPartial("_Edit", ViewBag.UserLeavePolicy);
 
 }
 <div id="UserLeavePolicyData" class="col-md-6"></div>
@@ -249,13 +252,13 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script>
     $(function () {
-
-      $.get('@Url.Action("Edit","UserLeavePolicies")?id=' + "@ViewBag.UserLeavePolicyId" + '&Caller=' + "LeaveRequest", function (data) {
+      //alert("@ViewBag.UserLeavePolicyId");
+      $.get('@Url.Action("Edit", "UserLeavePolicies")?id=' + "@ViewBag.UserLeavePolicyId" + '&Caller=' + "LeaveRequest", function (data) {
         $("#UserLeavePolicyData").append(data);
       });
 
     $(document).ready(function () {
-      
+
       //$('#datepickerStart').change(function () {
       //   alert('s');
       //});
@@ -263,12 +266,20 @@
       // $('#datepickerEnd').change(function () {
       //   alert('e');
       // });
-        var message = "@ViewBag.PolicyAlert";
+
+      var message = "@ViewBag.PolicyAlert";
       if (message != "") {
-         $("#Create :input").prop("disabled", true);
+         $("#CompQuota :input").prop("disabled", true);
          alert(message);
       }
 
+      @*@{
+        var @:message = "@ViewBag.PolicyAlert";
+        if (ViewBag.PolicyAlert != null)
+          {
+              @:$("#btnApply :input").prop("disabled", true);
+          }
+       }*@
 
       $("#datepickerStart").datepicker({
         showOtherMonths: true,

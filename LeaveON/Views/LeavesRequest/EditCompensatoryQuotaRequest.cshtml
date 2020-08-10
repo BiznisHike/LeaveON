@@ -5,34 +5,22 @@
   Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-
-
-
-
 <!-- left column -->
 <div class="col-md-6">
   <!-- general form elements -->
   <div class="card card-primary">
     <div class="card-header">
-      <h3 class="card-title">Edit Leave</h3>
+      <h3 class="card-title">Update Compensatory Leave Quota Request</h3>
     </div>
     <!-- /.card-header -->
     <!-- form start -->
-
-
-
 
     <div class="card-body">
 
       @using (Html.BeginForm())
       {
         @Html.AntiForgeryToken()
-
-
-
-
-
+                          
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
 
@@ -95,7 +83,7 @@
         </div>
 
         <div class="form-group">
-          @Html.LabelFor(model => model.EmergencyContact, "Emergency Contact", htmlAttributes: new { @class = " " })
+          @Html.LabelFor(model => model.EmergencyContact, "Project", htmlAttributes: new { @class = " " })
 
           @Html.EditorFor(model => model.EmergencyContact, new { htmlAttributes = new { @class = "form-control" } })
           @Html.ValidationMessageFor(model => model.EmergencyContact, "", new { @class = "text-danger" })
@@ -127,11 +115,11 @@
 
         <div class="form-group">
           <div class="class=" card-footer">
-            <input type="submit" value="Update Leave Apply" class="btn btn-primary" style = "width: 180px; margin-left:auto;margin-right:auto;display:block;margin-top:auto;margin-bottom:0%" />
+            <input type="submit" value="Update Quota Request" class="btn btn-primary" style = "width: 180px; margin-left:auto;margin-right:auto;display:block;margin-top:auto;margin-bottom:0%" />
           </div>
         </div>
         <br />
-        @Html.ActionLink("Back to List", "Index")
+        @Html.ActionLink("Back to List", "QuotaRequestHistory")
       }
     </div>
 

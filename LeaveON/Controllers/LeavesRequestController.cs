@@ -9,8 +9,8 @@ using System.Web;
 using System.Web.Mvc;
 using Repository.Models;
 using Microsoft.AspNet.Identity;
-using LMS.Models;
-
+using LMS.Constants;
+using LMS.Mail;
 namespace LeaveON.Controllers
 {
   
@@ -23,13 +23,16 @@ namespace LeaveON.Controllers
     //public async Task<ActionResult> Index(string country)
     public async Task<ActionResult> Index()
     {
-      
       //var leaves = db.Leaves.Include(l => l.LeaveType).Include(l => l.UserLeavePolicy);
       string LoggedInUserId = User.Identity.GetUserId();
-      List<Leave> leaves1 = db.Leaves.Where(x => x.UserId == LoggedInUserId).ToList();
-      IQueryable<Leave> leaves = db.Leaves.Where(x=>x.UserId== LoggedInUserId).AsQueryable<Leave>();
-      int c= leaves1.Count();
-
+      IQueryable<Leave> leaves = db.Leaves.Where(x=>x.UserId== LoggedInUserId && (x.IsQuotaRequest == false || x.IsQuotaRequest == null)).AsQueryable<Leave>();
+      return View(await leaves.ToListAsync());
+    }
+    public async Task<ActionResult> QuotaRequestHistory()
+    {
+      //var leaves = db.Leaves.Include(l => l.LeaveType).Include(l => l.UserLeavePolicy);
+      string LoggedInUserId = User.Identity.GetUserId();
+      IQueryable<Leave> leaves = db.Leaves.Where(x => x.UserId == LoggedInUserId && x.IsQuotaRequest==true).AsQueryable<Leave>();
       return View(await leaves.ToListAsync());
     }
 
@@ -54,10 +57,59 @@ namespace LeaveON.Controllers
       //ViewBag.UserId = "d0c9d0b1-d0e8-4d56-a410-72e74af3ced8";
       ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes, "Id", "Name");
       string userId = User.Identity.GetUserId();
-       //int policyId= (int) db.AspNetUsers.FirstOrDefault(x => x.Id == userId).UserLeavePolicyId;
+      int policyId = db.AspNetUsers.FirstOrDefault(x => x.Id == userId).UserLeavePolicyId.GetValueOrDefault();
       // db.UserLeavePolicyDetails.Where(x => x.UserLeavePolicyId == policyId);
       //ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes.Where(x=>x.UserLeavePolicyDetails.Where(y=>y.UserLeavePolicyId== policyId)), "Id", "Name");
-      ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId");
+      //ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId");
+      
+      if (policyId > 0)
+      {
+        ViewBag.UserLeavePolicyId = policyId;
+      }
+      else
+      {
+        ViewBag.PolicyAlert = "No Policy is implemented for your account, Contact Admin";
+      }
+           
+      List<AspNetUser> Seniors = GetSeniorStaff();
+      
+      ViewBag.LineManagers = new SelectList(Seniors, "Id", "UserName");
+      ViewBag.UserName = User.Identity.Name;//"LoggedIn User";
+      //UserLeavePoliciesController UserLeavePolicies = new UserLeavePoliciesController();//.FileUploadMsgView("some string");
+      //var result= UserLeavePolicies.Edit(7);
+      //ViewBag.UserLeavePolicy= UserLeavePolicies.Edit(7);
+      return View();
+    }
+
+    // GET: Leaves/CreateCompensatory
+    public ActionResult CreateCompensatoryQuotaRequest()
+    {
+      //ViewBag.UserId = "d0c9d0b1-d0e8-4d56-a410-72e74af3ced8";
+      ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes, "Id", "Name",Consts.CompensatoryLeaveTypeId);
+      ViewBag.CompensatoryLeaveTypeId = Consts.CompensatoryLeaveTypeId;
+      string userId = User.Identity.GetUserId();
+      int policyId= db.AspNetUsers.FirstOrDefault(x => x.Id == userId).UserLeavePolicyId.GetValueOrDefault();
+      //bool found=false;
+      //foreach (AspNetUser user in db.AspNetUsers.ToList<AspNetUser>())
+      //{
+      //  if (user.Id == userId)
+      //  {
+      //    policyId = user.UserLeavePolicyId;
+      //    break;
+      //  }
+      //}
+
+      // db.UserLeavePolicyDetails.Where(x => x.UserLeavePolicyId == policyId);
+      //ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes.Where(x=>x.UserLeavePolicyDetails.Where(y=>y.UserLeavePolicyId== policyId)), "Id", "Name");
+      //ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId");
+      if (policyId > 0)
+      {
+        ViewBag.UserLeavePolicyId = policyId;
+      }
+      else
+      {
+        ViewBag.PolicyAlert = "No Policy is implemented for your account, Contact Admin";
+      }
       List<AspNetUser> Seniors = GetSeniorStaff();
 
       ViewBag.LineManagers = new SelectList(Seniors, "Id", "UserName");
@@ -67,7 +119,7 @@ namespace LeaveON.Controllers
       //ViewBag.UserLeavePolicy= UserLeavePolicies.Edit(7);
       return View();
     }
-    
+
     public List<AspNetUser> GetSeniorStaff()
     {
       List<AspNetUser> Seniors = new List<AspNetUser>();
@@ -139,6 +191,16 @@ namespace LeaveON.Controllers
       return lb;
 
     }
+    public LeaveBalance CalculateLeaveBalanceQuota(ref Leave leave)
+    {
+      string UserId = leave.UserId;
+      int LeaveTypeId = leave.LeaveTypeId;
+      //List<int> weeklyOffDays = leave.AspNetUser.UserLeavePolicy.WeeklyOffDays.Split(',').Select(int.Parse).ToList();
+
+      LeaveBalance lb = leave.AspNetUser.LeaveBalances.FirstOrDefault(x => x.UserId == UserId && x.LeaveTypeId == LeaveTypeId);
+      return lb;
+
+    }
     // POST: Leaves/Create
     // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
     // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -149,6 +211,7 @@ namespace LeaveON.Controllers
       leave.UserId = User.Identity.GetUserId();
       leave.AspNetUser = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.UserId);
       leave.DateCreated = DateTime.Now;
+      leave.IsQuotaRequest = false;
       if (ModelState.IsValid)
       {
 
@@ -192,6 +255,60 @@ namespace LeaveON.Controllers
       ViewBag.LineManagers = new SelectList(db.AspNetUsers, "Id", "UserName");
       return View(leave);
     }
+    // POST: Leaves/Create
+    // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+    // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<ActionResult> CreateCompensatoryQuotaRequest([Bind(Include = "Id,UserId,LeaveTypeId,Reason,StartDate,EndDate,TotalDays,EmergencyContact,LineManager1Id,LineManager2Id")] Leave leave, string StartDate,int CompensatoryLeaveTypeId)
+    {
+      leave.UserId = User.Identity.GetUserId();
+      leave.AspNetUser = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.UserId);
+      leave.DateCreated = DateTime.Now;
+      leave.LeaveTypeId= CompensatoryLeaveTypeId;
+      leave.LeaveType = db.LeaveTypes.FirstOrDefault(x => x.Id == CompensatoryLeaveTypeId);
+      leave.IsQuotaRequest = true;
+      if (ModelState.IsValid)
+      {
+
+        db.Leaves.Add(leave);
+        ///////////////
+        LeaveBalance leaveBalance = CalculateLeaveBalanceQuota(ref leave);
+
+        if (leaveBalance == null)
+        {
+          //new
+          leaveBalance = new LeaveBalance(ref leave);
+          
+          leaveBalance.UserId = leave.UserId;
+          leaveBalance.LeaveTypeId = leave.LeaveTypeId;
+          //leaveBalance.UserLeavePolicyId = leave.AspNetUser.UserLeavePolicyId;
+          db.LeaveBalances.Add(leaveBalance);
+        }
+        else
+        {
+          leaveBalance.Balance += leave.TotalDays;
+          db.Entry(leaveBalance).State = EntityState.Modified;
+        }
+        ///////////////
+        
+        await db.SaveChangesAsync();
+        AspNetUser admin1 = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.LineManager1Id);
+        SendEmail.SendEmailUsingLeavON(SendEmail.LeavON_Email, SendEmail.LeavON_Password, leave.AspNetUser, admin1, "LeaveRequest");
+        AspNetUser admin2 = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.LineManager2Id);
+        SendEmail.SendEmailUsingLeavON(SendEmail.LeavON_Email, SendEmail.LeavON_Password, leave.AspNetUser, admin2, "LeaveRequest");
+        return RedirectToAction("Index");
+      }
+
+      ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes, "Id", "Name", leave.LeaveTypeId);
+      //ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId", leave.UserLeavePolicyId);
+
+
+      var itmes = db.AspNetUsers.Include(x => x.AspNetRoles.Select(rl => rl.Name)).ToList();
+
+      ViewBag.LineManagers = new SelectList(db.AspNetUsers, "Id", "UserName");
+      return View(leave);
+    }
 
     // GET: Leaves/Edit/5
     public async Task<ActionResult> Edit(decimal id)
@@ -205,6 +322,33 @@ namespace LeaveON.Controllers
       {
         return HttpNotFound();
       }
+      if (!(leave.IsAccepted1 == null || leave.IsAccepted2 == null))
+      {
+        return RedirectToAction("Index");
+      }
+        List<AspNetUser> Seniors = GetSeniorStaff();
+      ViewBag.LineManagers = new SelectList(Seniors, "Id", "UserName");
+      ViewBag.UserName = User.Identity.Name;//"LoggedIn User";
+      ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes, "Id", "Name", leave.LeaveTypeId);
+      //ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId", leave.UserLeavePolicyId);
+      return View(leave);
+    }
+    //
+    public async Task<ActionResult> EditCompensatoryQuotaRequest(decimal id)
+    {
+      if (id == null)
+      {
+        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+      }
+      Leave leave = await db.Leaves.FindAsync(id);
+      if (leave == null)
+      {
+        return HttpNotFound();
+      }
+      if (!(leave.IsAccepted1 == null || leave.IsAccepted2 == null))
+      {
+        return RedirectToAction("Index");
+      }
       List<AspNetUser> Seniors = GetSeniorStaff();
       ViewBag.LineManagers = new SelectList(Seniors, "Id", "UserName");
       ViewBag.UserName = User.Identity.Name;//"LoggedIn User";
@@ -212,7 +356,6 @@ namespace LeaveON.Controllers
       //ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId", leave.UserLeavePolicyId);
       return View(leave);
     }
-
     // POST: Leaves/Edit/5
     // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
     // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -233,13 +376,13 @@ namespace LeaveON.Controllers
         if (leaveBalance == null)
         {
           //new
-          leaveBalance = new LeaveBalance(ref leave);
-          leaveBalance.Taken = leave.TotalDays;
-          leaveBalance.Balance -= leave.TotalDays;
-          leaveBalance.UserId = leave.UserId;
-          leaveBalance.LeaveTypeId = leave.LeaveTypeId;
-          leaveBalance.UserLeavePolicyId = leave.AspNetUser.UserLeavePolicyId;
-          db.LeaveBalances.Add(leaveBalance);
+          //leaveBalance = new LeaveBalance(ref leave);
+          //leaveBalance.Taken = leave.TotalDays;
+          //leaveBalance.Balance -= leave.TotalDays;
+          //leaveBalance.UserId = leave.UserId;
+          //leaveBalance.LeaveTypeId = leave.LeaveTypeId;
+          //leaveBalance.UserLeavePolicyId = leave.AspNetUser.UserLeavePolicyId;
+          //db.LeaveBalances.Add(leaveBalance);
         }
         else
         {
@@ -256,6 +399,52 @@ namespace LeaveON.Controllers
         ///////////////
         await db.SaveChangesAsync();
         return RedirectToAction("Index");
+      }
+      ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes, "Id", "Name", leave.LeaveTypeId);
+      //ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId", leave.UserLeavePolicyId);
+      return View(leave);
+    }
+
+    // POST: Leaves/Edit/5
+    // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+    // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<ActionResult> EditCompensatoryQuotaRequest([Bind(Include = "Id,UserId,LeaveTypeId,Reason,StartDate,EndDate,TotalDays,EmergencyContact,ResponseDate1,ResponseDate2,IsAccepted1,IsAccepted2,LineManager1Id,LineManager2Id,Remarks1,Remarks2,DateCreated,DateModified,UserLeavePolicyId")] Leave leave, decimal LastLeaveDaysCount)
+    {
+
+      leave.UserId = User.Identity.GetUserId();
+      leave.AspNetUser = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.UserId);
+      leave.DateModified = DateTime.Now;
+      leave.IsQuotaRequest = true;
+      if (ModelState.IsValid)
+      {
+        db.Entry(leave).State = EntityState.Modified;
+        ///////////////
+        LeaveBalance leaveBalance = CalculateLeaveBalanceQuota(ref leave);
+
+                     
+        if (leaveBalance == null)
+        {
+          //new
+          //leaveBalance = new LeaveBalance(ref leave);
+          //leaveBalance.Taken = leave.TotalDays;
+          //leaveBalance.Balance -= leave.TotalDays;
+          //leaveBalance.UserId = leave.UserId;
+          //leaveBalance.LeaveTypeId = leave.LeaveTypeId;
+          //leaveBalance.UserLeavePolicyId = leave.AspNetUser.UserLeavePolicyId;
+          //db.LeaveBalances.Add(leaveBalance);
+        }
+        else
+        {
+          //first reseting Balance to its correct state
+          leaveBalance.Balance -=  LastLeaveDaysCount;//leave.TotalDays;
+          leaveBalance.Balance += leave.TotalDays;
+          db.Entry(leaveBalance).State = EntityState.Modified;
+        }
+        ///////////////
+        await db.SaveChangesAsync();
+        return RedirectToAction("QuotaRequestHistory");
       }
       ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes, "Id", "Name", leave.LeaveTypeId);
       //ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId", leave.UserLeavePolicyId);

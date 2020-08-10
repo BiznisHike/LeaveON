@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Web;
 
-namespace LMS.Models
+namespace LMS.Mail
 {
   public static class SendEmail
   {

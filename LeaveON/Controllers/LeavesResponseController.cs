@@ -9,7 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using Repository.Models;
 using Microsoft.AspNet.Identity;
-using LMS.Models;
+using LMS.Mail;
 
 namespace LeaveON.Controllers
 {
@@ -25,7 +25,15 @@ namespace LeaveON.Controllers
       //var leaves = db.Leaves.Include(l => l.LeaveType).Include(l => l.UserLeavePolicy);
       //var leaves = db.Leaves.Include(l => l.LeaveType);
       string LoggedInUserId = User.Identity.GetUserId();
-      var leaves = db.Leaves.Where(x => x.LineManager1Id == LoggedInUserId || x.LineManager2Id == LoggedInUserId);
+      var leaves = db.Leaves.Where(x => x.IsQuotaRequest == false && (x.LineManager1Id == LoggedInUserId || x.LineManager2Id == LoggedInUserId));
+      return View(await leaves.ToListAsync());
+    }
+    public async Task<ActionResult> QuotaResponseHistory()
+    {
+      //var leaves = db.Leaves.Include(l => l.LeaveType).Include(l => l.UserLeavePolicy);
+      //var leaves = db.Leaves.Include(l => l.LeaveType);
+      string LoggedInUserId = User.Identity.GetUserId();
+      var leaves = db.Leaves.Where(x => x.IsQuotaRequest==true && ( x.LineManager1Id == LoggedInUserId || x.LineManager2Id == LoggedInUserId));
       return View(await leaves.ToListAsync());
     }
 
@@ -136,7 +144,7 @@ namespace LeaveON.Controllers
     public async Task<ActionResult> Edit([Bind(Include = "Id,UserId,LeaveTypeId,Reason,StartDate,EndDate,TotalDays,EmergencyContact,ResponseDate1,ResponseDate2,IsAccepted1,IsAccepted2,LineManager1Id,LineManager2Id,Remarks1,Remarks2,DateCreated,DateModified,UserLeavePolicyId")] Leave leave, string IsLineManager1)
     {
       //assign values to variable as we will reassing these values to the object
-
+      leave.IsQuotaRequest = false;
       Nullable<int> IsAccepted1 = null;
       Nullable<int> IsAccepted2 = null;
       string Remarks1 = string.Empty;
@@ -160,6 +168,12 @@ namespace LeaveON.Controllers
         leave.IsAccepted1 = IsAccepted1;
         leave.Remarks1 = Remarks1;
         leave.ResponseDate1 = DateTime.Now;
+        if (leave.LineManager1Id == leave.LineManager2Id)
+        {
+          leave.IsAccepted2 = IsAccepted1;
+          leave.Remarks2 = Remarks1;
+          leave.ResponseDate2 = DateTime.Now;
+        }
       }
       else
       {
@@ -178,6 +192,13 @@ namespace LeaveON.Controllers
         {
           AspNetUser admin = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.LineManager1Id);
           SendEmail.SendEmailUsingLeavON(SendEmail.LeavON_Email, SendEmail.LeavON_Password, admin, leave.AspNetUser , "LeaveResponse");
+
+          if (leave.LineManager1Id == leave.LineManager2Id)
+          {
+            admin = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.LineManager2Id);
+            SendEmail.SendEmailUsingLeavON(SendEmail.LeavON_Email, SendEmail.LeavON_Password, admin, leave.AspNetUser, "LeaveResponse");
+          }
+
         }
         else
         {
@@ -194,7 +215,115 @@ namespace LeaveON.Controllers
       //ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId", leave.UserLeavePolicyId);
       return View(leave);
     }
-    
+    // GET: Leaves/Edit/5
+    public async Task<ActionResult> EditCompensatoryQuotaResponse(decimal id)
+    {
+      if (id == null)
+      {
+        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+      }
+      Leave leave = await db.Leaves.FindAsync(id);
+      if (leave == null)
+      {
+        return HttpNotFound();
+      }
+
+      //ViewBag.LineManager1 = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.LineManager1Id).UserName;
+      //ViewBag.LineManager2 = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.LineManager2Id).UserName;
+      List<AspNetUser> Seniors = GetSeniorStaff();
+      bool IsLineManager1 = false;
+      if (User.Identity.GetUserId() == leave.LineManager1Id)
+      {
+        IsLineManager1 = true;
+      }
+      else
+      {
+        IsLineManager1 = false;
+      }
+      ViewBag.IsLineManager1 = IsLineManager1;
+
+      ViewBag.LineManagers = new SelectList(Seniors, "Id", "UserName");
+      ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes, "Id", "Name", leave.LeaveTypeId);
+      ViewBag.ApplicantName = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.UserId).UserName;
+      //ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId", leave.UserLeavePolicyId);
+      return View(leave);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<ActionResult> EditCompensatoryQuotaResponse([Bind(Include = "Id,UserId,LeaveTypeId,Reason,StartDate,EndDate,TotalDays,EmergencyContact,ResponseDate1,ResponseDate2,IsAccepted1,IsAccepted2,LineManager1Id,LineManager2Id,Remarks1,Remarks2,DateCreated,DateModified,UserLeavePolicyId")] Leave leave, string IsLineManager1)
+    {
+      //assign values to variable as we will reassing these values to the object
+      leave.IsQuotaRequest = true;
+      Nullable<int> IsAccepted1 = null;
+      Nullable<int> IsAccepted2 = null;
+      string Remarks1 = string.Empty;
+      string Remarks2 = string.Empty;
+      if (IsLineManager1 == "True")
+      {
+        IsAccepted1 = leave.IsAccepted1;
+        Remarks1 = leave.Remarks1.Trim();
+      }
+      else
+      {
+        IsAccepted2 = leave.IsAccepted2;
+        Remarks2 = leave.Remarks2.Trim();
+      }
+      //--------------------------------------------------
+      Leave leaveOld = db.Leaves.FirstOrDefault(x => x.Id == leave.Id);
+      leave = leaveOld;
+
+      if (IsLineManager1 == "True")
+      {
+        leave.IsAccepted1 = IsAccepted1;
+        leave.Remarks1 = Remarks1;
+        if (!(string.IsNullOrEmpty(Remarks1))) leave.TotalDays = decimal.Parse(Remarks1);
+        leave.ResponseDate1 = DateTime.Now;
+        if (leave.LineManager1Id == leave.LineManager2Id)
+        {
+          leave.IsAccepted2 = IsAccepted1;
+          leave.Remarks2 = Remarks1;
+          leave.ResponseDate2 = DateTime.Now;
+        }
+      }
+      else
+      {
+        leave.IsAccepted2 = IsAccepted2;
+        leave.Remarks2 = Remarks2;
+        if (!(string.IsNullOrEmpty(Remarks2))) leave.TotalDays = decimal.Parse(Remarks2);
+        leave.ResponseDate2 = DateTime.Now;
+      }
+
+      if (ModelState.IsValid)
+      {
+        db.Entry(leave).State = EntityState.Modified;
+
+        await db.SaveChangesAsync();
+        if (IsLineManager1 == "True")
+        {
+          AspNetUser admin = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.LineManager1Id);
+          SendEmail.SendEmailUsingLeavON(SendEmail.LeavON_Email, SendEmail.LeavON_Password, admin, leave.AspNetUser, "LeaveResponse");
+          if (leave.LineManager1Id == leave.LineManager2Id)
+          {
+            admin = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.LineManager2Id);
+            SendEmail.SendEmailUsingLeavON(SendEmail.LeavON_Email, SendEmail.LeavON_Password, admin, leave.AspNetUser, "LeaveResponse");
+          }
+        }
+        else
+        {
+          AspNetUser admin = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.LineManager2Id);
+          SendEmail.SendEmailUsingLeavON(SendEmail.LeavON_Email, SendEmail.LeavON_Password, admin, leave.AspNetUser, "LeaveResponse");
+        }
+
+        //AspNetUser admin2 = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.LineManager2Id);
+        //SendEmail.SendEmailUsingLeavON(SendEmail.LeavON_Email, SendEmail.LeavON_Password, leave.AspNetUser, admin2, "LeaveRequest");
+
+        return RedirectToAction("QuotaResponseHistory");
+      }
+      ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes, "Id", "Name", leave.LeaveTypeId);
+      //ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId", leave.UserLeavePolicyId);
+      return View(leave);
+    }
 
     public static int CalculateLeaveDays(DateTime startDate, DateTime endDate, List<DateTime> excludeDates)
     {

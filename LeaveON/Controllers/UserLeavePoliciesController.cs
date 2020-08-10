@@ -155,12 +155,12 @@ namespace LeaveON.Controllers
     public async Task<ActionResult> Edit(decimal id, string Caller)
     {
       string userId = User.Identity.GetUserId();
-      id =(decimal)db.AspNetUsers.FirstOrDefault(x => x.Id == userId).UserLeavePolicyId;
+      //id =(decimal)db.AspNetUsers.FirstOrDefault(x => x.Id == userId).UserLeavePolicyId;
       
-      if (id == null)
-      {
-        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-      }
+      //if (id == null)
+      //{
+      //  return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+      //}
       ViewBag.Employees = new SelectList(db.AspNetUsers, "Id", "UserName");
       ViewBag.LeaveTypes = new SelectList(db.LeaveTypes, "Id", "Name");
       //always remember viewbag name should not be as model name. other wise probelm. if same multilist will not show selected values

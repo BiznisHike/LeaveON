@@ -106,7 +106,12 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Constants\Constants.csproj">
+      <Project>{3a03c4ca-8a13-4e4f-9c4f-7da8cc997973}</Project>
+      <Name>Constants</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="Models\LeaveOnDataModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
