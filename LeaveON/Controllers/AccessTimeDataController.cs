@@ -186,7 +186,8 @@ namespace LeaveON.Controllers
 
         empData = dbBioStar.UD_TB_AccessTime_Data.Where(x => userIds.Contains(x.EmployeeNumber.Value) && ((x.Date_IN.Value.Month == reqDate.Month && x.Date_IN.Value.Year == reqDate.Year) ||
                                                                                    x.Date_OUT.Value.Month == reqDate.Month && x.Date_OUT.Value.Year == reqDate.Year)).AsQueryable<UD_TB_AccessTime_Data>();
-
+        //var groupByData = empData.ToList().GroupBy(x => x.Date_IN.Value.Day);
+        
         //}
       }
       //return View(await db.UD_TB_AccessTime_Data.ToListAsync());
@@ -209,6 +210,26 @@ namespace LeaveON.Controllers
       }
 
     }
+
+    public async Task<ActionResult> UserDataDetail(int EmployeeNumber, DateTime DateIn, DateTime DateOut)
+    {
+
+      //DateTime myDate = DateTime.ParseExact("2009-05-08 14:40:52,531", "yyyy-MM-dd HH:mm:ss,fff",
+      //                                 System.Globalization.CultureInfo.InvariantCulture);
+      
+        //reqDate = DateTime.ParseExact(ReqMonthYear, "MM-yyyy",
+        //                         System.Globalization.CultureInfo.CurrentCulture);
+
+        IQueryable<UD_TB_AccessTime_Data> empData = null;
+      
+        empData = dbBioStar.UD_TB_AccessTime_Data.Where(x => x.EmployeeNumber== EmployeeNumber && ((x.Date_IN.Value.Day == DateIn.Day && x.Date_IN.Value.Month == DateIn.Month && x.Date_IN.Value.Year == DateIn.Year) ||
+                                                                                   x.Date_OUT.Value.Day == DateOut.Day && x.Date_OUT.Value.Month == DateOut.Month && x.Date_OUT.Value.Year == DateOut.Year)).AsQueryable<UD_TB_AccessTime_Data>();
+      List<UD_TB_AccessTime_Data> empDataList = empData.ToList <UD_TB_AccessTime_Data> ();
+      //return PartialView("_UserData", await empData.OrderBy(i => i.Date_IN).ToListAsync());
+      return View("UserDataDetail", await empData.OrderBy(i => i.Date_IN).ToListAsync());
+
+    }
+
     public async Task<ActionResult> WhoIsIn(string Refresh)
     {
       DateTime DateTimeNow = Convert.ToDateTime("12/12/2019");//DateTime.Now;
