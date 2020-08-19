@@ -26,12 +26,13 @@ namespace Repository.Models
         }
         public LeaveBalance(ref Leave leave)
         {
-            //int LeaveTypeId = leave.LeaveTypeId;
+         
             if (leave.IsQuotaRequest == false)
             {
+                int leaveTypeId = leave.LeaveTypeId;
                 decimal UserLeavePolicyId = leave.AspNetUser.UserLeavePolicyId.Value;
                 //LeaveBalance leaveBalance= leave.AspNetUser.LeaveBalances.FirstOrDefault(x => x.LeaveTypeId == LeaveTypeId && x.UserId == UserId);
-                UserLeavePolicyDetail userLeavePolicyDetail = leave.AspNetUser.UserLeavePolicy.UserLeavePolicyDetails.FirstOrDefault(x => x.UserLeavePolicyId == UserLeavePolicyId && x.LeaveTypeId == LeaveTypeId);
+                UserLeavePolicyDetail userLeavePolicyDetail = leave.AspNetUser.UserLeavePolicy.UserLeavePolicyDetails.FirstOrDefault(x => x.UserLeavePolicyId == UserLeavePolicyId && x.LeaveTypeId == leaveTypeId);
                 Balance = userLeavePolicyDetail.Allowed;
                 Taken = 0;
                 Description = string.Empty;

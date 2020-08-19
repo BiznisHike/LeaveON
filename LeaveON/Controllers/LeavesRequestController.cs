@@ -55,13 +55,18 @@ namespace LeaveON.Controllers
     public ActionResult Create()
     {
       //ViewBag.UserId = "d0c9d0b1-d0e8-4d56-a410-72e74af3ced8";
-      ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes, "Id", "Name");
+      //ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes, "Id", "Name");
       string userId = User.Identity.GetUserId();
       int policyId = db.AspNetUsers.FirstOrDefault(x => x.Id == userId).UserLeavePolicyId.GetValueOrDefault();
       // db.UserLeavePolicyDetails.Where(x => x.UserLeavePolicyId == policyId);
-      //ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes.Where(x=>x.UserLeavePolicyDetails.Where(y=>y.UserLeavePolicyId== policyId)), "Id", "Name");
+
+      //ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes.Where(x => x.UserLeavePolicyDetails.Where(y => y.UserLeavePolicyId == policyId)), "Id", "Name");
+      ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes.Where(x => x.UserLeavePolicyDetails.Any(y => y.UserLeavePolicyId == policyId) || x.Id == Consts.CompensatoryLeaveTypeId), "Id", "Name");
+      //ViewBag.Leave1TypeId = new SelectList(db.UserLeavePolicyDetails.Where(x => x.UserLeavePolicyId == policyId).ToList <UserLeavePolicyDetail>(), "Id", "Name");
+
+      //ViewBag.LeaveTypeId = new SelectList(customLeaveTypes, "Id", "Name");
       //ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId");
-      
+
       if (policyId > 0)
       {
         ViewBag.UserLeavePolicyId = policyId;
@@ -329,7 +334,22 @@ namespace LeaveON.Controllers
         List<AspNetUser> Seniors = GetSeniorStaff();
       ViewBag.LineManagers = new SelectList(Seniors, "Id", "UserName");
       ViewBag.UserName = User.Identity.Name;//"LoggedIn User";
-      ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes, "Id", "Name", leave.LeaveTypeId);
+      //ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes, "Id", "Name", leave.LeaveTypeId);
+
+      string userId = User.Identity.GetUserId();
+      int policyId = db.AspNetUsers.FirstOrDefault(x => x.Id == userId).UserLeavePolicyId.GetValueOrDefault();
+      //List<UserLeavePolicyDetail> customLeaveTypes = db.UserLeavePolicyDetails.Where(x => x.UserLeavePolicyId == policyId).ToList<UserLeavePolicyDetail>();
+      //ViewBag.LeaveTypeId = new SelectList(customLeaveTypes, "Id", "Name");
+      ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes.Where(x => x.UserLeavePolicyDetails.Any(y => y.UserLeavePolicyId == policyId) || x.Id==Consts.CompensatoryLeaveTypeId), "Id", "Name");
+      if (policyId > 0)
+      {
+        ViewBag.UserLeavePolicyId = policyId;
+      }
+      else
+      {
+        ViewBag.PolicyAlert = "No Policy is implemented for your account, Contact Admin";
+      }
+
       //ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId", leave.UserLeavePolicyId);
       return View(leave);
     }
@@ -354,6 +374,8 @@ namespace LeaveON.Controllers
       ViewBag.UserName = User.Identity.Name;//"LoggedIn User";
       ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes, "Id", "Name", leave.LeaveTypeId);
       //ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId", leave.UserLeavePolicyId);
+      string userId = User.Identity.GetUserId();
+      int policyId = db.AspNetUsers.FirstOrDefault(x => x.Id == userId).UserLeavePolicyId.GetValueOrDefault();
       return View(leave);
     }
     // POST: Leaves/Edit/5

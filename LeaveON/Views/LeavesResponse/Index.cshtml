@@ -38,6 +38,7 @@
                 <table id="example2" class="table table-bordered table-hover dataTable dtr-inline" role="grid" aria-describedby="example2_info">
                   <thead>
                     <tr role="row">
+                      <th style="display:none;"></th>
                       <th class="sorting_desc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="StartDate: activate to sort column ascending" aria-sort="descending">
                         Request Date
                       </th>
@@ -80,72 +81,75 @@
 
                   @foreach (var item in Model)
                   {
-                    <tr role="row" class="odd">
-                      <td>
-                        @Html.DisplayFor(modelItem => item.DateCreated)
-                      </td>
-                      <td>
-                        @Html.DisplayFor(modelItem => item.AspNetUser.UserName)
-                      </td>
-                      <td>
-                        @Html.DisplayFor(modelItem => item.StartDate)
-                      </td>
-                      <td>
-                        @Html.DisplayFor(modelItem => item.EndDate)
-                      </td>
-                      <td>
-                        @Html.DisplayFor(modelItem => item.LeaveType.Name)
-                      </td>
-                      <td>
-                        @Html.DisplayFor(modelItem => item.TotalDays)
-                      </td>
-                      <td>
-                        @Html.DisplayFor(modelItem => item.Reason)
-                      </td>
+                <tr role="row" class="odd">
+                  <td style="display:none;">
+                    @Html.DisplayFor(modelItem => item.Id)
+                  </td>
+                  <td>
+                    @Html.DisplayFor(modelItem => item.DateCreated)
+                  </td>
+                  <td>
+                    @Html.DisplayFor(modelItem => item.AspNetUser.UserName)
+                  </td>
+                  <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                  </td>
+                  <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                  </td>
+                  <td>
+                    @Html.DisplayFor(modelItem => item.LeaveType.Name)
+                  </td>
+                  <td>
+                    @Html.DisplayFor(modelItem => item.TotalDays)
+                  </td>
+                  <td>
+                    @Html.DisplayFor(modelItem => item.Reason)
+                  </td>
 
 
 
-                      <td>
-                        @*@Html.DisplayFor(modelItem => item.IsAccepted1)*@
-                        @if (item.IsAccepted1 != null && item.IsAccepted1 > 0)
-                        {
-                          <p style="color:green"> Accepted </p>
-                        }
-                        @if (item.IsAccepted1 != null && item.IsAccepted1 == 0)
-                        {
-                          <p style="color:red"> Rejected </p>
-                        }
+                  <td>
+                    @*@Html.DisplayFor(modelItem => item.IsAccepted1)*@
+                    @if (item.IsAccepted1 != null && item.IsAccepted1 > 0)
+                    {
+                      <p style="color:green"> Accepted </p>
+                    }
+                    @if (item.IsAccepted1 != null && item.IsAccepted1 == 0)
+                    {
+                      <p style="color:red"> Rejected </p>
+                    }
 
 
-                      </td>
-                      <td>
-                        @*@Html.DisplayFor(modelItem => item.IsAccepted2)*@
-                        @if (item.IsAccepted2 != null && item.IsAccepted2 > 0)
-                        {
-                          <p style="color:green"> Accepted </p>
-                        }
-                        @if (item.IsAccepted2 != null && item.IsAccepted2 == 0)
-                        {
-                          <p style="color:red"> Rejected </p>
-                        }
+                  </td>
+                  <td>
+                    @*@Html.DisplayFor(modelItem => item.IsAccepted2)*@
+                    @if (item.IsAccepted2 != null && item.IsAccepted2 > 0)
+                    {
+                      <p style="color:green"> Accepted </p>
+                    }
+                    @if (item.IsAccepted2 != null && item.IsAccepted2 == 0)
+                    {
+                      <p style="color:red"> Rejected </p>
+                    }
 
-                      </td>
+                  </td>
 
 
 
-                      <td>
-                        @{
-                          //Double hist = (DateTime.Now - item.ResponseDate2.Value).TotalDays;
+                  <td>
+                    @{
+                      //Double hist = (DateTime.Now - item.ResponseDate2.Value).TotalDays;
 
-                          //if (hist < 4)
-                          //{
-                          @Html.ActionLink("Approve", "Edit", new { id = item.Id }) @*|*@
-                          @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |*@
-                          @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
-                          @*}*@
-                        }
-                      </td>
-                    </tr>
+                      //if (hist < 4)
+                      //{
+                      @Html.ActionLink("Approve", "Edit", new { id = item.Id }) @*|*@
+                      @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |*@
+                      @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                      @*}*@
+                    }
+                  </td>
+                </tr>
 
                   }
                   @*<tfoot>

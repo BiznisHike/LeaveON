@@ -204,7 +204,7 @@ namespace LeaveON.Controllers
       }
 
 
-      List<SelectListItem> WeakSelectList = new List<SelectListItem>()
+      List<SelectListItem> WeekSelectList = new List<SelectListItem>()
       {
 
           new SelectListItem{Text = "Saturday", Value = "6"},
@@ -216,7 +216,7 @@ namespace LeaveON.Controllers
           new SelectListItem{Text = "Friday", Value = "5"}
       };
 
-      ViewBag.WeeklyOffDays = WeakSelectList;
+      ViewBag.WeeklyOffDays = WeekSelectList;
       List<string> DaysSelected = new List<string>();
       foreach (string day in userLeavePolicy.WeeklyOffDays.Split(','))
       {
@@ -246,11 +246,13 @@ namespace LeaveON.Controllers
 
 
       //return PartialView("_newRow", IndexId); //for ref only
-      ViewBag.CurrentLoginUserId = User.Identity.GetUserId();
+      string CurrentLoginUserId = User.Identity.GetUserId();
+      ViewBag.CurrentLoginUserId = CurrentLoginUserId;
+      ViewBag.CompensatoryLeaveBalance = db.LeaveBalances.FirstOrDefault(x => x.LeaveTypeId == LMS.Constants.Consts.CompensatoryLeaveTypeId && x.UserId == CurrentLoginUserId);
       if (Caller == "UserLeavePolicy")
       {
+        ViewBag.LockAndHide = "False";
         return View(userLeavePolicyViewModel); //orginal
-
       }
       else
       {
@@ -281,12 +283,11 @@ namespace LeaveON.Controllers
       {
         if (item.Allowed == null)
         {
-          userLeavePolicyDetail.Remove(item);
+          //userLeavePolicyDetail.Remove(item);
+          item.Allowed = 0;
+          
         }
-        else
-        {
-          item.UserLeavePolicyId = userLeavePolicy.Id;
-        }
+        item.UserLeavePolicyId = userLeavePolicy.Id;
       }
 
 

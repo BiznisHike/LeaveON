@@ -262,12 +262,12 @@ namespace LeaveON.Controllers
       if (IsLineManager1 == "True")
       {
         IsAccepted1 = leave.IsAccepted1;
-        Remarks1 = leave.Remarks1.Trim();
+        Remarks1 = (leave.Remarks1 == null) ? string.Empty : leave.Remarks1.Trim();
       }
       else
       {
         IsAccepted2 = leave.IsAccepted2;
-        Remarks2 = leave.Remarks2.Trim();
+        Remarks2 = (leave.Remarks2 == null) ? string.Empty : leave.Remarks2.Trim();
       }
       //--------------------------------------------------
       Leave leaveOld = db.Leaves.FirstOrDefault(x => x.Id == leave.Id);

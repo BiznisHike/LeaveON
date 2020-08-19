@@ -41,7 +41,8 @@
         <div class="form-group">
           @Html.LabelFor(model => model.LeaveTypeId, "Leave Type", htmlAttributes: new { @class = "" })
 
-          @Html.DropDownList("LeaveTypeId", null, htmlAttributes: new { @class = "form-control" })
+          @Html.DropDownList("LeaveTypeId", (IEnumerable<SelectListItem>)ViewBag.LeaveTypeId, null, new { @class = "form-control" })
+          @*@Html.DropDownList("LineManager1Id", (IEnumerable<SelectListItem>)ViewBag.LineManagers, null, new { @class = "form-control" })*@
           @Html.ValidationMessageFor(model => model.LeaveTypeId, "", new { @class = "text-danger" })
 
         </div>

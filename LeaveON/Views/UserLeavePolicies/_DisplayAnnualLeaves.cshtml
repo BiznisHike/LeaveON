@@ -46,7 +46,7 @@
       <th>
         @Html.DisplayName("Description")
       </th>
-      <th class="Xtra">
+      <th class="DontShowInLeave">
 
       </th>
     </tr>
@@ -63,7 +63,7 @@
           @*<td><input type="text" autocomplete="off" class="form-control" name="AnnualOffDay[@(counter)].Id" id="Id@(counter)" value=@(item.Id) style="width: 60px;">  </td>*@
           <td><input type="text" autocomplete="off" class="form-control datepicker" name="AnnualOffDay[@(counter)].OffDay" id="OffDay@(counter)" value=@(item.OffDay)></td>
           <td><input type="text" autocomplete="off" class="form-control" name="AnnualOffDay[@(counter)].Description" id="Description@(counter)" value="@(item.Description)"></td>
-          <td class="Xtra"> <a href="javascript:void(0);" class="btn btn-danger remAnnOffDay">x</a></td>
+          <td class="DontShowInLeave"> <a href="javascript:void(0);" class="btn btn-danger remAnnOffDay">x</a></td>
 
         </tr>
         counter += 1;
