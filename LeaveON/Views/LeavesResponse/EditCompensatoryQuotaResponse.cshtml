@@ -124,7 +124,7 @@
             <div class="form-group">
               @Html.LabelFor(model => model.StartDate, "Start Date", htmlAttributes: new { @class = " " })
 
-              @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", @id = "datepickerStart1", @readonly = "readonly"  } })
+              @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control datepickerStart", @id = "datepickerStart1", @readonly = "readonly"  } })
               @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
 
             </div>
@@ -132,13 +132,13 @@
             <div class="form-group">
               @Html.LabelFor(model => model.EndDate, "End Date", htmlAttributes: new { @class = " " })
 
-              @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control", @id = "datepickerEnd1", @readonly = "readonly"  } })
+              @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control datepickerEnd", @id = "datepickerEnd1", @readonly = "readonly"  } })
               @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
 
             </div>
 
             @Html.LabelFor(model => model.Remarks1, "Remarks", htmlAttributes: new { @class = " " })
-            @Html.EditorFor(model => model.Remarks1, new { htmlAttributes = new { @class = "form-control", @id = "diff1", @readonly = "readonly"   } })
+            @Html.EditorFor(model => model.Remarks1, new { htmlAttributes = new { @class = "form-control diff", @id = "diff1"} })
             @Html.ValidationMessageFor(model => model.Remarks1, "", new { @class = "text-danger" })
           </div>
 
@@ -173,7 +173,7 @@
             <div class="form-group">
               @Html.LabelFor(model => model.StartDate, "Start Date", htmlAttributes: new { @class = " " })
 
-              @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", @id = "datepickerStart2", @readonly = "readonly"  } })
+              @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control datepickerStart", @id = "datepickerStart2", @readonly = "readonly"  } })
               @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
 
             </div>
@@ -181,14 +181,14 @@
             <div class="form-group">
               @Html.LabelFor(model => model.EndDate, "End Date", htmlAttributes: new { @class = " " })
 
-              @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control", @id = "datepickerEnd2", @readonly = "readonly"  } })
+              @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control datepickerEnd", @id = "datepickerEnd2", @readonly = "readonly"  } })
               @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
 
             </div>
 
             @Html.LabelFor(model => model.Remarks2, "Remarks", htmlAttributes: new { @class = " " })
 
-            @Html.EditorFor(model => model.Remarks2, new { htmlAttributes = new { @class = "form-control", @id = "diff2", @readonly = "readonly"   } })
+            @Html.EditorFor(model => model.Remarks2, new { htmlAttributes = new { @class = "form-control diff", @id = "diff2"} })
             @Html.ValidationMessageFor(model => model.Remarks2, "", new { @class = "text-danger" })
 
           </div>
@@ -218,13 +218,24 @@
 <script>
 
   $(function () {
-
+    @*alert(@ViewBag.UserLeavePolicyId);*@
     $.get('@Url.Action("Edit","UserLeavePolicies")?id=' + "@ViewBag.UserLeavePolicyId" + '&Caller=' + "LeaveResponse", function (data) {
         $("#UserLeavePolicyData").append(data);
     });
   });
 
   $(document).ready(function () {
+
+    //$(".diff").numeric();
+    $(".diff").keypress(function (e){
+      var charCode = (e.which) ? e.which : e.keyCode;
+      if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+      }
+    });
+     $(".diff").change(function(){
+        $('#TotalDays').val($(this).val());
+    });
     $('#diff1').val(@Model.TotalDays);
     $('#diff2').val(@Model.TotalDays);
     $('input[name="IsAccepted1"]').on('click', function () {
@@ -251,7 +262,7 @@
       }
     });
 
-    $("#datepickerStart1, #datepickerStart2").datepicker({
+    $(".datepickerStart").datepicker({
         showOtherMonths: true,
         selectOtherMonths: true,
         changeMonth: true,
@@ -273,7 +284,7 @@
         //maxDate: "+1M +10D"
     });
 
-    $("#datepickerEnd1, #datepickerEnd2").datepicker({
+    $(".datepickerEnd").datepicker({
       showOtherMonths: true,
       selectOtherMonths: true,
       changeMonth: true,
@@ -288,8 +299,8 @@
     });
     
     function myfunc() {
-      var start = $("#datepickerStart1,#datepickerStart2").datepicker("getDate");
-      var end = $("#datepickerEnd1,datepickerEnd2").datepicker("getDate");
+      var start = $(".datepickerStart").datepicker("getDate");
+      var end = $(".datepickerEnd").datepicker("getDate");
       var diff = new Date(end - start);
 
       var days = diff / 1000 / 60 / 60 / 24 + 1;

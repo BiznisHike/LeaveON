@@ -278,23 +278,23 @@ namespace LeaveON.Controllers
 
         db.Leaves.Add(leave);
         ///////////////
-        LeaveBalance leaveBalance = CalculateLeaveBalanceQuota(ref leave);
+        //LeaveBalance leaveBalance = CalculateLeaveBalanceQuota(ref leave);
 
-        if (leaveBalance == null)
-        {
-          //new
-          leaveBalance = new LeaveBalance(ref leave);
+        //if (leaveBalance == null)
+        //{
+        //  //new
+        //  leaveBalance = new LeaveBalance(ref leave);
           
-          leaveBalance.UserId = leave.UserId;
-          leaveBalance.LeaveTypeId = leave.LeaveTypeId;
-          //leaveBalance.UserLeavePolicyId = leave.AspNetUser.UserLeavePolicyId;
-          db.LeaveBalances.Add(leaveBalance);
-        }
-        else
-        {
-          leaveBalance.Balance += leave.TotalDays;
-          db.Entry(leaveBalance).State = EntityState.Modified;
-        }
+        //  leaveBalance.UserId = leave.UserId;
+        //  leaveBalance.LeaveTypeId = leave.LeaveTypeId;
+        //  //leaveBalance.UserLeavePolicyId = leave.AspNetUser.UserLeavePolicyId;
+        //  db.LeaveBalances.Add(leaveBalance);
+        //}
+        //else
+        //{
+        //  leaveBalance.Balance += leave.TotalDays;
+        //  db.Entry(leaveBalance).State = EntityState.Modified;
+        //}
         ///////////////
         
         await db.SaveChangesAsync();
@@ -302,7 +302,7 @@ namespace LeaveON.Controllers
         SendEmail.SendEmailUsingLeavON(SendEmail.LeavON_Email, SendEmail.LeavON_Password, leave.AspNetUser, admin1, "LeaveRequest");
         AspNetUser admin2 = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.LineManager2Id);
         SendEmail.SendEmailUsingLeavON(SendEmail.LeavON_Email, SendEmail.LeavON_Password, leave.AspNetUser, admin2, "LeaveRequest");
-        return RedirectToAction("Index");
+        return RedirectToAction("QuotaRequestHistory");
       }
 
       ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes, "Id", "Name", leave.LeaveTypeId);

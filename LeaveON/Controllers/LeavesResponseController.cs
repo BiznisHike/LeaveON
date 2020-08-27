@@ -133,6 +133,7 @@ namespace LeaveON.Controllers
       ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes, "Id", "Name", leave.LeaveTypeId);
       ViewBag.ApplicantName = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.UserId).UserName;
       //ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId", leave.UserLeavePolicyId);
+      ViewBag.UserLeavePolicyId = leave.AspNetUser.UserLeavePolicy.Id;
       return View(leave);
     }
 
@@ -260,6 +261,7 @@ namespace LeaveON.Controllers
       ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes, "Id", "Name", leave.LeaveTypeId);
       ViewBag.ApplicantName = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.UserId).UserName;
       //ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId", leave.UserLeavePolicyId);
+      //ViewBag.UserLeavePolicyId = leave.AspNetUser.UserLeavePolicyId;
       return View(leave);
     }
 
@@ -267,6 +269,7 @@ namespace LeaveON.Controllers
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> EditCompensatoryQuotaResponse([Bind(Include = "Id,UserId,LeaveTypeId,Reason,StartDate,EndDate,TotalDays,EmergencyContact,ResponseDate1,ResponseDate2,IsAccepted1,IsAccepted2,LineManager1Id,LineManager2Id,Remarks1,Remarks2,DateCreated,DateModified,UserLeavePolicyId")] Leave leave, string IsLineManager1)
     {
+      //----------------------------get new value----------------------------------------------
       //assign values to variable as we will reassing these values to the object
       //leave.IsQuotaRequest = true; no need to assing ture. when we get old leave few line ahead there is ture in IsQotaRequest
       Nullable<int> IsAccepted1 = null;
@@ -275,19 +278,34 @@ namespace LeaveON.Controllers
       string Remarks2 = string.Empty;
       DateTime startDate= leave.StartDate;
       DateTime endDate= leave.EndDate;
-      decimal totalDays=leave.TotalDays.Value;
+      decimal totalDays;
+      if (leave.TotalDays == null)
+      {
+        totalDays = (decimal)(endDate - startDate).TotalDays;
+      }
+      else
+      {
+        totalDays = leave.TotalDays.Value;
+      }
+      
       
       if (IsLineManager1 == "True")
       {
         IsAccepted1 = leave.IsAccepted1;
-        Remarks1 = (leave.Remarks1 == null) ? string.Empty : leave.Remarks1.Trim();
+        if (IsAccepted1==2) Remarks1 = (leave.Remarks1 == null) ? string.Empty : leave.Remarks1.Trim();
+
+
+
       }
       else
       {
         IsAccepted2 = leave.IsAccepted2;
-        Remarks2 = (leave.Remarks2 == null) ? string.Empty : leave.Remarks2.Trim();
+        if (IsAccepted2 == 2) Remarks2 = (leave.Remarks2 == null) ? string.Empty : leave.Remarks2.Trim();
+
+
+
       }
-      //--------------------------------------------------
+      //--------------------------get old leave and put new values to it------------------------
       Leave leaveOld = db.Leaves.FirstOrDefault(x => x.Id == leave.Id);
       leave = leaveOld;
 
@@ -305,19 +323,23 @@ namespace LeaveON.Controllers
           leave.EndDate = endDate;
           leave.TotalDays = totalDays;
         }
+        
         if (leave.LineManager1Id == leave.LineManager2Id)
         {
           leave.IsAccepted2 = IsAccepted1;
           leave.Remarks2 = leave.Remarks1;
           leave.ResponseDate2 = DateTime.Now;
+          // calculatin will perform when linemanager 2 will aprove so it is in if condition
+          if (leave.IsAccepted2 > 0) CalculateAndChangeLeaveBalance(ref leave);
         }
+        
       }
       else
       {
         leave.IsAccepted2 = IsAccepted2;
         leave.Remarks2 = Remarks2;
         leave.ResponseDate2 = DateTime.Now;
-        if (IsAccepted1 == 2)
+        if (IsAccepted2 == 2)
         {
           //leave.Remarks2 = string.Empty;
           //if (!(string.IsNullOrEmpty(Remarks2))) leave.TotalDays = decimal.Parse(Remarks2);
@@ -325,6 +347,8 @@ namespace LeaveON.Controllers
           leave.EndDate = endDate;
           leave.TotalDays = totalDays;
         }
+        if (leave.IsAccepted2>0) CalculateAndChangeLeaveBalance(ref leave);
+
       }
 
       if (ModelState.IsValid)
@@ -332,6 +356,7 @@ namespace LeaveON.Controllers
         db.Entry(leave).State = EntityState.Modified;
 
         await db.SaveChangesAsync();
+        //------------------------------sending mail----------------------------------------------
         if (IsLineManager1 == "True")
         {
           AspNetUser admin = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.LineManager1Id);
@@ -357,7 +382,36 @@ namespace LeaveON.Controllers
       //ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId", leave.UserLeavePolicyId);
       return View(leave);
     }
+    public void CalculateAndChangeLeaveBalance(ref Leave leave)
+    {
+      LeaveBalance leaveBalance = CalculateLeaveBalanceQuota(ref leave);
 
+      if (leaveBalance == null)
+      {
+        //new
+        leaveBalance = new LeaveBalance(ref leave);
+
+        leaveBalance.UserId = leave.UserId;
+        leaveBalance.LeaveTypeId = leave.LeaveTypeId;
+        //leaveBalance.UserLeavePolicyId = leave.AspNetUser.UserLeavePolicyId;
+        db.LeaveBalances.Add(leaveBalance);
+      }
+      else
+      {
+        leaveBalance.Balance += leave.TotalDays;
+        db.Entry(leaveBalance).State = EntityState.Modified;
+      }
+    }
+    public LeaveBalance CalculateLeaveBalanceQuota(ref Leave leave)
+    {
+      string UserId = leave.UserId;
+      int LeaveTypeId = leave.LeaveTypeId;
+      //List<int> weeklyOffDays = leave.AspNetUser.UserLeavePolicy.WeeklyOffDays.Split(',').Select(int.Parse).ToList();
+
+      LeaveBalance lb = leave.AspNetUser.LeaveBalances.FirstOrDefault(x => x.UserId == UserId && x.LeaveTypeId == LeaveTypeId);
+      return lb;
+
+    }
     public static int CalculateLeaveDays(DateTime startDate, DateTime endDate, List<DateTime> excludeDates)
     {
       int count = 0;
