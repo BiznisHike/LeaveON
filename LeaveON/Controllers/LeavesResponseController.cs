@@ -153,6 +153,7 @@ namespace LeaveON.Controllers
       {
         IsAccepted1 = leave.IsAccepted1;
         Remarks1 = leave.Remarks1;
+        
       }
       else
       {
@@ -168,11 +169,20 @@ namespace LeaveON.Controllers
         leave.IsAccepted1 = IsAccepted1;
         leave.Remarks1 = Remarks1;
         leave.ResponseDate1 = DateTime.Now;
+        
+        if (IsAccepted1 == 2)
+        {
+          leave.Remarks1 = string.Empty;
+          leave.TotalDays = decimal.Parse(Remarks1);
+        }
+        
         if (leave.LineManager1Id == leave.LineManager2Id)
         {
           leave.IsAccepted2 = IsAccepted1;
-          leave.Remarks2 = Remarks1;
+          leave.Remarks2 = leave.Remarks1;
           leave.ResponseDate2 = DateTime.Now;
+          
+
         }
       }
       else
@@ -180,7 +190,11 @@ namespace LeaveON.Controllers
         leave.IsAccepted2 = IsAccepted2;
         leave.Remarks2 = Remarks2;
         leave.ResponseDate2 = DateTime.Now;
-
+        if (IsAccepted1 == 2)
+        {
+          leave.Remarks2 = string.Empty;
+          leave.TotalDays = decimal.Parse(Remarks2);
+        }
       }
 
       if (ModelState.IsValid)
@@ -254,11 +268,15 @@ namespace LeaveON.Controllers
     public async Task<ActionResult> EditCompensatoryQuotaResponse([Bind(Include = "Id,UserId,LeaveTypeId,Reason,StartDate,EndDate,TotalDays,EmergencyContact,ResponseDate1,ResponseDate2,IsAccepted1,IsAccepted2,LineManager1Id,LineManager2Id,Remarks1,Remarks2,DateCreated,DateModified,UserLeavePolicyId")] Leave leave, string IsLineManager1)
     {
       //assign values to variable as we will reassing these values to the object
-      leave.IsQuotaRequest = true;
+      //leave.IsQuotaRequest = true; no need to assing ture. when we get old leave few line ahead there is ture in IsQotaRequest
       Nullable<int> IsAccepted1 = null;
       Nullable<int> IsAccepted2 = null;
       string Remarks1 = string.Empty;
       string Remarks2 = string.Empty;
+      DateTime startDate= leave.StartDate;
+      DateTime endDate= leave.EndDate;
+      decimal totalDays=leave.TotalDays.Value;
+      
       if (IsLineManager1 == "True")
       {
         IsAccepted1 = leave.IsAccepted1;
@@ -277,12 +295,20 @@ namespace LeaveON.Controllers
       {
         leave.IsAccepted1 = IsAccepted1;
         leave.Remarks1 = Remarks1;
-        if (!(string.IsNullOrEmpty(Remarks1))) leave.TotalDays = decimal.Parse(Remarks1);
+        //if (!(string.IsNullOrEmpty(Remarks1))) leave.TotalDays = decimal.Parse(Remarks1);
         leave.ResponseDate1 = DateTime.Now;
+        if (IsAccepted1 == 2)
+        {
+          //leave.Remarks1 = string.Empty;
+          //if (!(string.IsNullOrEmpty(Remarks1))) leave.TotalDays = decimal.Parse(Remarks1);
+          leave.StartDate = startDate;
+          leave.EndDate = endDate;
+          leave.TotalDays = totalDays;
+        }
         if (leave.LineManager1Id == leave.LineManager2Id)
         {
           leave.IsAccepted2 = IsAccepted1;
-          leave.Remarks2 = Remarks1;
+          leave.Remarks2 = leave.Remarks1;
           leave.ResponseDate2 = DateTime.Now;
         }
       }
@@ -290,8 +316,15 @@ namespace LeaveON.Controllers
       {
         leave.IsAccepted2 = IsAccepted2;
         leave.Remarks2 = Remarks2;
-        if (!(string.IsNullOrEmpty(Remarks2))) leave.TotalDays = decimal.Parse(Remarks2);
         leave.ResponseDate2 = DateTime.Now;
+        if (IsAccepted1 == 2)
+        {
+          //leave.Remarks2 = string.Empty;
+          //if (!(string.IsNullOrEmpty(Remarks2))) leave.TotalDays = decimal.Parse(Remarks2);
+          leave.StartDate = startDate;
+          leave.EndDate = endDate;
+          leave.TotalDays = totalDays;
+        }
       }
 
       if (ModelState.IsValid)

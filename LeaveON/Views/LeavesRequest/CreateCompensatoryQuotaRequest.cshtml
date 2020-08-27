@@ -97,9 +97,9 @@
 
 
         <div class="form-group">
-          @Html.LabelFor(model => model.TotalDays, "Total Days", htmlAttributes: new { @class = " " })
+          @*@Html.LabelFor(model => model.TotalDays, "Total Days", htmlAttributes: new { @class = " " })*@
 
-          @Html.EditorFor(model => model.TotalDays, new { htmlAttributes = new { @class = "form-control", id = "diff", @readonly = "readonly" } })
+          @Html.HiddenFor(model => model.TotalDays, new { htmlAttributes = new { @class = "form-control", id = "diff", @readonly = "readonly" } })
           @Html.ValidationMessageFor(model => model.TotalDays, "", new { @class = "text-danger" })
 
         </div>

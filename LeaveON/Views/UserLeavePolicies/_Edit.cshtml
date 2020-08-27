@@ -81,51 +81,55 @@
                         </thead>
                         <tbody>
                           @{
-                              if (Model.userLeavePolicyDetail.Count() > 0)
-                              {
-                                Repository.Models.LeaveBalance leaveBalance;
-                                string Taken=string.Empty;
-                                string Balance=string.Empty;
+                            if (Model.userLeavePolicyDetail.Count() > 0)
+                            {
+                              Repository.Models.LeaveBalance leaveBalance;
+                              string Taken = string.Empty;
+                              string Balance = string.Empty;
 
-                                int sNo = 0;
-                                string CurrentLoginUserId = ViewBag.CurrentLoginUserId;
-                                foreach (var item in Model.userLeavePolicyDetail)
-                                {
-                                  leaveBalance = Model.userLeavePolicy.LeaveBalances.FirstOrDefault(x => x.LeaveTypeId == item.LeaveTypeId && x.UserId == CurrentLoginUserId);
-                                  Taken = leaveBalance != null ? leaveBalance.Taken.ToString() : "";
-                                  Balance = leaveBalance != null ? leaveBalance.Balance.ToString() : "";
+                              int sNo = 0;
+                              string CurrentLoginUserId = ViewBag.CurrentLoginUserId;
+                              foreach (var item in Model.userLeavePolicyDetail)
+                              {
+                                leaveBalance = Model.userLeavePolicy.LeaveBalances.FirstOrDefault(x => x.LeaveTypeId == item.LeaveTypeId && x.UserId == CurrentLoginUserId);
+                                Taken = leaveBalance != null ? leaveBalance.Taken.ToString() : "";
+                                Balance = leaveBalance != null ? leaveBalance.Balance.ToString() : "";
                                 <tr>
                                   <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="@sNo" /></td>
                                   <td>
-                                    @Html.DropDownList("UserLeavePolicyDetail[" + sNo + "].LeaveTypeId", new SelectList(ViewBag.LeaveTypes, "Value", "Text", item.LeaveTypeId), null, new {@class = "form-control"@*, style = "width: 300px;"*@})
+                                    @Html.DropDownList("UserLeavePolicyDetail[" + sNo + "].LeaveTypeId", new SelectList(ViewBag.LeaveTypes, "Value", "Text", item.LeaveTypeId), null, new
+                                    {
+                                      @class = "form-control"@*, style = "width: 300px;"*@})
                                   </td>
                                   <td><input name="UserLeavePolicyDetail[@sNo].Allowed" value="@(item.Allowed)" class="form-control" placeholder="Allowed"> </td>
                                   <td class="DontShowInPolicy"><input name="UserLeavePolicyDetail[@sNo].Taken" value="@(leaveBalance != null ? leaveBalance.Taken.ToString() : "")" class="form-control" placeholder="Taken"> </td>
                                   <td class="DontShowInPolicy"><input name="UserLeavePolicyDetail[@sNo].Balance" value="@(leaveBalance != null ? leaveBalance.Balance.ToString() : "")" class="form-control" placeholder="Balance" style="width: 50px;"> </td>
                                   <td class="DontShowInLeave"><a href="javascript:void(0);" class=" btn btn-danger remLeaveType">x</a></td>
                                 </tr>
-                                  sNo += 1;
-                                  //if (sNo == 2) { break; };
-                                }
-                                if(ViewBag.LockAndHide=="True")
-                                {
-
-                                  leaveBalance = (Repository.Models.LeaveBalance)ViewBag.CompensatoryLeaveBalance;/*Model.userLeavePolicy.LeaveBalances.FirstOrDefault(x => x.LeaveTypeId == LMS.Constants.Consts.CompensatoryLeaveTypeId && x.UserId == CurrentLoginUserId);*/
-                                  Taken = leaveBalance != null ? leaveBalance.Taken.ToString() : "";
-                                  Balance = leaveBalance != null ? leaveBalance.Balance.ToString() : "";
-
-                                  <tr>
-                                    <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="@sNo" /></td>
-                                    <td>
-                                      @Html.DropDownList("UserLeavePolicyDetail[" + sNo + "].LeaveTypeId", new SelectList(ViewBag.LeaveTypes, "Value", "Text", LMS.Constants.Consts.CompensatoryLeaveTypeId), null, new {@class = "form-control"@*, style = "width: 300px;"*@})
-                                      </td>
-                                      <td><input name="UserLeavePolicyDetail[@sNo].Allowed" value="" class="form-control" placeholder="Allowed"> </td>
-                                      <td class="DontShowInPolicy"><input name="UserLeavePolicyDetail[@sNo].Taken" value="@(leaveBalance != null ? leaveBalance.Taken.ToString() : "")" class="form-control" placeholder="Taken"> </td>
-                                      <td class="DontShowInPolicy"><input name="UserLeavePolicyDetail[@sNo].Balance" value="@(leaveBalance != null ? leaveBalance.Balance.ToString() : "")" class="form-control" placeholder="Balance" style="width: 50px;"> </td>
-                                      <td class="DontShowInPolicy DontShowInLeave"><a href="javascript:void(0);" class=" btn btn-danger remLeaveType">x</a></td>
-                                  </tr>
-                                }
+                                sNo += 1;
+                                //if (sNo == 2) { break; };
                               }
+                              if (ViewBag.LockAndHide == "True")
+                              {
+
+                                leaveBalance = (Repository.Models.LeaveBalance)ViewBag.CompensatoryLeaveBalance;/*Model.userLeavePolicy.LeaveBalances.FirstOrDefault(x => x.LeaveTypeId == LMS.Constants.Consts.CompensatoryLeaveTypeId && x.UserId == CurrentLoginUserId);*/
+                                Taken = leaveBalance != null ? leaveBalance.Taken.ToString() : "";
+                                Balance = leaveBalance != null ? leaveBalance.Balance.ToString() : "";
+
+                                <tr>
+                                  <td style="display:none;"><input type="hidden" name="UserLeavePolicyDetail.Index" value="@sNo" /></td>
+                                  <td>
+                                    @Html.DropDownList("UserLeavePolicyDetail[" + sNo + "].LeaveTypeId", new SelectList(ViewBag.LeaveTypes, "Value", "Text", LMS.Constants.Consts.CompensatoryLeaveTypeId), null, new
+                                    {
+                                      @class = "form-control"@*, style = "width: 300px;"*@})
+                                  </td>
+                                  <td><input name="UserLeavePolicyDetail[@sNo].Allowed" value="" class="form-control" placeholder="Allowed"> </td>
+                                  <td class="DontShowInPolicy"><input name="UserLeavePolicyDetail[@sNo].Taken" value="@(leaveBalance != null ? leaveBalance.Taken.ToString() : "")" class="form-control" placeholder="Taken"> </td>
+                                  <td class="DontShowInPolicy"><input name="UserLeavePolicyDetail[@sNo].Balance" value="@(leaveBalance != null ? leaveBalance.Balance.ToString() : "")" class="form-control" placeholder="Balance" style="width: 50px;"> </td>
+                                  <td class="DontShowInPolicy DontShowInLeave"><a href="javascript:void(0);" class=" btn btn-danger remLeaveType">x</a></td>
+                                </tr>
+                              }
+                            }
                           }
                         </tbody>
                         @*<tfoot>
@@ -296,7 +300,8 @@
 
 </div>
 <script>
-        var LockAndHide = "@ViewBag.LockAndHide";
+
+  var LockAndHide = "@ViewBag.LockAndHide";
   if (LockAndHide == "True") {
     $('.DontShowInLeave').hide();
 

@@ -54,7 +54,7 @@
 
             </textarea>*@
 
-          @Html.TextAreaFor(model => model.Reason, new { @class = "form-control", rows = "3", placeholder = "Give Reason ...",required="required" })
+          @Html.TextAreaFor(model => model.Reason, new { @class = "form-control", rows = "3", placeholder = "Give Reason ...", required = "required" })
 
 
           @Html.ValidationMessageFor(model => model.Reason, "", new { @class = "text-danger" })
@@ -81,7 +81,7 @@
         <div class="form-group">
           @Html.LabelFor(model => model.StartDate, "Start Date", htmlAttributes: new { @class = " " })
 
-          @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", @id = "datepickerStart",required= "required ",@readonly="readonly" } })
+          @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", @id = "datepickerStart", required = "required ", @readonly = "readonly" } })
           @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
 
         </div>
@@ -89,16 +89,16 @@
         <div class="form-group">
           @Html.LabelFor(model => model.EndDate, "End Date", htmlAttributes: new { @class = " " })
 
-          @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control", @id = "datepickerEnd",required= "required ",@readonly="readonly" } })
+          @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control", @id = "datepickerEnd", required = "required ", @readonly = "readonly" } })
           @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
 
         </div>
 
 
         <div class="form-group">
-          @Html.LabelFor(model => model.TotalDays, "Total Days", htmlAttributes: new { @class = " " })
+          @*@Html.LabelFor(model => model.TotalDays, "Total Days", htmlAttributes: new { @class = " " })*@
 
-          @Html.EditorFor(model => model.TotalDays, new { htmlAttributes = new { @class = "form-control", id = "diff",@readonly="readonly" } })
+          @Html.HiddenFor(model => model.TotalDays, new { htmlAttributes = new { @class = "form-control", id = "diff", @readonly = "readonly" } })
           @Html.ValidationMessageFor(model => model.TotalDays, "", new { @class = "text-danger" })
 
         </div>
@@ -106,7 +106,7 @@
         <div class="form-group">
           @Html.LabelFor(model => model.EmergencyContact, "Emergency Contact", htmlAttributes: new { @class = " " })
 
-          @Html.EditorFor(model => model.EmergencyContact, new { htmlAttributes = new { @class = "form-control",required= "required " } })
+          @Html.EditorFor(model => model.EmergencyContact, new { htmlAttributes = new { @class = "form-control", required = "required " } })
           @Html.ValidationMessageFor(model => model.EmergencyContact, "", new { @class = "text-danger" })
 
         </div>
@@ -139,7 +139,7 @@
 
         <div class="form-group">
           <div class="class=" card-footer">
-            <input type="submit" value="Apply" class="btn btn-primary" style = "width: 180px; margin-left:auto;margin-right:auto;display:block;margin-top:auto;margin-bottom:0%" />
+            <input type="submit" value="Apply" class="btn btn-primary" style="width: 180px; margin-left:auto;margin-right:auto;display:block;margin-top:auto;margin-bottom:0%" />
 
           </div>
         </div>
@@ -244,11 +244,11 @@
 
 
 
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
-  @*<script src="https://code.jquery.com/jquery-1.12.4.js"></script>*@
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+@*<script src="https://code.jquery.com/jquery-1.12.4.js"></script>*@
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
     $(function () {
 
       $.get('@Url.Action("Edit","UserLeavePolicies")?id=' + "@ViewBag.UserLeavePolicyId" + '&Caller=' + "LeaveRequest", function (data) {
@@ -256,7 +256,7 @@
       });
 
     $(document).ready(function () {
-      
+
       //$('#datepickerStart').change(function () {
       //   alert('s');
       //});
@@ -327,9 +327,9 @@
     });
 
   });
-  </script>
+</script>
 
-  @*@section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-    }*@
+@*@section Scripts {
+      @Scripts.Render("~/bundles/jqueryval")
+  }*@
 

@@ -11,6 +11,8 @@ using Microsoft.Owin.Security;
 using LeaveON.Models;
 using Repository.Models;
 using System.Collections.Generic;
+using System.DirectoryServices.AccountManagement;
+using System.DirectoryServices;
 
 namespace LeaveON.Controllers
 {
@@ -174,6 +176,48 @@ namespace LeaveON.Controllers
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
     {
+      
+      //// set up domain context
+      ////PrincipalContext ctx = new PrincipalContext(ContextType.Domain);
+
+      //// find current user
+      //UserPrincipal user = UserPrincipal.Current;
+
+      //if (user != null)
+      //{
+      //  string loginName = user.SamAccountName; // or whatever you mean by "login name"
+      //}
+
+      //if (!ModelState.IsValid)
+      //{
+      //  return View(model);
+      //}
+
+      //using (var context = new PrincipalContext(ContextType.Domain, "WorkGroup"))
+      //{
+      //  using (var searcher = new PrincipalSearcher(new UserPrincipal(context)))
+      //  {
+      //    foreach (var result1 in searcher.FindAll())
+      //    {
+      //      DirectoryEntry de = result1.GetUnderlyingObject() as DirectoryEntry;
+      //      Console.WriteLine("First Name: " + de.Properties["givenName"].Value);
+      //      Console.WriteLine("Last Name : " + de.Properties["sn"].Value);
+      //      Console.WriteLine("SAM account name   : " + de.Properties["samAccountName"].Value);
+      //      Console.WriteLine("User principal name: " + de.Properties["userPrincipalName"].Value);
+      //      Console.WriteLine();
+      //    }
+      //  }
+      //}
+
+
+
+
+
+
+
+
+
+
       if (!ModelState.IsValid)
       {
         return View(model);

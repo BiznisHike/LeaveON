@@ -49,6 +49,7 @@ namespace LeaveON.Controllers
     public ActionResult AddNewRow(string IndexId)
     {
       ViewBag.LeaveTypes = new SelectList(db.LeaveTypes, "Id", "Name");
+      ViewBag.LockAndHide = "False";
       return PartialView("_newRow", IndexId);
     }
     // GET: UserLeavePolicies/Create
