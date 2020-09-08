@@ -80,6 +80,7 @@ namespace LeaveON.Controllers
       
       ViewBag.LineManagers = new SelectList(Seniors, "Id", "UserName");
       ViewBag.UserName = User.Identity.Name;//"LoggedIn User";
+      ViewBag.LeaveUserId = userId;
       //UserLeavePoliciesController UserLeavePolicies = new UserLeavePoliciesController();//.FileUploadMsgView("some string");
       //var result= UserLeavePolicies.Edit(7);
       //ViewBag.UserLeavePolicy= UserLeavePolicies.Edit(7);
@@ -119,6 +120,7 @@ namespace LeaveON.Controllers
 
       ViewBag.LineManagers = new SelectList(Seniors, "Id", "UserName");
       ViewBag.UserName = User.Identity.Name;//"LoggedIn User";
+      ViewBag.LeaveUserId =userId;
       //UserLeavePoliciesController UserLeavePolicies = new UserLeavePoliciesController();//.FileUploadMsgView("some string");
       //var result= UserLeavePolicies.Edit(7);
       //ViewBag.UserLeavePolicy= UserLeavePolicies.Edit(7);

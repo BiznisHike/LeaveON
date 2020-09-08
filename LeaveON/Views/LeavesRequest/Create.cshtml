@@ -24,12 +24,12 @@
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @*<div class="form-group">
-            @Html.LabelFor(model => model.UserId, htmlAttributes: new { @class = "control-label" })
-            <div class="col-md-10">
-              @Html.EditorFor(model => model.UserId, new { htmlAttributes = new { @class = "form-control" } })
-              @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
-            </div>
-          </div>*@
+        @Html.LabelFor(model => model.UserId, htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-10">
+          @Html.EditorFor(model => model.UserId, new { htmlAttributes = new { @class = "form-control" } })
+          @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+        </div>
+      </div>*@
 
         <div class="form-group">
           @Html.Label("User Name")
@@ -52,7 +52,7 @@
           <br>
           @*<textarea name="Reason" class="form-control " rows="3">
 
-            </textarea>*@
+        </textarea>*@
 
           @Html.TextAreaFor(model => model.Reason, new { @class = "form-control", rows = "3", placeholder = "Give Reason ...", required = "required" })
 
@@ -63,20 +63,20 @@
 
         @*<div class="form-group">
 
-            <label>Start Date:</label>
+        <label>Start Date:</label>
 
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  <i class="far fa-calendar-alt"></i>
-                </span>
-              </div>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="far fa-calendar-alt"></i>
+            </span>
+          </div>
 
-              <input type="text" class="form-control float-right" id="reservation">
+          <input type="text" class="form-control float-right" id="reservation">
 
-            </div>
+        </div>
 
-          </div>*@
+      </div>*@
 
         <div class="form-group">
           @Html.LabelFor(model => model.StartDate, "Start Date", htmlAttributes: new { @class = " " })
@@ -149,76 +149,76 @@
         </div>
 
         @*<div class="form-group">
-            @Html.LabelFor(model => model.ResponseDate1, "Response Date 1", htmlAttributes: new { @class = " " })
+        @Html.LabelFor(model => model.ResponseDate1, "Response Date 1", htmlAttributes: new { @class = " " })
 
-            @Html.EditorFor(model => model.ResponseDate1, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-            @Html.ValidationMessageFor(model => model.ResponseDate1, "", new { @class = "text-danger" })
+        @Html.EditorFor(model => model.ResponseDate1, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+        @Html.ValidationMessageFor(model => model.ResponseDate1, "", new { @class = "text-danger" })
 
-          </div>
-          <div class="form-group">
-            @Html.LabelFor(model => model.IsAccepted1, "Status Line Manager 1", htmlAttributes: new { @class = " " })
+      </div>
+      <div class="form-group">
+        @Html.LabelFor(model => model.IsAccepted1, "Status Line Manager 1", htmlAttributes: new { @class = " " })
 
-            @Html.EditorFor(model => model.IsAccepted1, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-            @Html.ValidationMessageFor(model => model.IsAccepted1, "", new { @class = "text-danger" })
+        @Html.EditorFor(model => model.IsAccepted1, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+        @Html.ValidationMessageFor(model => model.IsAccepted1, "", new { @class = "text-danger" })
 
-          </div>
+      </div>
 
-          <div class="form-group">
-            @Html.LabelFor(model => model.Remarks1, "Remarks 1", htmlAttributes: new { @class = " " })
+      <div class="form-group">
+        @Html.LabelFor(model => model.Remarks1, "Remarks 1", htmlAttributes: new { @class = " " })
 
-            @Html.EditorFor(model => model.Remarks1, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-            @Html.ValidationMessageFor(model => model.Remarks1, "", new { @class = "text-danger" })
+        @Html.EditorFor(model => model.Remarks1, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+        @Html.ValidationMessageFor(model => model.Remarks1, "", new { @class = "text-danger" })
 
-          </div>
+      </div>
 
-          <div class="form-group">
-            @Html.LabelFor(model => model.ResponseDate2, "Response Date 2", htmlAttributes: new { @class = " " })
+      <div class="form-group">
+        @Html.LabelFor(model => model.ResponseDate2, "Response Date 2", htmlAttributes: new { @class = " " })
 
-            @Html.EditorFor(model => model.ResponseDate2, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-            @Html.ValidationMessageFor(model => model.ResponseDate2, "", new { @class = "text-danger" })
+        @Html.EditorFor(model => model.ResponseDate2, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+        @Html.ValidationMessageFor(model => model.ResponseDate2, "", new { @class = "text-danger" })
 
-          </div>
+      </div>
 
-          <div class="form-group">
-            @Html.LabelFor(model => model.IsAccepted2, "Status Line Manager 2", htmlAttributes: new { @class = " " })
+      <div class="form-group">
+        @Html.LabelFor(model => model.IsAccepted2, "Status Line Manager 2", htmlAttributes: new { @class = " " })
 
-            @Html.EditorFor(model => model.IsAccepted2, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-            @Html.ValidationMessageFor(model => model.IsAccepted2, "", new { @class = "text-danger" })
+        @Html.EditorFor(model => model.IsAccepted2, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+        @Html.ValidationMessageFor(model => model.IsAccepted2, "", new { @class = "text-danger" })
 
-          </div>
+      </div>
 
-          <div class="form-group">
-            @Html.LabelFor(model => model.Remarks2, "Remarks 2", htmlAttributes: new { @class = " " })
+      <div class="form-group">
+        @Html.LabelFor(model => model.Remarks2, "Remarks 2", htmlAttributes: new { @class = " " })
 
-            @Html.EditorFor(model => model.Remarks2, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-            @Html.ValidationMessageFor(model => model.Remarks2, "", new { @class = "text-danger" })
+        @Html.EditorFor(model => model.Remarks2, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+        @Html.ValidationMessageFor(model => model.Remarks2, "", new { @class = "text-danger" })
 
-          </div>
+      </div>
 
-          <div class="form-group">
-            @Html.LabelFor(model => model.DateCreated, "Date Created", htmlAttributes: new { @class = " " })
+      <div class="form-group">
+        @Html.LabelFor(model => model.DateCreated, "Date Created", htmlAttributes: new { @class = " " })
 
-            @Html.EditorFor(model => model.DateCreated, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-            @Html.ValidationMessageFor(model => model.DateCreated, "", new { @class = "text-danger" })
+        @Html.EditorFor(model => model.DateCreated, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+        @Html.ValidationMessageFor(model => model.DateCreated, "", new { @class = "text-danger" })
 
-          </div>
+      </div>
 
-          <div class="form-group">
-            @Html.LabelFor(model => model.DateModified, "Data Modified", htmlAttributes: new { @class = " " })
+      <div class="form-group">
+        @Html.LabelFor(model => model.DateModified, "Data Modified", htmlAttributes: new { @class = " " })
 
-            @Html.EditorFor(model => model.DateModified, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-            @Html.ValidationMessageFor(model => model.DateModified, "", new { @class = "text-danger" })
+        @Html.EditorFor(model => model.DateModified, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+        @Html.ValidationMessageFor(model => model.DateModified, "", new { @class = "text-danger" })
 
-          </div>
+      </div>
 
-          <div class="form-group">
-            @Html.LabelFor(model => model.UserLeavePolicyId, "User Leave Policy ", "UserLeavePolicyId")
+      <div class="form-group">
+        @Html.LabelFor(model => model.UserLeavePolicyId, "User Leave Policy ", "UserLeavePolicyId")
 
-            @Html.DropDownList("UserLeavePolicyId", null, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
-            @Html.ValidationMessageFor(model => model.UserLeavePolicyId, "", new { @class = "text-danger" })
+        @Html.DropDownList("UserLeavePolicyId", null, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+        @Html.ValidationMessageFor(model => model.UserLeavePolicyId, "", new { @class = "text-danger" })
 
-          </div>*@
-
+      </div>*@
+        @*@Html.Hidden("LeaveUserId", (string)ViewBag.LeaveUserId)*@
       }
     </div>
 
@@ -249,11 +249,12 @@
 @*<script src="https://code.jquery.com/jquery-1.12.4.js"></script>*@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
-    $(function () {
+  $(function () {
 
-      $.get('@Url.Action("Edit","UserLeavePolicies")?id=' + "@ViewBag.UserLeavePolicyId" + '&Caller=' + "LeaveRequest", function (data) {
+    $.get('@Url.Action("Edit","UserLeavePolicies")?id=' + "@ViewBag.UserLeavePolicyId" + '&Caller=' + "LeaveRequest" + "&leaveUserId=" + "@ViewBag.LeaveUserId" , function (data) {
         $("#UserLeavePolicyData").append(data);
       });
+
 
     $(document).ready(function () {
 

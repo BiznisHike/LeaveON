@@ -153,9 +153,10 @@ namespace LeaveON.Controllers
 
     // GET: UserLeavePolicies/Edit/5
     [Authorize(Roles = "Admin,Manager,User")]
-    public async Task<ActionResult> Edit(decimal id, string Caller)
+    public async Task<ActionResult> Edit(decimal id, string Caller, string leaveUserId = "UserLeavePolicy")
     {
-      string userId = User.Identity.GetUserId();
+      //string userId = User.Identity.GetUserId();
+      
       //id =(decimal)db.AspNetUsers.FirstOrDefault(x => x.Id == userId).UserLeavePolicyId;
       
       //if (id == null)
@@ -247,9 +248,7 @@ namespace LeaveON.Controllers
 
 
       //return PartialView("_newRow", IndexId); //for ref only
-      string CurrentLoginUserId = User.Identity.GetUserId();
-      ViewBag.CurrentLoginUserId = CurrentLoginUserId;
-      ViewBag.CompensatoryLeaveBalance = db.LeaveBalances.FirstOrDefault(x => x.LeaveTypeId == LMS.Constants.Consts.CompensatoryLeaveTypeId && x.UserId == CurrentLoginUserId);
+      
       if (Caller == "UserLeavePolicy")
       {
         ViewBag.LockAndHide = "False";
@@ -257,6 +256,10 @@ namespace LeaveON.Controllers
       }
       else
       {
+        //string CurrentLoginUserId = User.Identity.GetUserId();
+        //ViewBag.CurrentLoginUserId = CurrentLoginUserId;
+        ViewBag.CompensatoryLeaveBalance = db.LeaveBalances.FirstOrDefault(x => x.LeaveTypeId == LMS.Constants.Consts.CompensatoryLeaveTypeId && x.UserId == leaveUserId);
+
         ViewBag.LockAndHide = "True";
         return PartialView("_Edit", userLeavePolicyViewModel);
       }

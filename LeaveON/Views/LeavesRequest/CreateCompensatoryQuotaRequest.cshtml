@@ -252,10 +252,14 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script>
     $(function () {
-      //alert("@ViewBag.UserLeavePolicyId");
-      $.get('@Url.Action("Edit", "UserLeavePolicies")?id=' + "@ViewBag.UserLeavePolicyId" + '&Caller=' + "LeaveRequest", function (data) {
+      
+      @*$.get('@Url.Action("Edit", "UserLeavePolicies")?id=' + "@ViewBag.UserLeavePolicyId" + '&Caller=' + "LeaveRequest", function (data) {
         $("#UserLeavePolicyData").append(data);
-      });
+      });*@
+
+       $.get('@Url.Action("Edit","UserLeavePolicies")?id=' + "@ViewBag.UserLeavePolicyId" + '&Caller=' + "LeaveRequest" + "&leaveUserId=" + "@ViewBag.LeaveUserId" , function (data) {
+        $("#UserLeavePolicyData").append(data);
+      })
 
     $(document).ready(function () {
 

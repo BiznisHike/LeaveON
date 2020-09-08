@@ -134,6 +134,7 @@ namespace LeaveON.Controllers
       ViewBag.ApplicantName = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.UserId).UserName;
       //ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId", leave.UserLeavePolicyId);
       ViewBag.UserLeavePolicyId = leave.AspNetUser.UserLeavePolicy.Id;
+      ViewBag.LeaveUserId = leave.AspNetUser.Id;
       return View(leave);
     }
 
@@ -261,7 +262,8 @@ namespace LeaveON.Controllers
       ViewBag.LeaveTypeId = new SelectList(db.LeaveTypes, "Id", "Name", leave.LeaveTypeId);
       ViewBag.ApplicantName = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.UserId).UserName;
       //ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId", leave.UserLeavePolicyId);
-      //ViewBag.UserLeavePolicyId = leave.AspNetUser.UserLeavePolicyId;
+      ViewBag.UserLeavePolicyId = leave.AspNetUser.UserLeavePolicyId;
+      ViewBag.LeaveUserId = leave.AspNetUser.Id;
       return View(leave);
     }
 

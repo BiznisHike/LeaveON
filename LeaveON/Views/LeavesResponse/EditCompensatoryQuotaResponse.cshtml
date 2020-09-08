@@ -219,9 +219,14 @@
 
   $(function () {
     @*alert(@ViewBag.UserLeavePolicyId);*@
-    $.get('@Url.Action("Edit","UserLeavePolicies")?id=' + "@ViewBag.UserLeavePolicyId" + '&Caller=' + "LeaveResponse", function (data) {
+  @*$.get('@Url.Action("Edit","UserLeavePolicies")?id=' + "@ViewBag.UserLeavePolicyId" + '&Caller=' + "LeaveResponse", function (data) {
         $("#UserLeavePolicyData").append(data);
-    });
+    });*@
+
+     $.get('@Url.Action("Edit","UserLeavePolicies")?id=' + "@ViewBag.UserLeavePolicyId" + '&Caller=' + "LeaveRequest" + "&leaveUserId=" + "@ViewBag.LeaveUserId" , function (data) {
+        $("#UserLeavePolicyData").append(data);
+      })
+
   });
 
   $(document).ready(function () {
