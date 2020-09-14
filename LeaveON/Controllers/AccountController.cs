@@ -307,7 +307,7 @@ namespace LeaveON.Controllers
     {
       if (ModelState.IsValid)
       {
-        var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Hometown = model.Hometown, DepartmentId = model.DepartmentId, BioStarEmpNum = model.BioStarEmpNum, UserLeavePolicyId=model.UserLeavePolicyId };
+        var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Hometown = model.Hometown, DepartmentId = model.DepartmentId,CountryId=model.CountryId, BioStarEmpNum = model.BioStarEmpNum, UserLeavePolicyId=model.UserLeavePolicyId };
         var result = await UserManager.CreateAsync(user, model.Password);
         if (result.Succeeded)
         {

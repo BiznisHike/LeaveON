@@ -76,7 +76,7 @@ namespace LeaveON.Controllers
       {
         return HttpNotFound();
       }
-      //ViewBag.CountryId = new SelectList(db.Countries, "Id", "Name", aspNetUser.Department.CountryId);
+      ViewBag.CountryId = new SelectList(db.Countries, "Id", "Name", aspNetUser.CountryId);
       ViewBag.DepartmentId = new SelectList(db.Departments, "Id", "Name", aspNetUser.DepartmentId);
       ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "Description", aspNetUser.UserLeavePolicyId);
       return View(aspNetUser);
@@ -87,7 +87,7 @@ namespace LeaveON.Controllers
     // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Edit([Bind(Include = "Id,Hometown,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName,DateCreated,DateModified,Remarks,DepartmentId,UserLeavePolicyId,BioStarEmpNum")] AspNetUser aspNetUser)//,int CountryId)
+    public async Task<ActionResult> Edit([Bind(Include = "Id,Hometown,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName,DateCreated,DateModified,Remarks,DepartmentId,CountryId,UserLeavePolicyId,BioStarEmpNum")] AspNetUser aspNetUser)//,int CountryId)
     {
       aspNetUser.DateModified = DateTime.Now;
 
@@ -101,6 +101,7 @@ namespace LeaveON.Controllers
         db.Entry(aspNetUser).Property(x => x.DateModified).IsModified = true;
         db.Entry(aspNetUser).Property(x => x.Remarks).IsModified = true;
         db.Entry(aspNetUser).Property(x => x.DepartmentId).IsModified = true;
+        db.Entry(aspNetUser).Property(x => x.CountryId).IsModified = true;
         db.Entry(aspNetUser).Property(x => x.UserLeavePolicyId).IsModified = true;
         db.Entry(aspNetUser).Property(x => x.BioStarEmpNum).IsModified = true;
         //UserLeavePolicyId

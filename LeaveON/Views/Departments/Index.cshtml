@@ -44,23 +44,17 @@
                 <table id="example2" class="table table-bordered table-hover dataTable dtr-inline" role="grid" aria-describedby="example2_info">
                   <thead>
                     <tr role="row">
-                      @*<th class="sorting_desc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Idc : activate to sort column ascending" aria-sort="descending">
-
-                        @Html.DisplayNameFor(model => model.Idc)
-                      </th>*@
+                      
                       <th class="sorting_desc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Name : activate to sort column ascending" aria-sort="descending">
                         @Html.DisplayNameFor(model => model.Name)
                       </th>
-                      <th class="sorting_desc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Name : activate to sort column ascending" aria-sort="descending">
-                        @*@Html.DisplayNameFor(model => model.Country.Name)*@
-                        Country
-                      </th>
-                      <th class="sorting_desc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="DateCreated : activate to sort column ascending" aria-sort="descending">
+                      
+                      @*<th class="sorting_desc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="DateCreated : activate to sort column ascending" aria-sort="descending">
                         @Html.DisplayNameFor(model => model.DateCreated)
                       </th>
                       <th class="sorting_desc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="DateModified : activate to sort column ascending" aria-sort="descending">
                         @Html.DisplayNameFor(model => model.DateModified)
-                      </th>
+                      </th>*@
 
                       <th></th>
                     </tr>
@@ -70,37 +64,29 @@
                     @foreach (var item in Model)
                     {
                       <tr>
-                        @*<td class="" tabindex="0">
-                          @Html.DisplayFor(modelItem => item.Idc)
-                        </td>*@
+                       
                         <td>
                           @Html.DisplayFor(modelItem => item.Name)
                         </td>
-                        <td>
-                          @Html.DisplayFor(modelItem => item.Country.Name)
-                        </td>
-                        <td class="sorting_1">
+                      
+                        @*<td class="sorting_1">
                           @Html.DisplayFor(modelItem => item.DateCreated)
                         </td>
                         <td>
                           @Html.DisplayFor(modelItem => item.DateModified)
-                        </td>
+                        </td>*@
 
                         <td>
-                          @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                          @Html.ActionLink("Edit", "Edit", new { id = item.Id }) @*|*@
                           @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |*@
-                          @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                          @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
                         </td>
                       </tr>
-
-
                     }
                   </tbody>
                   <tfoot>
                     <tr>
-                      @*<th>
-                          @Html.DisplayNameFor(model => model.Idc)
-                        </th>
+                      @*
                         <th>
                           @Html.DisplayNameFor(model => model.Name)
                         </th>

@@ -21,7 +21,6 @@ namespace Repository.Models
         }
     
         public int Id { get; set; }
-        public Nullable<int> Idc { get; set; }
         public string Name { get; set; }
         public Nullable<int> CountryId { get; set; }
         public Nullable<System.DateTime> DateCreated { get; set; }
@@ -29,6 +28,5 @@ namespace Repository.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
-        public virtual Country Country { get; set; }
     }
 }

@@ -58,7 +58,7 @@ namespace LeaveON.Controllers
     {
       ViewBag.Employees = new SelectList(db.AspNetUsers, "Id", "UserName");
       //ViewBag.LeaveTypes = new SelectList(db.LeaveTypes, "Id", "Name");
-      ViewBag.Departments = new SelectList(db.Departments, "Id", "Name");
+      ViewBag.Departments = new SelectList(db.Countries, "Id", "Name");
 
       UserLeavePolicyViewModel userLeavePolicyViewModel = new UserLeavePolicyViewModel();
       return View(userLeavePolicyViewModel);
@@ -107,10 +107,10 @@ namespace LeaveON.Controllers
         if (PolicyFor == "1")//department
         {
           int[] DepartmentsList = Array.ConvertAll(Departments, int.Parse);
-          Department dep;
+          Country dep;
           foreach (int itm in DepartmentsList)
           {
-            dep = db.Departments.FirstOrDefault(x => x.Id == itm);
+            dep = db.Countries.FirstOrDefault(x => x.Id == itm);
             foreach (AspNetUser user in dep.AspNetUsers)
             {
               user.UserLeavePolicyId = userLeavePolicy.Id;
@@ -166,7 +166,7 @@ namespace LeaveON.Controllers
       ViewBag.Employees = new SelectList(db.AspNetUsers, "Id", "UserName");
       ViewBag.LeaveTypes = new SelectList(db.LeaveTypes, "Id", "Name");
       //always remember viewbag name should not be as model name. other wise probelm. if same multilist will not show selected values
-      ViewBag.Departments = new SelectList(db.Departments, "Id", "Name");
+      ViewBag.Departments = new SelectList(db.Countries, "Id", "Name");
 
       UserLeavePolicyViewModel userLeavePolicyViewModel = new UserLeavePolicyViewModel();
 
@@ -174,7 +174,7 @@ namespace LeaveON.Controllers
 
       userLeavePolicyViewModel.userLeavePolicy = userLeavePolicy;
       userLeavePolicyViewModel.userLeavePolicyDetail = userLeavePolicy.UserLeavePolicyDetails.AsQueryable<UserLeavePolicyDetail>();
-      userLeavePolicyViewModel.departments = db.Departments;//.Where(x => x.CountryId == 1).AsQueryable<Department>();//TODO Convert 1 to current user country variable
+      userLeavePolicyViewModel.countries = db.Countries;//.Where(x => x.CountryId == 1).AsQueryable<Department>();//TODO Convert 1 to current user country variable
                                                                                                                    //userLeavePolicyViewModel.departments= depFilterd;
       userLeavePolicyViewModel.annualOffDays = db.AnnualOffDays.Where(x => x.UserLeavePolicyId == userLeavePolicy.Id).AsQueryable();
 
@@ -188,7 +188,7 @@ namespace LeaveON.Controllers
       //List<int> SelectedDeps = new List<int>(new int[] { 1,2 });
       List<string> SelectedDeps = new List<string>();
       List<string> SelectedEmps = new List<string>();
-      SelectedDeps = usersFilterd.Select(p => p.DepartmentId.ToString()).Distinct<string>().ToList<string>();
+      SelectedDeps = usersFilterd.Select(p => p.CountryId.ToString()).Distinct<string>().ToList<string>();
       SelectedEmps = usersFilterd.Select(p => p.Id).Distinct<string>().ToList<string>();
 
       ViewBag.SelectedDepartments = SelectedDeps;
@@ -301,57 +301,103 @@ namespace LeaveON.Controllers
       {
         if (PolicyFor == "1")//department
         {
-          Department dep;
-          EmployeeList = new List<string>();
-          foreach (int itm in DepartmentList)
+          Country dep;
+          IQueryable<AspNetUser> usersFilterd = db.AspNetUsers.Where(x => x.UserLeavePolicyId == userLeavePolicy.Id);
+          List<int> oldDeps = new List<int>();
+          oldDeps = usersFilterd.Select(p => p.CountryId).Distinct<int>().ToList<int>();
+
+          foreach (int itm in oldDeps)//get all employees of the deps, selected from UI
           {
-            dep = db.Departments.FirstOrDefault(x => x.Id == itm);
+            dep = db.Countries.FirstOrDefault(x => x.Id == itm);
             foreach (AspNetUser aspNetUser in dep.AspNetUsers)
             {
-              EmployeeList.Add(aspNetUser.Id);
-            }
-          }
-
-          foreach (AspNetUser aspNetUser in db.AspNetUsers.ToList<AspNetUser>())
-          {
-
-            string userId = EmployeeList.FirstOrDefault(x => x == aspNetUser.Id);
-
-            if (string.IsNullOrEmpty(userId))
-            {
+              //EmployeeList.Add(aspNetUser.Id);
               aspNetUser.UserLeavePolicyId = null;
+              db.AspNetUsers.Attach(aspNetUser);
+              db.Entry(aspNetUser).Property(x => x.UserLeavePolicyId).IsModified = true;
             }
-            else
-            {
-              aspNetUser.UserLeavePolicyId = userLeavePolicy.Id;
-            }
-            db.AspNetUsers.Attach(aspNetUser);
-            db.Entry(aspNetUser).Property(x => x.UserLeavePolicyId).IsModified = true;
           }
+
+
+          EmployeeList = new List<string>();
+          foreach (int itm in DepartmentList)//get all employees of the deps, selected from UI
+          {
+            dep = db.Countries.FirstOrDefault(x => x.Id == itm);
+            foreach (AspNetUser aspNetUser in dep.AspNetUsers)
+            {
+              //EmployeeList.Add(aspNetUser.Id);
+              aspNetUser.UserLeavePolicyId = userLeavePolicy.Id;
+              db.AspNetUsers.Attach(aspNetUser);
+              db.Entry(aspNetUser).Property(x => x.UserLeavePolicyId).IsModified = true;
+            }
+          }
+          await db.SaveChangesAsync();
+          ////apply policy to the list of employees
+          //foreach (AspNetUser aspNetUser in db.AspNetUsers.ToList<AspNetUser>())
+          //{
+
+          //  string userId = EmployeeList.FirstOrDefault(x => x == aspNetUser.Id);
+
+          //  if (string.IsNullOrEmpty(userId))
+          //  {
+          //    aspNetUser.UserLeavePolicyId = null;
+          //  }
+          //  else
+          //  {
+          //    aspNetUser.UserLeavePolicyId = userLeavePolicy.Id;
+          //  }
+          //  db.AspNetUsers.Attach(aspNetUser);
+          //  db.Entry(aspNetUser).Property(x => x.UserLeavePolicyId).IsModified = true;
+          //}
 
         }
         else
         {
           
-          foreach (AspNetUser aspNetUser in db.AspNetUsers.ToList<AspNetUser>())
-          {
+          //foreach (AspNetUser aspNetUser in db.AspNetUsers.ToList<AspNetUser>())
+          //{
+          //  string userId = EmployeeList.FirstOrDefault(x => x == aspNetUser.Id);
 
-            string userId = EmployeeList.FirstOrDefault(x => x == aspNetUser.Id);
+          //  if (string.IsNullOrEmpty(userId))
+          //  {
+          //    aspNetUser.UserLeavePolicyId = null;
+          //  }
+          //  else
+          //  {
+          //    aspNetUser.UserLeavePolicyId = userLeavePolicy.Id;
+          //  }
+          //  db.AspNetUsers.Attach(aspNetUser);
+          //  db.Entry(aspNetUser).Property(x => x.UserLeavePolicyId).IsModified = true;
+          //}
+          //////////////
+          AspNetUser user;
 
-            if (string.IsNullOrEmpty(userId))
+          IQueryable<AspNetUser> oldUsers = db.AspNetUsers.Where(x => x.UserLeavePolicyId == userLeavePolicy.Id);
+          //List<int> oldDeps = new List<int>();
+          //oldDeps = usersFilterd.Select(p => p.CountryId).Distinct<int>().ToList<int>();
+
+          //foreach (int itm in oldDeps)//get all employees of the deps, selected from UI
+          //{
+          //  dep = db.Countries.FirstOrDefault(x => x.Id == itm);
+            foreach (AspNetUser aspNetUser in oldUsers)
             {
+              //EmployeeList.Add(aspNetUser.Id);
               aspNetUser.UserLeavePolicyId = null;
+              db.AspNetUsers.Attach(aspNetUser);
+              db.Entry(aspNetUser).Property(x => x.UserLeavePolicyId).IsModified = true;
             }
-            else
-            {
-              aspNetUser.UserLeavePolicyId = userLeavePolicy.Id;
-            }
-            db.AspNetUsers.Attach(aspNetUser);
-            db.Entry(aspNetUser).Property(x => x.UserLeavePolicyId).IsModified = true;
+          //}
+
+          foreach (string userId in EmployeeList)
+          {
+            user = db.AspNetUsers.FirstOrDefault(x => x.Id == userId);
+            user.UserLeavePolicyId = userLeavePolicy.Id;
+            db.AspNetUsers.Attach(user);
+            db.Entry(user).Property(x => x.UserLeavePolicyId).IsModified = true;
           }
-
+          await db.SaveChangesAsync();
         }
-
+        
 
 
         IQueryable<UserLeavePolicyDetail> oldLPD = db.UserLeavePolicyDetails.AsQueryable().Where(x => x.UserLeavePolicyId == userLeavePolicy.Id);

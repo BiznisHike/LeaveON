@@ -22,6 +22,7 @@ namespace Repository.Models
         public System.DateTime EndDate { get; set; }
         public Nullable<decimal> TotalDays { get; set; }
         public string EmergencyContact { get; set; }
+        public Nullable<bool> IsQuotaRequest { get; set; }
         public Nullable<System.DateTime> ResponseDate1 { get; set; }
         public Nullable<System.DateTime> ResponseDate2 { get; set; }
         public Nullable<int> IsAccepted1 { get; set; }
@@ -32,7 +33,6 @@ namespace Repository.Models
         public string Remarks2 { get; set; }
         public Nullable<System.DateTime> DateCreated { get; set; }
         public Nullable<System.DateTime> DateModified { get; set; }
-        public Nullable<bool> IsQuotaRequest { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual LeaveType LeaveType { get; set; }

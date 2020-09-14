@@ -146,15 +146,6 @@
       @Html.ValidationMessageFor(model => model.DateModified, "", new { @class = "text-danger" })
 
     </div>*@
-
-    @*<div class="form-group">
-      @Html.LabelFor(model => model.Department.CountryId, "Country", htmlAttributes: new { @class = " " })
-
-      @Html.DropDownList("CountryId", null, htmlAttributes: new { @class = "form-control" })
-      @Html.ValidationMessageFor(model => model.Department.CountryId, "", new { @class = "text-danger" })
-
-    </div>*@
-
     <div class="form-group">
       @Html.LabelFor(model => model.DepartmentId, "Department", htmlAttributes: new { @class = " " })
 
@@ -164,6 +155,15 @@
     </div>
 
     <div class="form-group">
+      @Html.LabelFor(model => model.CountryId, "Country", htmlAttributes: new { @class = " " })
+
+      @Html.DropDownList("CountryId", null, htmlAttributes: new { @class = "form-control" })
+      @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
+
+    </div>
+
+
+    <div class="form-group">
       @Html.LabelFor(model => model.UserLeavePolicyId, "LeavePolicy", htmlAttributes: new { @class = " " })
 
       @Html.DropDownList("UserLeavePolicyId", null, htmlAttributes: new { @class = "form-control" })
@@ -171,7 +171,7 @@
 
     </div>
 
- 
+
     <div class="form-group">
       @Html.LabelFor(model => model.BioStarEmpNum, "BioStarEmpNum", htmlAttributes: new { @class = " " })
 

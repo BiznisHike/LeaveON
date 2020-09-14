@@ -20,24 +20,10 @@ namespace LeaveON.Controllers
     // GET: Departments
     public async Task<ActionResult> Index()
     {
-      var departments = db.Departments.Include(d => d.Country);
-      return View(await departments.ToListAsync());
+      //var departments = db.Departments.Include(d => d.Country);
+      return View(await db.Departments.ToListAsync());
     }
 
-    // GET: Departments/Details/5
-    public async Task<ActionResult> Details(int? id)
-    {
-      if (id == null)
-      {
-        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-      }
-      Department department = await db.Departments.FindAsync(id);
-      if (department == null)
-      {
-        return HttpNotFound();
-      }
-      return View(department);
-    }
 
     // GET: Departments/Create
     public ActionResult Create()
@@ -51,7 +37,7 @@ namespace LeaveON.Controllers
     // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Create([Bind(Include = "Id,Idc,Name,CountryId,DateCreated,DateModified")] Department department)
+    public async Task<ActionResult> Create([Bind(Include = "Id,Name,CountryId,DateCreated,DateModified")] Department department)
     {
       department.DateCreated = DateTime.Now;
       if (ModelState.IsValid)
@@ -87,7 +73,7 @@ namespace LeaveON.Controllers
     // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Edit([Bind(Include = "Id,Idc,Name,CountryId,DateCreated,DateModified")] Department department)
+    public async Task<ActionResult> Edit([Bind(Include = "Id,Name,CountryId,DateCreated,DateModified")] Department department)
     {
       department.DateModified = DateTime.Now;
       if (ModelState.IsValid)

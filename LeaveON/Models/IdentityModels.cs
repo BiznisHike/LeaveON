@@ -11,6 +11,7 @@ namespace LeaveON.Models
     {
         public string Hometown { get; set; }
         public int DepartmentId { get; set; }
+    public int CountryId { get; set; }
         public System.DateTime? DateCreated { get; set; }
         public System.DateTime? DateModified { get; set; }
         public string Remarks { get; set; }

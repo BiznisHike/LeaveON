@@ -17,7 +17,7 @@ namespace Repository.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Country()
         {
-            this.Departments = new HashSet<Department>();
+            this.AspNetUsers = new HashSet<AspNetUser>();
             this.LeaveTypes = new HashSet<LeaveType>();
             this.UserLeavePolicyDetails = new HashSet<UserLeavePolicyDetail>();
         }
@@ -28,7 +28,7 @@ namespace Repository.Models
         public Nullable<System.DateTime> DateModified { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Department> Departments { get; set; }
+        public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LeaveType> LeaveTypes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

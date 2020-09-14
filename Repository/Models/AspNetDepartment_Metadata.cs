@@ -15,8 +15,7 @@ namespace Repository.Models
         //[DisplayFormat(DataFormatString = "{0: MM/dd/yyyy h:mm:ss tt}")]
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0: MM/dd/yyyy h:mm:ss tt}")]
-        [DisplayName("ID")]
-        Nullable<int> Idc { get; set; }
+        
         [DisplayName("Date Created")]
          Nullable<System.DateTime> DateCreated { get; set; }
         [DisplayName("Date Modified")]

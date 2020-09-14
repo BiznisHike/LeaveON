@@ -42,9 +42,11 @@ namespace Repository.Models
         public string Remarks { get; set; }
         public int DepartmentId { get; set; }
         public Nullable<int> UserLeavePolicyId { get; set; }
+        public int CountryId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }
+        public virtual Country Country { get; set; }
         public virtual Department Department { get; set; }
         public virtual UserLeavePolicy UserLeavePolicy { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

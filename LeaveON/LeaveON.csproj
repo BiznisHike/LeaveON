@@ -264,6 +264,10 @@
     <Compile Include="Migrations\202007151117549_Init.Designer.cs">
       <DependentUpon>202007151117549_Init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202009090630134_CountryId.cs" />
+    <Compile Include="Migrations\202009090630134_CountryId.Designer.cs">
+      <DependentUpon>202009090630134_CountryId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AnnualLeaveModel.cs" />
@@ -2348,6 +2352,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202007151117549_Init.resx">
       <DependentUpon>202007151117549_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009090630134_CountryId.resx">
+      <DependentUpon>202009090630134_CountryId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
