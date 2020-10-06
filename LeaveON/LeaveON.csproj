@@ -281,6 +281,7 @@
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="UtilityClasses\ScheduledTasks.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -2256,7 +2257,6 @@
     <Content Include="Views\LeaveTypes\Edit.cshtml" />
     <Content Include="Views\LeaveTypes\Index.cshtml" />
     <Content Include="Views\Departments\Create.cshtml" />
-    <Content Include="Views\Departments\Delete.cshtml" />
     <Content Include="Views\Departments\Edit.cshtml" />
     <Content Include="Views\Departments\Index.cshtml" />
     <Content Include="Views\AspNetUsers\Create.cshtml" />

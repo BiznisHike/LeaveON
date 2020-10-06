@@ -139,15 +139,18 @@
 
                   <td>
                     @{
-                      //Double hist = (DateTime.Now - item.ResponseDate2.Value).TotalDays;
+                        //Double hist = (DateTime.Now - item.ResponseDate2.Value).TotalDays;
 
-                      //if (hist < 4)
-                      //{
-                      @Html.ActionLink("Approve", "Edit", new { id = item.Id }) @*|*@
-                      @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |*@
-                      @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
-                      @*}*@
-                    }
+                        //if (hist < 4)
+                        //{
+                  @if (item.IsAccepted2 == null)
+                  {
+                    @Html.ActionLink("Approve", "Edit", new { id = item.Id })
+                  }
+                    @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |*@
+                    @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                    @*}*@
+                  }
                   </td>
                 </tr>
 

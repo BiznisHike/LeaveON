@@ -14,7 +14,6 @@
         <EntityTypeShape EntityType="LeaveONModels.Leave" Width="1.5" PointX="8.25" PointY="7.875" />
         <EntityTypeShape EntityType="LeaveONModels.LeaveBalance" Width="1.5" PointX="11.25" PointY="9" />
         <EntityTypeShape EntityType="LeaveONModels.LeaveType" Width="1.5" PointX="6" PointY="3.25" />
-        <EntityTypeShape EntityType="LeaveONModels.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="LeaveONModels.UserLeavePolicy" Width="1.5" PointX="0.75" PointY="8.75" />
         <EntityTypeShape EntityType="LeaveONModels.UserLeavePolicyDetail" Width="1.5" PointX="3" PointY="9.125" />
         <AssociationConnector Association="LeaveONModels.FK_AnnualOffDays_UserLeavePolicy" />

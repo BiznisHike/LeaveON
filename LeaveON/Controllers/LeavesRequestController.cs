@@ -11,6 +11,8 @@ using Repository.Models;
 using Microsoft.AspNet.Identity;
 using LMS.Constants;
 using LMS.Mail;
+using LeaveON.Migrations;
+
 namespace LeaveON.Controllers
 {
   
@@ -223,28 +225,28 @@ namespace LeaveON.Controllers
       {
 
         db.Leaves.Add(leave);
-        ///////////////
-        LeaveBalance leaveBalance = CalculateLeaveBalance(ref leave);
+        /////////////////
+        //LeaveBalance leaveBalance = CalculateLeaveBalance(ref leave);
 
-        if (leaveBalance == null)
-        {
-          //new
-          leaveBalance = new LeaveBalance(ref leave);
-          leaveBalance.Taken = leave.TotalDays;
-          leaveBalance.Balance -= leave.TotalDays;
-          leaveBalance.UserId = leave.UserId;
-          leaveBalance.LeaveTypeId = leave.LeaveTypeId;
-          leaveBalance.UserLeavePolicyId = leave.AspNetUser.UserLeavePolicyId;
-          db.LeaveBalances.Add(leaveBalance);
-        }
-        else
-        {
-          //old
-          leaveBalance.Taken += leave.TotalDays;
-          leaveBalance.Balance -= leave.TotalDays;
-          db.Entry(leaveBalance).State = EntityState.Modified;
-        }
-        ///////////////
+        //if (leaveBalance == null)
+        //{
+        //  //new
+        //  leaveBalance = new LeaveBalance(ref leave);
+        //  leaveBalance.Taken = leave.TotalDays;
+        //  leaveBalance.Balance -= leave.TotalDays;
+        //  leaveBalance.UserId = leave.UserId;
+        //  leaveBalance.LeaveTypeId = leave.LeaveTypeId;
+        //  leaveBalance.UserLeavePolicyId = leave.AspNetUser.UserLeavePolicyId;
+        //  db.LeaveBalances.Add(leaveBalance);
+        //}
+        //else
+        //{
+        //  //old
+        //  leaveBalance.Taken += leave.TotalDays;
+        //  leaveBalance.Balance -= leave.TotalDays;
+        //  db.Entry(leaveBalance).State = EntityState.Modified;
+        //}
+        /////////////////
         await db.SaveChangesAsync();
         AspNetUser admin1 = db.AspNetUsers.FirstOrDefault(x => x.Id == leave.LineManager1Id);
         SendEmail.SendEmailUsingLeavON(SendEmail.LeavON_Email, SendEmail.LeavON_Password, leave.AspNetUser, admin1, "LeaveRequest");
@@ -355,9 +357,10 @@ namespace LeaveON.Controllers
       //ViewBag.UserLeavePolicyId = new SelectList(db.UserLeavePolicies, "Id", "UserId", leave.UserLeavePolicyId);
       return View(leave);
     }
-    //
+    //GET
     public async Task<ActionResult> EditCompensatoryQuotaRequest(decimal id)
     {
+
       if (id == null)
       {
         return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -380,6 +383,7 @@ namespace LeaveON.Controllers
       int policyId = db.AspNetUsers.FirstOrDefault(x => x.Id == userId).UserLeavePolicyId.GetValueOrDefault();
       return View(leave);
     }
+    
     // POST: Leaves/Edit/5
     // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
     // more details see https://go.microsoft.com/fwlink/?LinkId=317598.

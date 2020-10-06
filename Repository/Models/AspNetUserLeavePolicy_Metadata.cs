@@ -12,11 +12,14 @@ namespace Repository.Models
 
     public interface IAspNetUserLeavePolicy_Metadata
     {
-        [DisplayName("Fiscal Year Start")]
+        [DisplayName("Year Start")]
+        //[DataType(DataType.Date)]
         Nullable<System.DateTime> FiscalYearStart { get; set; }
-        [DisplayName("Fiscal Year End")]
-        Nullable<System.DateTime> FiscalYearEnd { get; set; }
+        
 
+        [DisplayName("Year End")]
+        //[DataType(DataType.Date)]
+        Nullable<System.DateTime> FiscalYearEnd { get; set; }
 
     }
 

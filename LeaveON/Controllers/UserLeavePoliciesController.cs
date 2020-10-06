@@ -59,6 +59,13 @@ namespace LeaveON.Controllers
       ViewBag.Employees = new SelectList(db.AspNetUsers, "Id", "UserName");
       //ViewBag.LeaveTypes = new SelectList(db.LeaveTypes, "Id", "Name");
       ViewBag.Departments = new SelectList(db.Countries, "Id", "Name");
+      List<SelectListItem> AgreementTypes = new List<SelectListItem>()
+      {
+          new SelectListItem{Text = "Fiscal year", Value = "1"},
+          new SelectListItem{Text = "Calender year", Value = "2"},
+          new SelectListItem{Text = "Contract year", Value = "3"},
+      };
+      ViewBag.AgreementTypes = AgreementTypes;
 
       UserLeavePolicyViewModel userLeavePolicyViewModel = new UserLeavePolicyViewModel();
       return View(userLeavePolicyViewModel);
@@ -71,7 +78,7 @@ namespace LeaveON.Controllers
     [Authorize(Roles = "Admin")]
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Create([Bind(Prefix = "UserLeavePolicy", Include = "Id,UserId,Description,WeeklyOffDays,FiscalYearStart,FiscalYearEnd,FiscalYearPeriod")] UserLeavePolicy userLeavePolicy,
+    public async Task<ActionResult> Create([Bind(Prefix = "UserLeavePolicy", Include = "Id,UserId,Description,WeeklyOffDays,AgreementType,FiscalYearStart,FiscalYearEnd,FiscalYearPeriod")] UserLeavePolicy userLeavePolicy,
       [Bind(Prefix = "UserLeavePolicyDetail", Include = "LeaveTypeId,Allowed")] List<UserLeavePolicyDetail> userLeavePolicyDetail,
       [Bind(Prefix = "AnnualOffDay", Include = "OffDay,Description")] List<AnnualOffDay> AnnualOffDays, string[] Departments, string[] Employees, string PolicyFor)
     {
@@ -219,6 +226,19 @@ namespace LeaveON.Controllers
       };
 
       ViewBag.WeeklyOffDays = WeekSelectList;
+
+      List<SelectListItem> AgreementTypes = new List<SelectListItem>()
+      {
+          new SelectListItem{Text = "Fiscal year", Value = "1"},
+          new SelectListItem{Text = "Calender year", Value = "2"},
+          new SelectListItem{Text = "Contract year", Value = "3"},
+      };
+
+      ViewBag.AgreementTypes = AgreementTypes;
+
+
+
+
       List<string> DaysSelected = new List<string>();
       foreach (string day in userLeavePolicy.WeeklyOffDays.Split(','))
       {
@@ -248,7 +268,7 @@ namespace LeaveON.Controllers
 
 
       //return PartialView("_newRow", IndexId); //for ref only
-      
+
       if (Caller == "UserLeavePolicy")
       {
         ViewBag.LockAndHide = "False";
@@ -257,12 +277,32 @@ namespace LeaveON.Controllers
       else
       {
         //string CurrentLoginUserId = User.Identity.GetUserId();
-        //ViewBag.CurrentLoginUserId = CurrentLoginUserId;
+        ViewBag.LeaveUserId = leaveUserId;
         ViewBag.CompensatoryLeaveBalance = db.LeaveBalances.FirstOrDefault(x => x.LeaveTypeId == LMS.Constants.Consts.CompensatoryLeaveTypeId && x.UserId == leaveUserId);
 
         ViewBag.LockAndHide = "True";
         return PartialView("_Edit", userLeavePolicyViewModel);
       }
+
+      //switch (Caller)
+      //{
+      //  case "LeaveRequest"://Logged In User Id will be sent
+      //    ViewBag.CompensatoryLeaveBalance = db.LeaveBalances.FirstOrDefault(x => x.LeaveTypeId == LMS.Constants.Consts.CompensatoryLeaveTypeId && x.UserId == leaveUserId);
+      //    ViewBag.LockAndHide = "True";
+      //    return PartialView("_Edit", userLeavePolicyViewModel);
+      //    //break;
+      //  case "LeaveResponse"://Id of Leave Requested user will be sent
+      //    string CurrentLoginUserId = User.Identity.GetUserId();
+      //    ViewBag.CurrentLoginUserId = CurrentLoginUserId;
+      //    ViewBag.CompensatoryLeaveBalance = db.LeaveBalances.FirstOrDefault(x => x.LeaveTypeId == LMS.Constants.Consts.CompensatoryLeaveTypeId && x.UserId == CurrentLoginUserId);
+      //    ViewBag.LockAndHide = "True";
+      //    return PartialView("_Edit", userLeavePolicyViewModel);
+      //    break;
+      //  default://user leave policy screen
+      //    ViewBag.LockAndHide = "False";
+      //    return View(userLeavePolicyViewModel); //orginal
+      //    //break;
+      //}
 
     }
 
@@ -272,7 +312,7 @@ namespace LeaveON.Controllers
     [Authorize(Roles = "Admin")]
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Edit([Bind(Prefix = "UserLeavePolicy", Include = "Id,UserId,Description,WeeklyOffDays,FiscalYearStart,FiscalYearEnd,FiscalYearPeriod")] UserLeavePolicy userLeavePolicy,
+    public async Task<ActionResult> Edit([Bind(Prefix = "UserLeavePolicy", Include = "Id,UserId,Description,WeeklyOffDays,AgreementType,FiscalYearStart,FiscalYearEnd,FiscalYearPeriod")] UserLeavePolicy userLeavePolicy,
       [Bind(Prefix = "UserLeavePolicyDetail", Include = "LeaveTypeId,Allowed")] List<UserLeavePolicyDetail> userLeavePolicyDetail, [Bind(Prefix = "AnnualOffDay", Include = "Id,OffDay,Description")] List<AnnualOffDay> AnnualOffDays, List<int> DepartmentList, List<string> EmployeeList, string PolicyFor)
     {
 
@@ -399,12 +439,10 @@ namespace LeaveON.Controllers
         }
         
 
-
-        IQueryable<UserLeavePolicyDetail> oldLPD = db.UserLeavePolicyDetails.AsQueryable().Where(x => x.UserLeavePolicyId == userLeavePolicy.Id);
-
-        //userLeavePolicy.UserLeavePolicyDetails = userLeavePolicyDetail;
-
-        db.UserLeavePolicyDetails.RemoveRange(oldLPD);
+        ///////////////to delete old leave policy details. but it seems to be ambigiois.. need to see in detail///////////
+        //IQueryable<UserLeavePolicyDetail> oldLPD = db.UserLeavePolicyDetails.AsQueryable().Where(x => x.UserLeavePolicyId == userLeavePolicy.Id);
+        //db.UserLeavePolicyDetails.RemoveRange(oldLPD);
+        ///////////////
         db.Entry(userLeavePolicy).State = EntityState.Modified;
         db.UserLeavePolicyDetails.AddRange(userLeavePolicyDetail);
 

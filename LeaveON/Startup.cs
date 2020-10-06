@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using LeaveON.UtilityClasses;
 using Microsoft.Owin;
 using Owin;
 
@@ -13,6 +14,9 @@ namespace LeaveON
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+            new ScheduledTasks().InitTimerForScheduleTasks();
+            //reset.LeavePolicyValues();
         }
-    }
+
+  }
 }

@@ -190,7 +190,7 @@
         $("#UserLeavePolicyData").append(data);
     });*@
 
-     $.get('@Url.Action("Edit","UserLeavePolicies")?id=' + "@ViewBag.UserLeavePolicyId" + '&Caller=' + "LeaveRequest" + "&leaveUserId=" + "@ViewBag.LeaveUserId" , function (data) {
+     $.get('@Url.Action("Edit","UserLeavePolicies")?id=' + "@ViewBag.UserLeavePolicyId" + '&Caller=' + "LeaveResponse" + "&leaveUserId=" + "@ViewBag.LeaveUserId" , function (data) {
         $("#UserLeavePolicyData").append(data);
       })
 
